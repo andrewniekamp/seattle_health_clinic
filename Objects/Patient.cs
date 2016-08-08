@@ -54,7 +54,10 @@ namespace SeattleHealthClinic
     {
       _name = newName;
     }
-
+    public void SetId(int newId)
+    {
+      _id = newId;
+    }
     public static List<Patient> GetAll()
     {
       List<Patient> allPatients = new List<Patient>{};

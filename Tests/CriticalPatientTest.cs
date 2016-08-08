@@ -41,6 +41,20 @@ namespace SeattleHealthClinic
       Assert.Equal(2, testCriticalPatient.GetFrequency());
     }
 
+
+
+        [Fact]
+        public void T4_Save_SavesToDB()
+        {
+          CriticalPatient result = new CriticalPatient("Anderson", "1234 Main Street",2);
+
+          result.CriticalSave();
+          Console.WriteLine(result.GetId());
+          Console.WriteLine(result.GetCriticalPatientId());
+          Assert.Equal(result.GetId(),Patient.GetAll()[0].GetId());
+        }
+
+
     // [Fact]
     // public void T4_Save_AssignsIdToPatient()
     // {

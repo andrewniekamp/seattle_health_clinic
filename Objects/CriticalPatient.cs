@@ -6,13 +6,14 @@ namespace SeattleHealthClinic
 {
   public class CriticalPatient :Patient
   {
-    // private int _id;
+    private int _criticalPatientId;
     // private string _name;
     // private string _address;
     private int _frequency;
 
-    public  CriticalPatient(string name, string Address, int frequency,int id = 0) : base(name,Address,id)
+    public  CriticalPatient(string name, string Address, int frequency,int criticalPatientId = 0) : base(name,Address)
     {
+      _criticalPatientId=criticalPatientId;
       _frequency=frequency;
     }
 
@@ -39,11 +40,11 @@ namespace SeattleHealthClinic
       return _frequency ;
     }
 
-    // public int GetId()
-    // {
-    //   return _id;
-    // }
-    //
+    public int GetCriticalPatientId()
+    {
+      return _criticalPatientId;
+    }
+
     // public string GetName()
     // {
     //   return _name;
@@ -57,6 +58,43 @@ namespace SeattleHealthClinic
     // {
     //   _name = newName;
     // }
+    public void CriticalSave()
+    {
+      this.Save();
+
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO critical_patients (patient_id,frequency) OUTPUT INSERTED.id VALUES (@PatientsId,@Frequency);", conn);
+
+      SqlParameter nameParameter = new SqlParameter();
+      nameParameter.ParameterName = "@PatientsId";
+      nameParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(nameParameter);
+
+      SqlParameter addressParameter = new SqlParameter();
+      addressParameter.ParameterName = "@Frequency";
+      addressParameter.Value = this.GetFrequency();
+
+      cmd.Parameters.Add(addressParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._criticalPatientId=rdr.GetInt32(0);
+
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
 
 
   }
