@@ -63,6 +63,39 @@ namespace SeattleHealthClinic
         conn.Close();
       }
     }
+    // a method to find an employee using the employee id
+    public Employee Find(int Id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM employees WHERE id = @EmployeeId;", conn);
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = Id.ToString();
+      cmd.Parameters.Add(employeeIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      int foundEmployeeId = 0;
+      string foundEmployeeFirstName = null;
+      string foundEmployeeLastName = null;
+      while(rdr.Read())
+      {
+        foundEmployeeId = rdr.GetInt32(0);
+        foundEmployeeFirstName = rdr.GetString(1);
+        foundEmployeeLastName = rdr.GetString(2);
+      }
+      Employee foundEmployee = new Employee(foundEmployeeFirstName, foundEmployeeLastName, foundEmployeeId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundEmployee;
+    }
     // a method to update the name of an employee
     public void UpdateName(string newFirst, string newLast)
     {
@@ -81,7 +114,6 @@ namespace SeattleHealthClinic
       employeeIdParameter.ParameterName = "@EmployeeId";
       employeeIdParameter.Value = this.GetId().ToString();
       cmd.Parameters.Add(employeeIdParameter);
-
       SqlDataReader rdr = cmd.ExecuteReader();
       while(rdr.Read())
       {

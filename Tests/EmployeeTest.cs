@@ -54,5 +54,37 @@ namespace SeattleHealthClinic
       // Assert
       Assert.Equal(newName, newEmployee.GetFirstName() + newEmployee.GetLastName());
     }
+    [Fact]
+    public void Test_Save_AssignsIdToObject()
+    {
+      //Arrange
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      Employee newEmployee = new Employee(firstExpected, lastExpected);
+      newEmployee.Save();
+      int expectedId = newEmployee.GetId();
+      //Act
+      Employee savedEmployee = Employee.GetAll()[0];
+      int actualId = savedEmployee.GetId();
+      //Assert
+      Assert.Equal(expectedId, actualId);
+    }
+    [Fact]
+    public void Test_Find_FindsEmployeeById()
+    {
+      // Arrange
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      Employee newEmployee = new Employee(firstExpected, lastExpected);
+      newEmployee.Save();
+      int findId = newEmployee.GetId();
+      // Act
+      Employee employeeActual = newEmployee.Find(findId);
+      string firstActual = newEmployee.GetFirstName();
+      string lastActual = newEmployee.GetLastName();
+      // Assert
+      Assert.Equal(firstExpected, firstActual);
+      Assert.Equal(lastExpected, lastActual);
+    }
   }
 }
