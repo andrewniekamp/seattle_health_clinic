@@ -17,6 +17,8 @@ namespace SeattleHealthClinic
       _address=Address;
     }
 
+
+
     public override bool Equals(System.Object otherPatient)
     {
       if (!(otherPatient is Patient))
