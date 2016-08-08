@@ -110,69 +110,7 @@ namespace SeattleHealthClinic
       return allConditionEvals;
     }
 
-    public string GetConditionName()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT status FROM conditions WHERE id = @ConditionId;", conn);
-      SqlParameter conditionIdParameter = new SqlParameter();
-      conditionIdParameter.ParameterName = "@ConditionId";
-      conditionIdParameter.Value = this.GetConditionId();
-
-      cmd.Parameters.Add(conditionIdParameter);
-
-      SqlDataReader rdr = cmd.ExecuteReader();
-
-      string foundConditionName = "";
-
-      while (rdr.Read())
-      {
-        foundConditionName = rdr.GetString(0);
-      }
-
-      if (rdr != null)
-      {
-        rdr.Close();
-      }
-      if (conn != null)
-      {
-        conn.Close();
-      }
-      return foundConditionName;
-    }
-
-    public string GetPatientName()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-
-      SqlCommand cmd = new SqlCommand("SELECT name FROM patients WHERE id = @PatientId;", conn);
-      SqlParameter patientIdParameter = new SqlParameter();
-      patientIdParameter.ParameterName = "@PatientId";
-      patientIdParameter.Value = this.GetPatientId();
-
-      cmd.Parameters.Add(patientIdParameter);
-
-      SqlDataReader rdr = cmd.ExecuteReader();
-
-      string foundPatientName = "";
-
-      while (rdr.Read())
-      {
-        foundPatientName = rdr.GetString(0);
-      }
-
-      if (rdr != null)
-      {
-        rdr.Close();
-      }
-      if (conn != null)
-      {
-        conn.Close();
-      }
-      return foundPatientName;
-    }
 
     public void Save()
     {

@@ -83,39 +83,6 @@ namespace SeattleHealthClinic
       Assert.Equal(testConditionEval, foundConditionEval);
     }
 
-    [Fact]
-    public void T6_GetPatientName_GetsConditionEvalPatientName()
-    {
-      Patient testPatient = new Patient("Anderson", "1234 Main Street");
-      testPatient.Save();
-      DateTime statusDate = new DateTime(2016,08,04);
-
-      ConditionEval testConditionEval = new ConditionEval(testPatient.GetId(), 1, 2, statusDate);
-      testConditionEval.Save();
-
-      string result = testConditionEval.GetPatientName();
-
-      Assert.Equal("Anderson", result);
-    }
-
-    [Fact]
-    public void T7_GetConditionName_GetsConditionEvalDoctorName()
-    {
-      Patient testPatient = new Patient("Anderson", "1234 Main Street");
-      testPatient.Save();
-
-
-      Condition testCondition = new Condition("Stable");
-      testCondition.Save();
-      DateTime statusDate = new DateTime(2016,08,04);
-
-      ConditionEval testConditionEval = new ConditionEval(testPatient.GetId(),testCondition.GetId(),1, statusDate);
-      testConditionEval.Save();
-
-      string result = testConditionEval.GetConditionName();
-
-      Assert.Equal("Stable", result);
-    }
 
     [Fact]
     public void T8_Delete_DeleteRelationshipsInOtherTables()
