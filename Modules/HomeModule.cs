@@ -12,7 +12,9 @@ namespace SeattleHealthClinic
         return View["index.cshtml"];
       };
 
-      
+      Get["/landing"] = _ => {
+        return View["landing.cshtml"];
+      };
     }
   }
 }

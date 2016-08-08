@@ -170,33 +170,69 @@ namespace SeattleHealthClinic
       conn.Close();
     }
 
-  // 
-  //   public void Delete()
-  // {
-  //   SqlConnection conn = DB.Connection();
-  //   conn.Open();
-  //
-  //   SqlCommand cmd = new SqlCommand(
-  //   "DELETE FROM patients WHERE id = @PatientId;
-  //   DELETE FROM patients_conditions WHERE patient_id = @PatientId;
-  //   DELETE FROM critical_patients WHERE patient_id = @PatientId;
-  //   DELETE FROM diagnosis WHERE patient_id = @PatientId;", conn);
-  //
-  //   SqlParameter venueIdParameter = new SqlParameter();
-  //   venueIdParameter.ParameterName = "@VenueId";
-  //   venueIdParameter.Value = this.GetId();
-  //
-  //   cmd.Parameters.Add(venueIdParameter);
-  //
-  //   cmd.ExecuteNonQuery();
-  //
-  //   if (conn != null)
-  //   {
-  //     conn.Close();
-  //   }
-  // }
 
+    public void Delete()
+  {
+    SqlConnection conn = DB.Connection();
+    conn.Open();
 
+    SqlCommand cmd = new SqlCommand( "DELETE FROM patients WHERE id = @PatientId;DELETE FROM patients_conditions WHERE patient_id = @PatientId;DELETE FROM critical_patients WHERE patient_id = @PatientId;DELETE FROM diagnosis WHERE patient_id = @PatientId;", conn);
+
+    SqlParameter patientIdParameter = new SqlParameter();
+    patientIdParameter.ParameterName = "@PatientId";
+    patientIdParameter.Value = this.GetId();
+
+    cmd.Parameters.Add(patientIdParameter);
+
+    cmd.ExecuteNonQuery();
+
+    if (conn != null)
+    {
+      conn.Close();
+    }
+  }
+
+  public void Update(string newName, string newAddress)
+     {
+       SqlConnection conn = DB.Connection();
+       conn.Open();
+
+       SqlCommand cmd = new SqlCommand("UPDATE patients SET name = @NewName, address = @Address OUTPUT INSERTED.name, INSERTED.address WHERE id = @PatientId;", conn);
+
+       SqlParameter newNameParameter = new SqlParameter();
+       newNameParameter.ParameterName = "@NewName";
+       newNameParameter.Value = newName;
+
+       SqlParameter newAddressParameter = new SqlParameter();
+       newAddressParameter.ParameterName = "@Address";
+       newAddressParameter.Value = newAddress;
+
+       SqlParameter patientIdParameter = new SqlParameter();
+       patientIdParameter.ParameterName = "@PatientId";
+       patientIdParameter.Value = this.GetId();
+
+       cmd.Parameters.Add(newNameParameter);
+       cmd.Parameters.Add(newAddressParameter);
+       cmd.Parameters.Add(patientIdParameter);
+
+       SqlDataReader rdr = cmd.ExecuteReader();
+
+       while (rdr.Read())
+       {
+         this._name = rdr.GetString(0);
+         this._address = rdr.GetString(1);
+
+       }
+
+       if (rdr != null)
+       {
+         rdr.Close();
+       }
+       if (conn != null)
+       {
+         conn.Close();
+       }
+     }
 
   }
 }
