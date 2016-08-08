@@ -8,12 +8,14 @@ namespace SeattleHealthClinic
   {
     public HomeModule()
     {
+      //landing page
       Get["/"] = _ => {
-        return View["index.cshtml"];
+        return View["landing.cshtml"];
       };
 
-      Get["/landing"] = _ => {
-        return View["landing.cshtml"];
+      //home view, must pass through an employee object in each view!
+      Post["/home_view"] = _ => {
+        return View["index.cshtml"];
       };
     }
   }
