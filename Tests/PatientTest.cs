@@ -68,5 +68,36 @@ namespace SeattleHealthClinic
 
       Assert.Equal(testPatient, foundPatient);
     }
+
+    [Fact]
+    public void T6_Delete_FindsPatientInDB()
+    {
+      Patient testPatient = new Patient("Anderson", "1234 Main Street");
+      testPatient.Save();
+      Patient testPatient2 = new Patient("Ander", "1234 Main Str");
+      testPatient2.Save();
+      testPatient.Delete();
+
+      List<Patient> allPatients = Patient.GetAll();
+      List<Patient> resultPatients = new List<Patient> {testPatient2};
+      Assert.Equal(resultPatients, allPatients);
+    }
+
+    [Fact]
+    public void T7_Update_UpdatesPatientInDB()
+    {
+      Patient testPatient = new Patient("Anderson", "1234 Main Street");
+      testPatient.Save();
+      string newName = "Nosredna";
+      string newAddress = "4321 Side Street";
+
+      testPatient.Update(newName, newAddress);
+      string result = testPatient.GetName();
+      string result2 = testPatient.GetAddress();
+
+      Assert.Equal(newName, result);
+      Assert.Equal(newAddress, result2);
+    }
+
   }
 }

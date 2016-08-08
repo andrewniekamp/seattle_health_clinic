@@ -40,9 +40,13 @@ namespace SeattleHealthClinic
     [Fact]
     public void T3_Save_SavesToDB()
     {
+      Patient testPatient = new Patient("Anderson", "1234 Main Street");
+      testPatient.Save();
+      Condition testCondition = new Condition("Stable");
+      testCondition.Save();
       DateTime statusDate = new DateTime(2016,08,04);
 
-      ConditionEval testConditionEval = new ConditionEval(1, 2, 1, statusDate);
+      ConditionEval testConditionEval = new ConditionEval(testPatient.GetId(), testCondition.GetId(), 1, statusDate);
       testConditionEval.Save();
 
       List<ConditionEval> result = ConditionEval.GetAll();
@@ -111,6 +115,32 @@ namespace SeattleHealthClinic
       string result = testConditionEval.GetConditionName();
 
       Assert.Equal("Stable", result);
+    }
+
+    [Fact]
+    public void T8_Delete_DeleteRelationshipsInOtherTables()
+    {
+      Patient testPatient = new Patient("Anderson", "1234 Main Street");
+      testPatient.Save();
+
+      Patient testPatient2 = new Patient("And", "1234");
+      testPatient2.Save();
+      Condition testCondition = new Condition("Stable");
+      testCondition.Save();
+      DateTime statusDate = new DateTime(2016,08,04);
+
+      ConditionEval testConditionEval = new ConditionEval(testPatient.GetId(), testCondition.GetId(), 1, statusDate);
+      testConditionEval.Save();
+
+      ConditionEval testConditionEval2 = new ConditionEval(testPatient2.GetId(), testCondition.GetId(), 1, statusDate);
+      testConditionEval2.Save();
+
+      testPatient.Delete();
+
+      List<ConditionEval> result = ConditionEval.GetAll();
+      List<ConditionEval> testList = new List<ConditionEval>{testConditionEval2};
+
+      Assert.Equal(testList, result);
     }
 
   }
