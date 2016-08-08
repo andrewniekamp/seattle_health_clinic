@@ -1,18 +1,98 @@
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace SeattleHealthClinic
 {
   public class Employee
   {
     // properties
-
+    internal int _id;
+    internal string  _employee_name_first;
+    internal string  _employee_name_last;
+    internal string  _employee_ssn;
+    internal string  _employee_type;
+    internal string  _employee_date_hire;
+    internal string  _employee_salary_type;
+    internal string  _employee_data_access;
     // constructors, getters, setters
-
+    public Employee(string first_name, string last_name, int Id = 0)
+    {
+      _employee_name_first = first_name;
+      _employee_name_last = last_name;
+      _id = Id;
+    }
+    public string GetFirstName()
+    {
+      return _employee_name_first;
+    }
+    public string GetLastName()
+    {
+      return _employee_name_last;
+    }
     // other methods
+    // a method to save an employee to the database
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_name_first, employee_name_last) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast);", conn);
+      SqlParameter firstNameParameter = new SqlParameter();
+      firstNameParameter.ParameterName = "@EmployeeNameFirst";
+      firstNameParameter.Value = this.GetFirstName();
+      cmd.Parameters.Add(firstNameParameter);
+      SqlParameter lastNameParameter = new SqlParameter();
+      lastNameParameter.ParameterName = "@EmployeeNameLast";
+      lastNameParameter.Value = this.GetLastName();
+      cmd.Parameters.Add(lastNameParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if(rdr!=null)
+      {
+        rdr.Close();
+      }
+      if(conn!=null)
+      {
+        conn.Close();
+      }
+    }
+    // a method to return a list of all employees table records
     public static List<Employee> GetAll()
     {
-      List<Employee> testList = new List<Employee>{};
-      return testList;
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM employees ORDER BY employee_name_last;", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Employee> allEmployees = new List<Employee>{};
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        Employee newEmployee = new Employee(firstName, lastName, id);
+        allEmployees.Add(newEmployee);
+      }
+      if (rdr !=null)
+      {
+        rdr.Close();
+      }
+      if (conn !=null)
+      {
+        conn.Close();
+      }
+      return allEmployees;
+    }
+    // a method to delete all employees table records
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM employees;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
     }
   }
 }

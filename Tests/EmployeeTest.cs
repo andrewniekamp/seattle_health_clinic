@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using Xunit;
 
 namespace SeattleHealthClinic
@@ -13,7 +15,7 @@ namespace SeattleHealthClinic
     }
     public void Dispose()
     {
-      // delete all
+      Employee.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDatabase_DatabaseIsEmpty()
@@ -25,6 +27,18 @@ namespace SeattleHealthClinic
       int countActual = allEmployees.Count;
       // Assert
       Assert.Equal(0, countActual);
+    }
+    [Fact]
+    public void Test_AddEmployee_AddsEmployeeToDatabase()
+    {
+      // Arrange
+      Employee newEmployee = new Employee("Doc", "Gonzo");
+      // Act
+      newEmployee.Save();
+      List<Employee> expectedEmployees = Employee.GetAll();
+      int countActual = expectedEmployees.Count;
+      // Assert
+      Assert.Equal(1, countActual);
     }
   }
 }
