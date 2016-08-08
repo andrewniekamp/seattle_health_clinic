@@ -1,14 +1,30 @@
-using System.Data;
-using System.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace SeattleHealthClinic
 {
-  public class DB
+  public class EmployeeTest : IDisposable
   {
-    public static SqlConnection Connection()
+    public EmployeeTest()
     {
-      SqlConnection conn = new SqlConnection(DBConfiguration.ConnectionString);
-      return conn;
+      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=seattle_health_clinic_test;Integrated Security=SSPI;";
+
+    }
+    public void Dispose()
+    {
+      // delete all
+    }
+    [Fact]
+    public void Test_EmptyDatabase_DatabaseIsEmpty()
+    {
+      // Arrange
+      List<Employee> allEmployees = new List<Employee>{};
+      allEmployees = Employee.GetAll();
+      // Act
+      int countActual = allEmployees.Count;
+      // Assert
+      Assert.Equal(0, countActual);
     }
   }
 }
