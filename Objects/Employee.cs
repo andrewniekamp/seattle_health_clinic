@@ -30,6 +30,10 @@ namespace SeattleHealthClinic
     {
       return _employee_name_last;
     }
+    public int GetId()
+    {
+      return _id;
+    }
     // other methods
     // a method to save an employee to the database
     public void Save()
@@ -59,10 +63,71 @@ namespace SeattleHealthClinic
         conn.Close();
       }
     }
-    // a method to update the name of an employee
-    public void UpdateName(string first, string second)
+    // a method to find an employee using the employee id
+    public Employee Find(int Id)
     {
-      // return
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM employees WHERE id = @EmployeeId;", conn);
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = Id.ToString();
+      cmd.Parameters.Add(employeeIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      int foundEmployeeId = 0;
+      string foundEmployeeFirstName = null;
+      string foundEmployeeLastName = null;
+      while(rdr.Read())
+      {
+        foundEmployeeId = rdr.GetInt32(0);
+        foundEmployeeFirstName = rdr.GetString(1);
+        foundEmployeeLastName = rdr.GetString(2);
+      }
+      Employee foundEmployee = new Employee(foundEmployeeFirstName, foundEmployeeLastName, foundEmployeeId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundEmployee;
+    }
+    // a method to update the name of an employee
+    public void UpdateName(string newFirst, string newLast)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("UPDATE employees SET employee_name_first = @NewFirst, employee_name_last = @NewLast OUTPUT INSERTED.employee_name_first, INSERTED.employee_name_last WHERE id = @EmployeeId;", conn);
+      SqlParameter newFirstParameter = new SqlParameter();
+      newFirstParameter.ParameterName = "@NewFirst";
+      newFirstParameter.Value = newFirst;
+      cmd.Parameters.Add(newFirstParameter);
+      SqlParameter newLastParameter = new SqlParameter();
+      newLastParameter.ParameterName = "@NewLast";
+      newLastParameter.Value = newLast;
+      cmd.Parameters.Add(newLastParameter);
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = this.GetId().ToString();
+      cmd.Parameters.Add(employeeIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._employee_name_first = rdr.GetString(0);
+        this._employee_name_last = rdr.GetString(1);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
     // a method to return a list of all employees table records
     public static List<Employee> GetAll()
