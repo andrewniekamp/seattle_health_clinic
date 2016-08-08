@@ -15,6 +15,12 @@ namespace SeattleHealthClinic
       Get["/landing"] = _ => {
         return View["landing.cshtml"];
       };
+
+      Post["/add/patients"] = _ =>{
+        Patients newPatient = new Patient(Request.Form["patient-name"], Request.Form["patient-address"]);
+        newPatient.Save();
+        return View["success.cshtml"];
+      };
     }
   }
 }
