@@ -11,7 +11,7 @@ namespace SeattleHealthClinic
     private string _classification;
     private bool _contagious;
 
-    public Symptom(string name, string Classification, bool contagious, int id = 0)
+    public Symptom(string name, string Classification, bool contagious = false, int id = 0)
     {
       _id = id;
       _name = name;
@@ -208,12 +208,12 @@ namespace SeattleHealthClinic
     }
   }
 
-  public void Update(string newName, string newClassification)
+  public void Update(string newName, string newClassification,bool newContagious)
      {
        SqlConnection conn = DB.Connection();
        conn.Open();
 
-       SqlCommand cmd = new SqlCommand("UPDATE symptoms SET name = @NewName, classification = @Classification, contagious=@Contagious OUTPUT INSERTED.name, INSERTED.classification WHERE id = @SymptomId;", conn);
+       SqlCommand cmd = new SqlCommand("UPDATE symptoms SET name = @NewName, classification = @Classification, contagious=@Contagious OUTPUT INSERTED.name, INSERTED.classification,INSERTED.contagious WHERE id = @SymptomId;", conn);
 
        SqlParameter newNameParameter = new SqlParameter();
        newNameParameter.ParameterName = "@NewName";
@@ -225,7 +225,7 @@ namespace SeattleHealthClinic
 
        SqlParameter newContagiousParameter = new SqlParameter();
        newContagiousParameter.ParameterName = "@Contagious";
-       newContagiousParameter.Value = newClassification;
+       newContagiousParameter.Value = newContagious;
 
 
        SqlParameter patientIdParameter = new SqlParameter();
