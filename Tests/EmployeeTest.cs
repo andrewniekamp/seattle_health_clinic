@@ -41,7 +41,7 @@ namespace SeattleHealthClinic
       Assert.Equal(1, countActual);
     }
     [Fact]
-    public void Test_UpdateEmployee_UpdatesEmployeeNameInDatabase()
+    public void Test_UpdateName_UpdatesEmployeeNameInDatabase()
     {
       // Arrange
       Employee newEmployee = new Employee("Doc", "Gonzo");

@@ -30,6 +30,10 @@ namespace SeattleHealthClinic
     {
       return _employee_name_last;
     }
+    public int GetId()
+    {
+      return _id;
+    }
     // other methods
     // a method to save an employee to the database
     public void Save()
@@ -60,9 +64,38 @@ namespace SeattleHealthClinic
       }
     }
     // a method to update the name of an employee
-    public void UpdateName(string first, string second)
+    public void UpdateName(string newFirst, string newLast)
     {
-      // return
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("UPDATE employees SET employee_name_first = @NewFirst, employee_name_last = @NewLast OUTPUT INSERTED.employee_name_first, INSERTED.employee_name_last WHERE id = @EmployeeId;", conn);
+      SqlParameter newFirstParameter = new SqlParameter();
+      newFirstParameter.ParameterName = "@NewFirst";
+      newFirstParameter.Value = newFirst;
+      cmd.Parameters.Add(newFirstParameter);
+      SqlParameter newLastParameter = new SqlParameter();
+      newLastParameter.ParameterName = "@NewLast";
+      newLastParameter.Value = newLast;
+      cmd.Parameters.Add(newLastParameter);
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = this.GetId().ToString();
+      cmd.Parameters.Add(employeeIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._employee_name_first = rdr.GetString(0);
+        this._employee_name_last = rdr.GetString(1);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
     // a method to return a list of all employees table records
     public static List<Employee> GetAll()
