@@ -8,7 +8,11 @@ namespace SeattleHealthClinic
   {
     public HomeModule()
     {
-      Get["/"] = _ => "Hey Hey Hello";
+      Get["/"] = _ => {
+        return View["index.cshtml"];
+      };
+
+      
     }
   }
 }
