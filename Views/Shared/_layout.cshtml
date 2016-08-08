@@ -3,15 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Seattle Health Clinic</title>
+
+    <!-- style sheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="/content/css/layout.css">
+
+  </head>
+  <body>
+    <div class="container">
+      @RenderBody()
+    </div>
+
+    <!-- scripts -->
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="/content/js/layout.js"></script>
-  </head>
-  <body>
-    <div class="container vertical-center">
-      @RenderBody()
-    </div>
   </body>
 </html>
