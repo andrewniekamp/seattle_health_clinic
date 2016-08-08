@@ -16,6 +16,7 @@ namespace SeattleHealthClinic
     public void Dispose()
     {
       License.DeleteAll();
+      Employee.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
@@ -55,5 +56,6 @@ namespace SeattleHealthClinic
       //Assert
       Assert.Equal(expectedId, actualId);
     }
+
   }
 }

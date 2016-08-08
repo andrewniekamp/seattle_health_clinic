@@ -163,5 +163,57 @@ namespace SeattleHealthClinic
       cmd.ExecuteNonQuery();
       conn.Close();
     }
+    // methods which interact with the License class/datatable
+    // a method to add create an association between an employee and a license
+    public void AddLicense(License newLicense)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("INSERT INTO certifications (employee_id, license_id) VALUES (@EmployeeId, @LicenseId);", conn);
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(employeeIdParameter);
+      SqlParameter licenseIdParameter = new SqlParameter();
+      licenseIdParameter.ParameterName = "@LicenseId";
+      licenseIdParameter.Value = newLicense.GetId();
+      cmd.Parameters.Add(licenseIdParameter);
+
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+    // a method to get all licenses associated with a particular employee
+    public List<License> GetLicenses()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT licenses.* FROM employees JOIN certifications ON (employees.id = certifications.employee_id) JOIN licenses ON (certifications.license_id = licenses.id) WHERE employees.id = @EmployeeId;", conn);
+      SqlParameter EmployeeIdParameter = new SqlParameter();
+      EmployeeIdParameter.ParameterName = "@EmployeeId";
+      EmployeeIdParameter.Value = this.GetId().ToString();
+      cmd.Parameters.Add(EmployeeIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<License> licenses = new List<License>{};
+      while(rdr.Read())
+      {
+        int licenseId = rdr.GetInt32(0);
+        string licenseNumber = rdr.GetString(1);
+        string licenseType = rdr.GetString(2);
+        License newLicense = new License(licenseNumber, licenseType, licenseId);
+        licenses.Add(newLicense);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return licenses;
+    }
   }
 }
