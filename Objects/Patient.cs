@@ -170,6 +170,33 @@ namespace SeattleHealthClinic
       conn.Close();
     }
 
+  // 
+  //   public void Delete()
+  // {
+  //   SqlConnection conn = DB.Connection();
+  //   conn.Open();
+  //
+  //   SqlCommand cmd = new SqlCommand(
+  //   "DELETE FROM patients WHERE id = @PatientId;
+  //   DELETE FROM patients_conditions WHERE patient_id = @PatientId;
+  //   DELETE FROM critical_patients WHERE patient_id = @PatientId;
+  //   DELETE FROM diagnosis WHERE patient_id = @PatientId;", conn);
+  //
+  //   SqlParameter venueIdParameter = new SqlParameter();
+  //   venueIdParameter.ParameterName = "@VenueId";
+  //   venueIdParameter.Value = this.GetId();
+  //
+  //   cmd.Parameters.Add(venueIdParameter);
+  //
+  //   cmd.ExecuteNonQuery();
+  //
+  //   if (conn != null)
+  //   {
+  //     conn.Close();
+  //   }
+  // }
+
+
 
   }
 }
