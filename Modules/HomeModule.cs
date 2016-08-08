@@ -2,7 +2,7 @@ using Nancy;
 using System;
 using System.Collections.Generic;
 
-namespace BandTracker
+namespace SeattleHealthClinic
 {
   public class HomeModule : NancyModule
   {
