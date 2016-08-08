@@ -1,0 +1,17 @@
+<form class="" action="/add/visit" method="post">
+<select class="" name="visit-patient-id">
+@foreach(var allPatient in Model["patients"])
+{
+<option value="@allPatient.GetId()">@allPatient.GetName()</option>
+}
+</select>
+<select class="" name="visit-condition-id">
+@foreach(var allCondition in Model["conditions"])
+{
+<option value="@allCondition.GetId()">@allCondition.GetCondition()</option>
+}
+</select>
+<label for="visit-date"> Visit Date</label>
+<input type="date" name="visit-date" id="visit-date">
+  <button type="submit" name="button">Submit</button>
+</form>
