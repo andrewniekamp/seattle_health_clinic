@@ -73,7 +73,6 @@ namespace SeattleHealthClinic
       employeeIdParameter.ParameterName = "@EmployeeId";
       employeeIdParameter.Value = Id.ToString();
       cmd.Parameters.Add(employeeIdParameter);
-
       SqlDataReader rdr = cmd.ExecuteReader();
       int foundEmployeeId = 0;
       string foundEmployeeFirstName = null;

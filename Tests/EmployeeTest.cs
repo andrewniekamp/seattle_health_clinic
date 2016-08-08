@@ -18,7 +18,7 @@ namespace SeattleHealthClinic
       Employee.DeleteAll();
     }
     [Fact]
-    public void Test_EmptyDatabase_DatabaseIsEmpty()
+    public void Test_EmptyDataTable_DataTableIsEmpty()
     {
       // Arrange
       List<Employee> allEmployees = new List<Employee>{};
@@ -39,20 +39,6 @@ namespace SeattleHealthClinic
       int countActual = expectedEmployees.Count;
       // Assert
       Assert.Equal(1, countActual);
-    }
-    [Fact]
-    public void Test_UpdateName_UpdatesEmployeeNameInDatabase()
-    {
-      // Arrange
-      Employee newEmployee = new Employee("Doc", "Gonzo");
-      newEmployee.Save();
-      string newFirst = "Dr.";
-      string newLast = "Aharchi";
-      string newName = "Dr." + "Aharchi";
-      // Act
-      newEmployee.UpdateName(newFirst, newLast);
-      // Assert
-      Assert.Equal(newName, newEmployee.GetFirstName() + newEmployee.GetLastName());
     }
     [Fact]
     public void Test_Save_AssignsIdToObject()
@@ -85,6 +71,20 @@ namespace SeattleHealthClinic
       // Assert
       Assert.Equal(firstExpected, firstActual);
       Assert.Equal(lastExpected, lastActual);
+    }
+    [Fact]
+    public void Test_UpdateName_UpdatesEmployeeNameInDatabase()
+    {
+      // Arrange
+      Employee newEmployee = new Employee("Doc", "Gonzo");
+      newEmployee.Save();
+      string newFirst = "Dr.";
+      string newLast = "Aharchi";
+      string newName = "Dr." + "Aharchi";
+      // Act
+      newEmployee.UpdateName(newFirst, newLast);
+      // Assert
+      Assert.Equal(newName, newEmployee.GetFirstName() + newEmployee.GetLastName());
     }
   }
 }
