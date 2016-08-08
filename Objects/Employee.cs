@@ -59,6 +59,11 @@ namespace SeattleHealthClinic
         conn.Close();
       }
     }
+    // a method to update the name of an employee
+    public void UpdateName(string first, string second)
+    {
+      // return
+    }
     // a method to return a list of all employees table records
     public static List<Employee> GetAll()
     {

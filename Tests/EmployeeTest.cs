@@ -40,5 +40,19 @@ namespace SeattleHealthClinic
       // Assert
       Assert.Equal(1, countActual);
     }
+    [Fact]
+    public void Test_UpdateEmployee_UpdatesEmployeeNameInDatabase()
+    {
+      // Arrange
+      Employee newEmployee = new Employee("Doc", "Gonzo");
+      newEmployee.Save();
+      string newFirst = "Dr.";
+      string newLast = "Aharchi";
+      string newName = "Dr." + "Aharchi";
+      // Act
+      newEmployee.UpdateName(newFirst, newLast);
+      // Assert
+      Assert.Equal(newName, newEmployee.GetFirstName() + newEmployee.GetLastName());
+    }
   }
 }
