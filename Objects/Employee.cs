@@ -178,7 +178,6 @@ namespace SeattleHealthClinic
       licenseIdParameter.ParameterName = "@LicenseId";
       licenseIdParameter.Value = newLicense.GetId();
       cmd.Parameters.Add(licenseIdParameter);
-
       cmd.ExecuteNonQuery();
       if (conn != null)
       {

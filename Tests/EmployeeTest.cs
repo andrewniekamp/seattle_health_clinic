@@ -11,7 +11,6 @@ namespace SeattleHealthClinic
     public EmployeeTest()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=seattle_health_clinic_test;Integrated Security=SSPI;";
-
     }
     public void Dispose()
     {
