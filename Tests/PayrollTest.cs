@@ -57,7 +57,7 @@ namespace SeattleHealthClinic
       Assert.Equal(expectedId, actualId);
     }
     [Fact]
-    public void Test_Update_UpdatesSalary()
+    public void Test_UpdateSalary_UpdatesSalary()
     {
       //Arrange
       Payroll newPayroll = new Payroll("Bi-Weekly","Annual", "$225,000");
