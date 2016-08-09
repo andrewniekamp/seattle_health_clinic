@@ -214,5 +214,12 @@ namespace SeattleHealthClinic
       }
       return licenses;
     }
+
+    // public bool VerifyEmployee(string email, string password)
+    // {
+    //   SqlConnection conn DB.Connection();
+    //   conn.Open();
+    //   SqlCommand cmd = new SqlCommand("SELECT email, password FROM employees;", connection);
+    // }
   }
 }
