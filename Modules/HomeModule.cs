@@ -14,7 +14,7 @@ namespace SeattleHealthClinic
       };
 
       //home view, must pass through an employee object in each view!
-      Post["/home_view"] = _ => {
+      Get["/home_view"] = _ => {
         return View["index.cshtml"];
       };
     }

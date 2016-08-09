@@ -5,13 +5,35 @@
     <title>Seattle Health Clinic</title>
 
     <!-- style sheets -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/content/css/layout.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/content/css/layout.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
-      @RenderBody()
+    <div id="wrapper">
+      <div id="sidebar-wrapper">
+        <ul id="sidebar_menu" class="sidebar-nav">
+             <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+        </ul>
+        <ul class="sidebar-nav" id="sidebar">
+          <!-- maximum of seven characters for link name -->
+          <!-- TEMPORARY ROUTES -->
+          <li><a href="/home_view">Home<i class="fa fa-home sub_icon"></i></a></li>
+          <li><a href="/">Profile<i class="fa fa-user-md sub_icon"></i></a></li>
+          <li><a href="/">Patients<i class="fa fa-users sub_icon"></i></a></li>
+          <li><a href="/">Staff<i class="fa fa-exclamation-triangle sub_icon"></i></a></li>
+          <li><a href="/">Stock<i class="fa fa-archive sub_icon"></i></a></li>
+          <li><a href="/">Sign Out<i class="fa fa-sign-out sub_icon"></i></a></li>
+        </ul>
+      </div>
+
+      <div class="container-fluid">
+        <h1>Seattle Health Clinic</h1>
+      </div>
+
+      <div class="container">
+        @RenderBody()
+      </div>
     </div>
 
     <!-- scripts -->
