@@ -86,6 +86,34 @@ namespace SeattleHealthClinic
         conn.Close();
       }
     }
+    // a method to update an employee's salary
+    public void UpdateSalary(string newSalary)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("UPDATE payrolls SET salary_amount = @NewSalary OUTPUT INSERTED.salary_amount WHERE id = @PayrollId;", conn);
+      SqlParameter newSalaryParameter = new SqlParameter();
+      newSalaryParameter.ParameterName = "@NewSalary";
+      newSalaryParameter.Value = newSalary;
+      cmd.Parameters.Add(newSalaryParameter);
+      SqlParameter payrollIdParameter = new SqlParameter();
+      payrollIdParameter.ParameterName = "@PayrollId";
+      payrollIdParameter.Value = this.GetId().ToString();
+      cmd.Parameters.Add(payrollIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._salaryAmount = rdr.GetString(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
     // a method to return all payroll table records
     public static List<Payroll> GetAll()
     {
@@ -100,7 +128,9 @@ namespace SeattleHealthClinic
         string payrollPayPeriod = rdr.GetString(1);
         string payrollSalaryType = rdr.GetString(2);
         string payrollSalaryAmount = rdr.GetString(3);
+        string payrollEmployeeId = rdr.GetString(4);
         Payroll newPayroll = new Payroll(payrollPayPeriod, payrollSalaryType, payrollSalaryAmount, id);
+        newPayroll.SetEmployeeId(payrollEmployeeId);
         allPayrolls.Add(newPayroll);
       }
       if (rdr !=null)
