@@ -13,9 +13,16 @@ namespace SeattleHealthClinic
         return View["landing.cshtml"];
       };
       // home view, must pass through an employee object in each view!
-      Get["/login_status"] = _ => {
-        return View["landing.cshtml"];
-      };
+      // Get["/login_status"] = _ => {
+      //   if (Employee.VerifyLogin(Request.Form["login-email"], Request.Form["login-password"]))
+      //   {
+      //     return View["index.cshtml"];
+      //   }
+      //   else
+      //   {
+      //     return View["invalid_login.cshtml"];
+      //   }
+      // };
 
 
 
