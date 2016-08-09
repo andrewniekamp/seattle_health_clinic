@@ -14,16 +14,19 @@ namespace SeattleHealthClinic
       };
 
       // home view, must pass through an employee object in each view!
-      // Get["/login_status"] = _ => {
-      //   if (Employee.VerifyLogin(Request.Form["login-email"], Request.Form["login-password"]))
-      //   {
-      //     return View["index.cshtml"];
-      //   }
-      //   else
-      //   {
-      //     return View["invalid_login.cshtml"];
-      //   }
-      // };
+      Get["/login_status"] = _ => {
+        if (Employee.VerifyLogin(Request.Form["login-email"], Request.Form["login-password"]))
+        {
+          Employee employee = Employee.Find(Request.Form["login-email"]);
+          Dictionary<string,object> model = new Dictionary<string,object>();
+          model.Add("currentEmployee", employee);
+          return View["login_success.cshtml", model];
+        }
+        else
+        {
+          return View["login_invalid.cshtml"];
+        }
+      };
 
       //home view, must pass through an employee object in each view!
       Get["/home_view/{id}"] = _ => {

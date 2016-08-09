@@ -65,7 +65,7 @@ namespace SeattleHealthClinic
       newEmployee.Save();
       int findId = newEmployee.GetId();
       // Act
-      Employee employeeActual = newEmployee.Find(findId);
+      Employee employeeActual = Employee.Find(findId);
       string firstActual = newEmployee.GetFirstName();
       string lastActual = newEmployee.GetLastName();
       // Assert
