@@ -15,7 +15,9 @@ namespace SeattleHealthClinic
       Get["/landing"] = _ => {
         return View["landing.cshtml"];
       };
-
+      Get["/add/patients"] = _ =>{
+        return View["add_new_patient.cshtml"];
+      };
       Post["/add/patients"] = _ =>{
         Patient newPatient = new Patient(Request.Form["patient-name"], Request.Form["patient-address"]);
         newPatient.Save();
@@ -37,6 +39,39 @@ namespace SeattleHealthClinic
         newVisit.Save();
         return View["success.cshtml"];
       };
+
+      Get["/add/symptom"] = _ =>{
+
+        return View["add_new_symptom.cshtml"];
+      };
+      Post["/add/symptom"] = _ =>{
+        //Temporary DoctorId used in constructor below
+        Symptom newSymptom = new Symptom(Request.Form["symptom-name"], Request.Form["symptom-classification"],Request.Form["visit-contagious"]);
+        newSymptom.Save();
+        return View["success.cshtml"];
+      };
+
+
+      Get["/add/diagnosis"] = _ =>{
+        List<Patient> allPatients = Patient.GetAll();
+        //List<Physician> allPhysicians = Physician.GetAll();
+        List<Symptom> allSymptoms = Symptom.GetAll();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("patients",allPatients);
+        //model.Add("physicians", allPhysicians);
+        model.Add("symptoms",allSymptoms);
+        return View["add_diagnosis.cshtml",model];
+      };
+
+      Post["/add/diagnosis"] = _ =>{
+        //Attempting to integrate checkbox or radio dial for selecting diagnosis
+        Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1, Request.Form["symptom-id"],Request.Form["diagnosis-date"]);
+        newDiagnosis.Save();
+        return View["success.cshtml"];
+      };
+
+
+
     }
   }
 }
