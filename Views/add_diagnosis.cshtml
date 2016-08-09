@@ -1,0 +1,26 @@
+<form class="" action="/add/diagnosis" method="post">
+  <label for=""> Choose Patient
+    <select class="" name="diagnosis-patient-id">
+    @foreach(var allPatient in Model["patients"])
+    {
+    <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+    }
+    </select>
+  </label>
+  <label for=""> Choose Symptom
+    <select class="" name="symptom-id">
+    @foreach(var allsymptom in Model["symptoms"])
+    {
+    <option value="@allsymptom.GetId()">@allsymptom.GetName()</option>
+    }
+    </select>
+  </label>
+
+  <label for="diagnosis-date">diagnosis Date</label>
+  <input type="date" name="diagnosis-date" id="diagnosis-date">
+  <button type="submit" name="button">Submit</button>
+</form>
+
+<div>
+
+</div>
