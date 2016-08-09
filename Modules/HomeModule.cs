@@ -13,18 +13,25 @@ namespace SeattleHealthClinic
         return View["landing.cshtml"];
       };
 
+      Get["/login_status"] = _ => {
+        
+      };
+
       //home view, must pass through an employee object in each view!
-      Get["/home_view"] = _ => {
+      Get["/home_view/{id}"] = _ => {
         return View["index.cshtml"];
       };
+
       Get["/add/patients"] = _ =>{
         return View["add_new_patient.cshtml"];
       };
+
       Post["/add/patients"] = _ =>{
         Patient newPatient = new Patient(Request.Form["patient-name"], Request.Form["patient-address"]);
         newPatient.Save();
         return View["success.cshtml"];
       };
+
       Get["/add/visit"] = _ =>{
         List<Patient> allPatients = Patient.GetAll();
         //List<Physician> allPhysicians = Physician.GetAll();
@@ -35,6 +42,7 @@ namespace SeattleHealthClinic
         model.Add("conditions",allConditions);
         return View["add_visit.cshtml",model];
       };
+
       Post["/add/visit"] = _ =>{
         //Temporary DoctorId used in constructor below
         ConditionEval newVisit = new ConditionEval(Request.Form["visit-patient-id"],1, Request.Form["visit-condition-id"],Request.Form["visit-date"]);
@@ -46,13 +54,13 @@ namespace SeattleHealthClinic
 
         return View["add_new_symptom.cshtml"];
       };
+
       Post["/add/symptom"] = _ =>{
         //Temporary DoctorId used in constructor below
         Symptom newSymptom = new Symptom(Request.Form["symptom-name"], Request.Form["symptom-classification"],Request.Form["visit-contagious"]);
         newSymptom.Save();
         return View["success.cshtml"];
       };
-
 
       Get["/add/diagnosis"] = _ =>{
         List<Patient> allPatients = Patient.GetAll();
@@ -71,7 +79,6 @@ namespace SeattleHealthClinic
         newDiagnosis.Save();
         return View["success.cshtml"];
       };
-
 
 
     }
