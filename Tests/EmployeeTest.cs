@@ -136,7 +136,7 @@ namespace SeattleHealthClinic
 
       //Act
       bool expected = true;
-      bool result = testEmployee.VerifyLogin("doc@doc.com", "password");
+      bool result = Employee.VerifyLogin("doc@doc.com", "password");
 
       //Assert
       Assert.Equal(expected, result);
