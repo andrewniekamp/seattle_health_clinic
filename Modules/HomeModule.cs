@@ -28,13 +28,14 @@ namespace SeattleHealthClinic
         }
       };
 
-      //home view, must pass through an employee object in each view!
       Get["/home_view/{id}"] = parameters => {
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
         return View["index.cshtml", model];
       };
+
+      //progress bar, dont move
 
       Get["/add/patients"] = _ =>{
         return View["add_new_patient.cshtml"];
