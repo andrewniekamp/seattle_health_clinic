@@ -15,6 +15,8 @@ namespace SeattleHealthClinic
     internal string  _employee_date_hire;
     internal string  _employee_salary_type;
     internal string  _employee_data_access;
+    internal string  _employee_email;
+    internal string  _employee_password;
     // constructors, getters, setters
     public Employee(string first_name, string last_name, int Id = 0)
     {
@@ -33,6 +35,20 @@ namespace SeattleHealthClinic
     public int GetId()
     {
       return _id;
+    }
+    //temporary methods, refactor if necessary
+    public void SetLogin (string newEmail, string newPassword)
+    {
+      _employee_email = newEmail;
+      _employee_password = newPassword;
+    }
+    public string GetEmail()
+    {
+      return _employee_email;
+    }
+    public string GetPassword()
+    {
+      return _employee_password;
     }
     // other methods
     // a method to save an employee to the database
@@ -214,12 +230,63 @@ namespace SeattleHealthClinic
       }
       return licenses;
     }
-
-    // public bool VerifyEmployee(string email, string password)
-    // {
-    //   SqlConnection conn DB.Connection();
-    //   conn.Open();
-    //   SqlCommand cmd = new SqlCommand("SELECT email, password FROM employees;", connection);
-    // }
+    //a method to verify login information
+    public bool VerifyLogin(string email, string password)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT employee_email, employee_password FROM employees WHERE employees.employee_email = @EmployeeEmail AND employees.employee_password = @EmployeePassword;", conn);
+      SqlParameter EmployeeEmailParameter = new SqlParameter();
+      EmployeeEmailParameter.ParameterName = "@EmployeeEmail";
+      EmployeeEmailParameter.Value = email;
+      cmd.Parameters.Add(EmployeeEmailParameter);
+      SqlParameter EmployeePasswordParameter = new SqlParameter();
+      EmployeePasswordParameter.ParameterName = "@EmployeePassword";
+      EmployeePasswordParameter.Value = password;
+      cmd.Parameters.Add(EmployeePasswordParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      bool result = false;
+      if (rdr.HasRows == true)
+      {
+        result = true;
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return result;
+    }
+    public void SaveLogin()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_email, employee_password) VALUES (@EmployeeEmail, @EmployeePassword);", conn);
+      SqlParameter EmployeeEmailParameter = new SqlParameter();
+      EmployeeEmailParameter.ParameterName = "@EmployeeEmail";
+      EmployeeEmailParameter.Value = this.GetEmail();
+      cmd.Parameters.Add(EmployeeEmailParameter);
+      SqlParameter EmployeePasswordParameter = new SqlParameter();
+      EmployeePasswordParameter.ParameterName = "@EmployeePassword";
+      EmployeePasswordParameter.Value = this.GetPassword();
+      cmd.Parameters.Add(EmployeePasswordParameter);
+      //this is unnecessary, fix later
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if(rdr!=null)
+      {
+        rdr.Close();
+      }
+      if(conn!=null)
+      {
+        conn.Close();
+      }
+    }
   }
 }

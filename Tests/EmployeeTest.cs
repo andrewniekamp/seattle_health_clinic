@@ -125,5 +125,21 @@ namespace SeattleHealthClinic
       //Assert
       Assert.Equal(expectedCount, actualCount);
     }
+    [Fact]
+    public void Test_VerifyLogin_ChecksLoginInfoAgainstDatabase()
+    {
+      //Arrange
+      Employee testEmployee = new Employee ("Doc", "Gonzo");
+      testEmployee.SetLogin("doc@doc.com", "password");
+      testEmployee.Save();
+      testEmployee.SaveLogin();
+
+      //Act
+      bool expected = true;
+      bool result = testEmployee.VerifyLogin("doc@doc.com", "password");
+
+      //Assert
+      Assert.Equal(expected, result);
+    }
   }
 }
