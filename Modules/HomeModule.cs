@@ -14,7 +14,6 @@ namespace SeattleHealthClinic
       };
 
       Get["/login_status"] = _ => {
-        return View["landing.cshtml"];
 
       };
 
@@ -81,7 +80,31 @@ namespace SeattleHealthClinic
         return View["success.cshtml"];
       };
 
+      Get["/view/all/patients"] =_=>{
+        List<Patient> allPatients = Patient.GetAll();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("patients",allPatients);
+        return View["view_all_patients.cshtml",model];
+      };
+      Get["/view/patient/visit/{id}"] =parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.id);
+        return View["sucess.cshtml"];
 
+      };
+      Patch["/view/patient/edit/{id}"] = parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.id);
+        patientToUpdate.Update(Request.Form["edit-new-name"], Request.Form["edit-new-address"]);
+        return View["sucess.cshtml"];
+      };
+      Delete["/view/patient/delete/{id}"] = parameters =>{
+        Patient patientToDelete = Patient.Find(parameters.id);
+        patientToDelete.Delete();
+        return View["sucess.cshtml"];
+      };
+      //
+      // Get["/view/all/appointments"] =_=>{};
+      //
+      // Get["/view/all/visits"] =_=>{};
 
 
       Get["/add/appointment"] = _ =>{
