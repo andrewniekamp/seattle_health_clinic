@@ -172,25 +172,25 @@ namespace SeattleHealthClinic
 
 
     public void Delete()
-  {
-    SqlConnection conn = DB.Connection();
-    conn.Open();
-
-    SqlCommand cmd = new SqlCommand( "DELETE FROM patients WHERE id = @PatientId;DELETE FROM patients_conditions WHERE patient_id = @PatientId;DELETE FROM critical_patients WHERE patient_id = @PatientId;DELETE FROM diagnosis WHERE patient_id = @PatientId;", conn);
-
-    SqlParameter patientIdParameter = new SqlParameter();
-    patientIdParameter.ParameterName = "@PatientId";
-    patientIdParameter.Value = this.GetId();
-
-    cmd.Parameters.Add(patientIdParameter);
-
-    cmd.ExecuteNonQuery();
-
-    if (conn != null)
     {
-      conn.Close();
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand( "DELETE FROM patients WHERE id = @PatientId;DELETE FROM patients_conditions WHERE patient_id = @PatientId;DELETE FROM critical_patients WHERE patient_id = @PatientId;DELETE FROM diagnosis WHERE patient_id = @PatientId;DELETE FROM patients_scheduling WHERE patient_id = @PatientId", conn);
+
+      SqlParameter patientIdParameter = new SqlParameter();
+      patientIdParameter.ParameterName = "@PatientId";
+      patientIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(patientIdParameter);
+
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
-  }
 
   public void Update(string newName, string newAddress)
      {
