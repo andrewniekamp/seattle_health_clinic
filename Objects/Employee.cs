@@ -32,6 +32,10 @@ namespace SeattleHealthClinic
     {
       return _employee_name_last;
     }
+    public string GetFullName()
+    {
+      return _employee_name_first + " " + _employee_name_last;
+    }
     public int GetId()
     {
       return _id;
