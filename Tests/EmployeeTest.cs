@@ -16,6 +16,7 @@ namespace SeattleHealthClinic
     {
       Employee.DeleteAll();
       License.DeleteAll();
+      Payroll.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
@@ -65,7 +66,7 @@ namespace SeattleHealthClinic
       newEmployee.Save();
       int findId = newEmployee.GetId();
       // Act
-      Employee employeeActual = newEmployee.Find(findId);
+      Employee employeeActual = Employee.Find(findId);
       string firstActual = newEmployee.GetFirstName();
       string lastActual = newEmployee.GetLastName();
       // Assert
@@ -137,9 +138,13 @@ namespace SeattleHealthClinic
       //Act
       bool expected = true;
       bool result = Employee.VerifyLogin("doc@doc.com", "password");
+      //check for negative case
+      bool expected2 = false;
+      bool result2 = Employee.VerifyLogin("john@john.com", "password");
 
       //Assert
       Assert.Equal(expected, result);
+      Assert.Equal(expected2, result2);
     }
   }
 }

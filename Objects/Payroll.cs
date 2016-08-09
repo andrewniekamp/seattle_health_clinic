@@ -12,11 +12,9 @@ namespace SeattleHealthClinic
     internal string _salaryType;
     internal string _salaryAmount;
     internal string _employeeId;
-
     // constructors, getters, setters
-    public Payroll(string employeeid, string payperiod, string salarytype, string salaryamount, int Id = 0)
+    public Payroll(string payperiod, string salarytype, string salaryamount, int Id = 0)
     {
-      _employeeId = employeeid;
       _payPeriod = payperiod;
       _salaryType = salarytype;
       _salaryAmount = salaryamount;
@@ -38,13 +36,27 @@ namespace SeattleHealthClinic
     {
       return _id;
     }
+    public void SetEmployeeId(string employeeId)
+    {
+      _employeeId = employeeId;
+    }
+    public string GetEmployeeId()
+    {
+      return _employeeId;
+    }
     // other methods
-    // a method to save an employee to the database
+    // a method to save payroll information to the database
     public void Save()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO payrolls (pay_period, salary_type, salary_amount) OUTPUT INSERTED.id VALUES (@PayPeriod, @SalaryType, @SalaryAmount);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO payrolls (employee_id, pay_period, salary_type, salary_amount) OUTPUT INSERTED.id VALUES (@EmployeeId, @PayPeriod, @SalaryType, @SalaryAmount);", conn);
+
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = this.GetEmployeeId();
+      cmd.Parameters.Add(employeeIdParameter);
+
       SqlParameter payPeriodParameter = new SqlParameter();
       payPeriodParameter.ParameterName = "@PayPeriod";
       payPeriodParameter.Value = this.GetPayPeriod();
@@ -74,7 +86,34 @@ namespace SeattleHealthClinic
         conn.Close();
       }
     }
-    // a method to find an employee using the employee id
+    // a method to return all payroll table records
+    public static List<Payroll> GetAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM payrolls ORDER BY salary_amount;", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Payroll> allPayrolls = new List<Payroll>{};
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string payrollPayPeriod = rdr.GetString(1);
+        string payrollSalaryType = rdr.GetString(2);
+        string payrollSalaryAmount = rdr.GetString(3);
+        Payroll newPayroll = new Payroll(payrollPayPeriod, payrollSalaryType, payrollSalaryAmount, id);
+        allPayrolls.Add(newPayroll);
+      }
+      if (rdr !=null)
+      {
+        rdr.Close();
+      }
+      if (conn !=null)
+      {
+        conn.Close();
+      }
+      return allPayrolls;
+    }
+    // a method to find payroll information based on an employee ssn
     public Payroll Find(string Id)
     {
       SqlConnection conn = DB.Connection();
@@ -96,8 +135,7 @@ namespace SeattleHealthClinic
         foundPayrollSalaryType = rdr.GetString(2);
         foundPayrollSalaryAmount = rdr.GetString(3);
       }
-      Payroll foundPayroll = new Payroll(Id, foundPayrollPayPeriod, foundPayrollSalaryType, foundPayrollSalaryAmount, foundPayrollId);
-
+      Payroll foundPayroll = new Payroll(foundPayrollPayPeriod, foundPayrollSalaryType, foundPayrollSalaryAmount, foundPayrollId);
       if (rdr != null)
       {
         rdr.Close();
@@ -107,6 +145,15 @@ namespace SeattleHealthClinic
         conn.Close();
       }
       return foundPayroll;
+    }
+    // a method to delete all payroll table records
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM payrolls;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
     }
   }
 }
