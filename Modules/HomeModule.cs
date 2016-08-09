@@ -82,6 +82,24 @@ namespace SeattleHealthClinic
       };
 
 
+
+
+      Get["/add/appointment"] = _ =>{
+        List<Patient> allPatients = Patient.GetAll();
+        //List<Physician> allPhysicians = Physician.GetAll();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("patients",allPatients);
+        //model.Add("physicians", allPhysicians);
+        return View["add_appointment.cshtml",model];
+      };
+
+      Post["/add/appointment"] = _ =>{
+        //Attempting to integrate checkbox or radio dial for selecting diagnosis
+        PatientScheduling newScheduling = new PatientScheduling(Request.Form["appointment-patient-id"],1, Request.Form["patient-appointment-note"],Request.Form["patient-appointment-date"]);
+        newScheduling.Save();
+        return View["success.cshtml"];
+      };
+
     }
   }
 }
