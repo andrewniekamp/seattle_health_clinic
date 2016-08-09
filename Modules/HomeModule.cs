@@ -15,9 +15,9 @@ namespace SeattleHealthClinic
 
       // home view, must pass through an employee object in each view!
       Get["/login_status"] = _ => {
-        if (Employee.VerifyLogin(Request.Form["login-email"], Request.Form["login-password"]))
+        if (Employee.VerifyLogin(Request.Query["login-email"], Request.Query["login-password"]))
         {
-          Employee employee = Employee.Find(Request.Form["login-email"]);
+          Employee employee = Employee.FindEmail(Request.Query["login-email"]);
           Dictionary<string,object> model = new Dictionary<string,object>();
           model.Add("currentEmployee", employee);
           return View["login_success.cshtml", model];

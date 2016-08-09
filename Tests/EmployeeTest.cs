@@ -137,9 +137,13 @@ namespace SeattleHealthClinic
       //Act
       bool expected = true;
       bool result = Employee.VerifyLogin("doc@doc.com", "password");
+      //check for negative case
+      bool expected2 = false;
+      bool result2 = Employee.VerifyLogin("john@john.com", "password");
 
       //Assert
       Assert.Equal(expected, result);
+      Assert.Equal(expected2, result2);
     }
   }
 }

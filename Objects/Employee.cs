@@ -237,7 +237,7 @@ namespace SeattleHealthClinic
 
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT employee_email, employee_password FROM employees WHERE employees.employee_email = @EmployeeEmail AND employees.employee_password = @EmployeePassword;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT employee_email FROM employees WHERE employees.employee_email = @EmployeeEmail AND employees.employee_password = @EmployeePassword;", conn);
       SqlParameter employeeEmailParameter = new SqlParameter();
       employeeEmailParameter.ParameterName = "@EmployeeEmail";
       employeeEmailParameter.Value = email;
@@ -291,11 +291,11 @@ namespace SeattleHealthClinic
       }
     }
     //a method to find the employee based on email address, can be refactored later on
-    public static Employee Find(string email)
+    public static Employee FindEmail(string email)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees WHERE employee_email = @EmployeeEmail;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM employees WHERE employees.employee_email = @EmployeeEmail;", conn);
       SqlParameter employeeEmailParameter = new SqlParameter();
       employeeEmailParameter.ParameterName = "@EmployeeEmail";
       employeeEmailParameter.Value = email;
