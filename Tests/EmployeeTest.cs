@@ -11,11 +11,11 @@ namespace SeattleHealthClinic
     public EmployeeTest()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=seattle_health_clinic_test;Integrated Security=SSPI;";
-
     }
     public void Dispose()
     {
       Employee.DeleteAll();
+      License.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
@@ -85,6 +85,45 @@ namespace SeattleHealthClinic
       newEmployee.UpdateName(newFirst, newLast);
       // Assert
       Assert.Equal(newName, newEmployee.GetFirstName() + newEmployee.GetLastName());
+    }
+    [Fact]
+    public void Test_AddLicense_AddsLicenseToEmployee()
+    {
+      //Arrange
+      Employee testEmployee = new Employee("Doc", "Gonzo");
+      testEmployee.Save();
+      License testLicense1 = new License("WA9999", "MD");
+      testLicense1.Save();
+      License testLicense2 = new License("WA0000", "RN");
+      testLicense2.Save();
+      //Act
+      testEmployee.AddLicense(testLicense1);
+      testEmployee.AddLicense(testLicense2);
+      List<License> result = testEmployee.GetLicenses();
+      int actualCount = result.Count;
+      List<License> testList = new List<License>{testLicense1, testLicense2};
+      int expectedCount = testList.Count;
+      //Assert
+      Assert.Equal(expectedCount, actualCount);
+    }
+    [Fact]
+    public void Test_GetLicenses_ReturnsAllEmployeeLicenses()
+    {
+      //Arrange
+      Employee testEmployee = new Employee("Doc", "Gonzo");
+      testEmployee.Save();
+      License testLicense1 = new License("WA9999", "MD");
+      testLicense1.Save();
+      License testLicense2 = new License("WA0000", "RN");
+      testLicense2.Save();
+      List<License> testList = new List<License> {testLicense1};
+      //Act
+      testEmployee.AddLicense(testLicense1);
+      List<License> savedLicenses = testEmployee.GetLicenses();
+      int expectedCount = testList.Count;
+      int actualCount = savedLicenses.Count;
+      //Assert
+      Assert.Equal(expectedCount, actualCount);
     }
   }
 }

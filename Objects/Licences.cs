@@ -39,7 +39,7 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO employees_medical (license_number, license_type) OUTPUT INSERTED.id VALUES (@LicenseNumber, @LicenseType);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO licenses (license_number, license_type) OUTPUT INSERTED.id VALUES (@LicenseNumber, @LicenseType);", conn);
       SqlParameter numberParameter = new SqlParameter();
       numberParameter.ParameterName = "@LicenseNumber";
       numberParameter.Value = this.GetLicenseNumber();
@@ -67,14 +67,14 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees_medical ORDER BY license_type;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM licenses ORDER BY license_type;", conn);
       SqlDataReader rdr = cmd.ExecuteReader();
       List<License> allLicenses = new List<License>{};
       while(rdr.Read())
       {
         int id = rdr.GetInt32(0);
-        string licenseNumber = rdr.GetString(3);
-        string licenseType = rdr.GetString(4);
+        string licenseNumber = rdr.GetString(1);
+        string licenseType = rdr.GetString(2);
         License newLicense = new License(licenseNumber, licenseType, id);
         allLicenses.Add(newLicense);
       }
@@ -93,7 +93,7 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees_medical WHERE id = @LicenseId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM licenses WHERE id = @LicenseId;", conn);
       SqlParameter licenseIdParameter = new SqlParameter();
       licenseIdParameter.ParameterName = "@LicenseId";
       licenseIdParameter.Value = Id.ToString();
@@ -105,8 +105,8 @@ namespace SeattleHealthClinic
       while(rdr.Read())
       {
         foundLicenseId = rdr.GetInt32(0);
-        foundLicenseNumber = rdr.GetString(3);
-        foundLicenseType = rdr.GetString(4);
+        foundLicenseNumber = rdr.GetString(1);
+        foundLicenseType = rdr.GetString(2);
       }
       License foundLicense = new License(foundLicenseNumber, foundLicenseType, foundLicenseId);
 
@@ -124,7 +124,7 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("DELETE FROM employees_medical;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM licenses;", conn);
       cmd.ExecuteNonQuery();
       conn.Close();
     }
