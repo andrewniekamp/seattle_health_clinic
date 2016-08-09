@@ -207,5 +207,42 @@ namespace SeattleHealthClinic
       cmd.ExecuteNonQuery();
       conn.Close();
     }
+
+    public Condition FindCondition()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM conditions WHERE id = @ConditionId;", conn);
+      SqlParameter conditionIdParameter = new SqlParameter();
+      conditionIdParameter.ParameterName = "@ConditionId";
+      conditionIdParameter.Value = this.GetConditionId();
+
+      cmd.Parameters.Add(conditionIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int conditionId=0;
+      string conditionStatus=null;
+
+
+      while (rdr.Read())
+      {
+        conditionId=rdr.GetInt32(0);
+        conditionStatus = rdr.GetString(1);
+      }
+
+      Condition foundCondition = new Condition(conditionStatus, conditionId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundCondition;
+    }
   }
 }
