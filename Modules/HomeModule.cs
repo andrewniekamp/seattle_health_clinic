@@ -39,7 +39,7 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        return View["index.cshtml", model];
+        return View["personal_employment_records.cshtml", model];
       };
       //progress bar, dont move
 

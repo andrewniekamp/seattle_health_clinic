@@ -15,3 +15,7 @@
 .highlight-text {
   color: #F0AD4E;
 }
+
+.all-panels {
+  display: none;
+}

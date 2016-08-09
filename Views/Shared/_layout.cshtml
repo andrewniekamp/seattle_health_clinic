@@ -16,7 +16,7 @@
     <nav class="navbar navbar-default container">
       <!-- <div class="container"> -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">SEATTLE HEALTH CLINIC</a>
+          <a class="navbar-brand" href="/home_view/@Model["currentEmployee"].GetId()">SEATTLE HEALTH CLINIC</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -44,7 +44,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-user-md"></i>Profile</a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Personal</a></li>
+                <li><a href="/profile/@Model["currentEmployee"].GetId()/personal">Personal</a></li>
                 <li><a href="#">Payroll Information</a></li>
                 <li><a href="#">Scheduling</a></li>
               </ul>
@@ -56,11 +56,11 @@
     </nav>
 
     <!-- alert message-->
-    <div class="alert alert-dismissible alert-warning text-center container">
+    <!-- <div class="alert alert-dismissible alert-warning text-center container">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       <h4>Attention</h4>
       <p>John to the X-ray technician after swallowing some money: "So, do you see in any change in me?"</p>
-    </div>
+    </div> -->
 
     <!-- body -->
     @RenderBody()
