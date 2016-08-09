@@ -13,9 +13,16 @@ namespace SeattleHealthClinic
         return View["landing.cshtml"];
       };
 
+<<<<<<< HEAD
+      // Get["/login_status"] = _ => {
+      //
+      // };
+=======
       Get["/login_status"] = _ => {
-        
+        return View["landing.cshtml"];
+
       };
+>>>>>>> 5fc55d14d68c5e48a04a37d2e438e37d9fedd4a2
 
       //home view, must pass through an employee object in each view!
       Get["/home_view/{id}"] = _ => {
