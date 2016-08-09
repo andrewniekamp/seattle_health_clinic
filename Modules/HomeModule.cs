@@ -12,19 +12,14 @@ namespace SeattleHealthClinic
       Get["/"] = _ => {
         return View["landing.cshtml"];
       };
-
-<<<<<<< HEAD
-      // Get["/login_status"] = _ => {
-      //
-      // };
-=======
+      //home view, must pass through an employee object in each view!
       Get["/login_status"] = _ => {
-        return View["landing.cshtml"];
 
       };
->>>>>>> 5fc55d14d68c5e48a04a37d2e438e37d9fedd4a2
 
-      //home view, must pass through an employee object in each view!
+
+
+
       Get["/home_view/{id}"] = _ => {
         return View["index.cshtml"];
       };
@@ -87,6 +82,48 @@ namespace SeattleHealthClinic
         return View["success.cshtml"];
       };
 
+      Get["/view/all/patients"] =_=>{
+        List<Patient> allPatients = Patient.GetAll();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("patients",allPatients);
+        return View["view_all_patients.cshtml",model];
+      };
+      Get["/view/patient/visit/{id}"] =parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.id);
+        return View["sucess.cshtml"];
+
+      };
+      Patch["/view/patient/edit/{id}"] = parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.id);
+        patientToUpdate.Update(Request.Form["edit-new-name"], Request.Form["edit-new-address"]);
+        return View["sucess.cshtml"];
+      };
+      Delete["/view/patient/delete/{id}"] = parameters =>{
+        Patient patientToDelete = Patient.Find(parameters.id);
+        patientToDelete.Delete();
+        return View["sucess.cshtml"];
+      };
+      //
+      // Get["/view/all/appointments"] =_=>{};
+      //
+      // Get["/view/all/visits"] =_=>{};
+
+
+      Get["/add/appointment"] = _ =>{
+        List<Patient> allPatients = Patient.GetAll();
+        //List<Physician> allPhysicians = Physician.GetAll();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("patients",allPatients);
+        //model.Add("physicians", allPhysicians);
+        return View["add_appointment.cshtml",model];
+      };
+
+      Post["/add/appointment"] = _ =>{
+        //Attempting to integrate checkbox or radio dial for selecting diagnosis
+        PatientScheduling newScheduling = new PatientScheduling(Request.Form["appointment-patient-id"],1, Request.Form["patient-appointment-note"],Request.Form["patient-appointment-date"]);
+        newScheduling.Save();
+        return View["success.cshtml"];
+      };
 
     }
   }

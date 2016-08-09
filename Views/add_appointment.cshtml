@@ -1,0 +1,20 @@
+<form class="" action="/add/appointment" method="post">
+  <label for=""> Choose Patient
+    <select class="" name="appointment-patient-id">
+    @foreach(var allPatient in Model["patients"])
+    {
+    <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+    }
+    </select>
+  </label>
+  <label for="patient-appointment-note">Patient Appointment Note</label>
+  <textarea name="patient-appointment-note" id="patient-appointment-note" rows="8" cols="40"></textarea>
+
+  <label for="patient-appointment-date">Patient Appointment Date</label>
+  <input type="date" name="patient-appointment-date" id="patient-appointment-date">
+  <button type="submit" name="button">Submit</button>
+</form>
+
+<div>
+
+</div>

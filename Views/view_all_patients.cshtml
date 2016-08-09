@@ -1,0 +1,33 @@
+<ul>
+  @foreach(var allPatient in Model["patients"])
+  {
+  <li>Patient Name: @allPatient.GetName()</li>
+  <li>Patient Address: @allPatient.GetAddress()</li>
+
+  <form class="" action="/view/patient/visit/@allPatient.GetId()" method="post">
+    <button type="Submit" name="button"> View All Visit In  @allPatient.GetName()</button>
+  </form>
+
+  <form class="" action="/view/patient/appointments/@allPatient.GetId()" method="post">
+    <button type="Submit" name="button"> View All Appointment In  @allPatient.GetName()</button>
+  </form>
+
+  <form class="" action="/view/patient/edit/@allPatient.GetId()" method="post">
+    <input type="hidden" name="_method" value="PATCH">
+    <label for="">Name</label>
+    <input type="text" name="edit-new-name" value="">
+    <label for="">Address</label>
+    <input type="text" name="edit-new-address" value="">
+
+    <button type="Submit" name="button"> Edit New Name</button>
+  </form>
+
+
+  <form class="" action="/view/patient/delete@allPatient.GetId()" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="Submit" name="button">Delete this Patitent</button>
+  </form>
+
+  }
+
+</ul>

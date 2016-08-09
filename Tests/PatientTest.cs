@@ -15,6 +15,7 @@ namespace SeattleHealthClinic
     public void Dispose()
     {
       Patient.DeleteAll();
+      ConditionEval.DeleteAll();
     }
 
     [Fact]
@@ -97,6 +98,27 @@ namespace SeattleHealthClinic
 
       Assert.Equal(newName, result);
       Assert.Equal(newAddress, result2);
+    }
+
+    [Fact]
+    public void T8_GetAllEval_GetsPatientEvals()
+    {
+      Patient testPatient = new Patient("Anderson", "1234 Main Street");
+      testPatient.Save();
+      DateTime evalDate = new DateTime(2016,08,04);
+
+      ConditionEval testConditionEval = new ConditionEval(testPatient.GetId(), 3, 1, evalDate);
+      testConditionEval.Save();
+      ConditionEval testConditionEval2 = new ConditionEval(testPatient.GetId(), 6, 1, evalDate);
+      testConditionEval2.Save();
+      int testId = testPatient.GetId() + 1;
+      ConditionEval testConditionEval3 = new ConditionEval(testId, 3, 3, evalDate);
+      testConditionEval3.Save();
+
+      List<ConditionEval> result = testPatient.GetAllEval();
+      List<ConditionEval> testList = new List<ConditionEval>{testConditionEval, testConditionEval2};
+
+      Assert.Equal(testList, result);
     }
 
   }

@@ -234,5 +234,44 @@ namespace SeattleHealthClinic
        }
      }
 
+     public List<ConditionEval> GetAllEval()
+     {
+       List<ConditionEval> allConditionEvals = new List<ConditionEval>{};
+
+       SqlConnection conn = DB.Connection();
+       conn.Open();
+
+       SqlCommand cmd = new SqlCommand("SELECT * FROM patients_conditions WHERE patient_id = @PatientId;", conn);
+
+       SqlParameter patientIdParameter = new SqlParameter();
+       patientIdParameter.ParameterName="@PatientId";
+       patientIdParameter.Value= this.GetId();
+       cmd.Parameters.Add(patientIdParameter);
+
+       SqlDataReader rdr = cmd.ExecuteReader();
+
+       while (rdr.Read())
+       {
+         int performanceId = rdr.GetInt32(0);
+         int patientId = rdr.GetInt32(1);
+         int conditionId = rdr.GetInt32(2);
+         int doctorId = rdr.GetInt32(3);
+         DateTime statusDate = rdr.GetDateTime(4);
+
+         ConditionEval newConditionEval = new ConditionEval(patientId, conditionId,doctorId, statusDate, performanceId);
+         allConditionEvals.Add(newConditionEval);
+       }
+       if (rdr != null)
+       {
+         rdr.Close();
+       }
+       if (conn != null)
+       {
+         conn.Close();
+       }
+       return allConditionEvals;
+     }
+
+
   }
 }
