@@ -1,3 +1,13 @@
-body {
-  background-color: olive;
+.container {
+  max-width: 1080px;
+}
+
+.navbar-brand {
+  font-family: 'Slabo 27px', serif;
+  font-size: 32px;
+}
+
+#name {
+  font-weight: bold;
+  font-size: 16px;
 }
