@@ -14,7 +14,7 @@ namespace SeattleHealthClinic
       };
 
       Get["/login_status"] = _ => {
-
+        return View["landing.cshtml"];
       };
 
       //home view, must pass through an employee object in each view!

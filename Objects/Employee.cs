@@ -231,21 +231,22 @@ namespace SeattleHealthClinic
       return licenses;
     }
     //a method to verify login information
-    public bool VerifyLogin(string email, string password)
+    public static bool VerifyLogin(string email, string password)
     {
+      bool result = false;
+
       SqlConnection conn = DB.Connection();
       conn.Open();
       SqlCommand cmd = new SqlCommand("SELECT employee_email, employee_password FROM employees WHERE employees.employee_email = @EmployeeEmail AND employees.employee_password = @EmployeePassword;", conn);
-      SqlParameter EmployeeEmailParameter = new SqlParameter();
-      EmployeeEmailParameter.ParameterName = "@EmployeeEmail";
-      EmployeeEmailParameter.Value = email;
-      cmd.Parameters.Add(EmployeeEmailParameter);
-      SqlParameter EmployeePasswordParameter = new SqlParameter();
-      EmployeePasswordParameter.ParameterName = "@EmployeePassword";
-      EmployeePasswordParameter.Value = password;
-      cmd.Parameters.Add(EmployeePasswordParameter);
+      SqlParameter employeeEmailParameter = new SqlParameter();
+      employeeEmailParameter.ParameterName = "@EmployeeEmail";
+      employeeEmailParameter.Value = email;
+      cmd.Parameters.Add(employeeEmailParameter);
+      SqlParameter employeePasswordParameter = new SqlParameter();
+      employeePasswordParameter.ParameterName = "@EmployeePassword";
+      employeePasswordParameter.Value = password;
+      cmd.Parameters.Add(employeePasswordParameter);
       SqlDataReader rdr = cmd.ExecuteReader();
-      bool result = false;
       if (rdr.HasRows == true)
       {
         result = true;
@@ -260,19 +261,20 @@ namespace SeattleHealthClinic
       }
       return result;
     }
+    //a method to save login information, currently needed for verify login tests
     public void SaveLogin()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
       SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_email, employee_password) VALUES (@EmployeeEmail, @EmployeePassword);", conn);
-      SqlParameter EmployeeEmailParameter = new SqlParameter();
-      EmployeeEmailParameter.ParameterName = "@EmployeeEmail";
-      EmployeeEmailParameter.Value = this.GetEmail();
-      cmd.Parameters.Add(EmployeeEmailParameter);
-      SqlParameter EmployeePasswordParameter = new SqlParameter();
-      EmployeePasswordParameter.ParameterName = "@EmployeePassword";
-      EmployeePasswordParameter.Value = this.GetPassword();
-      cmd.Parameters.Add(EmployeePasswordParameter);
+      SqlParameter employeeEmailParameter = new SqlParameter();
+      employeeEmailParameter.ParameterName = "@EmployeeEmail";
+      employeeEmailParameter.Value = this.GetEmail();
+      cmd.Parameters.Add(employeeEmailParameter);
+      SqlParameter employeePasswordParameter = new SqlParameter();
+      employeePasswordParameter.ParameterName = "@EmployeePassword";
+      employeePasswordParameter.Value = this.GetPassword();
+      cmd.Parameters.Add(employeePasswordParameter);
       //this is unnecessary, fix later
       SqlDataReader rdr = cmd.ExecuteReader();
       while(rdr.Read())
@@ -287,6 +289,38 @@ namespace SeattleHealthClinic
       {
         conn.Close();
       }
+    }
+    //a method to find the employee based on email address, can be refactored later on
+    public Employee Find(string email)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM employees WHERE employee_email = @EmployeeEmail;", conn);
+      SqlParameter employeeEmailParameter = new SqlParameter();
+      employeeEmailParameter.ParameterName = "@EmployeeEmail";
+      employeeEmailParameter.Value = this.GetEmail();
+      cmd.Parameters.Add(employeeEmailParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      int foundEmployeeId = 0;
+      string foundEmployeeFirstName = null;
+      string foundEmployeeLastName = null;
+      while(rdr.Read())
+      {
+        foundEmployeeId = rdr.GetInt32(0);
+        foundEmployeeFirstName = rdr.GetString(1);
+        foundEmployeeLastName = rdr.GetString(2);
+      }
+      Employee foundEmployee = new Employee(foundEmployeeFirstName, foundEmployeeLastName, foundEmployeeId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundEmployee;
     }
   }
 }

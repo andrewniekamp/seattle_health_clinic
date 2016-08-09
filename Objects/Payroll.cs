@@ -11,10 +11,12 @@ namespace SeattleHealthClinic
     internal string _payPeriod;
     internal string _salaryType;
     internal string _salaryAmount;
+    internal string _employeeId;
 
     // constructors, getters, setters
-    public Payroll(string payperiod, string salarytype, double salaryamount, int Id = 0)
+    public Payroll(string employeeid, string payperiod, string salarytype, string salaryamount, int Id = 0)
     {
+      _employeeId = employeeid;
       _payPeriod = payperiod;
       _salaryType = salarytype;
       _salaryAmount = salaryamount;
@@ -42,15 +44,22 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_name_first, employee_name_last) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast);", conn);
-      SqlParameter firstNameParameter = new SqlParameter();
-      firstNameParameter.ParameterName = "@EmployeeNameFirst";
-      firstNameParameter.Value = this.GetFirstName();
-      cmd.Parameters.Add(firstNameParameter);
-      SqlParameter lastNameParameter = new SqlParameter();
-      lastNameParameter.ParameterName = "@EmployeeNameLast";
-      lastNameParameter.Value = this.GetLastName();
-      cmd.Parameters.Add(lastNameParameter);
+      SqlCommand cmd = new SqlCommand("INSERT INTO payrolls (pay_period, salary_type, salary_amount) OUTPUT INSERTED.id VALUES (@PayPeriod, @SalaryType, @SalaryAmount);", conn);
+      SqlParameter payPeriodParameter = new SqlParameter();
+      payPeriodParameter.ParameterName = "@PayPeriod";
+      payPeriodParameter.Value = this.GetPayPeriod();
+      cmd.Parameters.Add(payPeriodParameter);
+
+      SqlParameter salaryTypeParameter = new SqlParameter();
+      salaryTypeParameter.ParameterName = "@SalaryType";
+      salaryTypeParameter.Value = this.GetSalaryType();
+      cmd.Parameters.Add(salaryTypeParameter);
+
+      SqlParameter salaryAmountParameter = new SqlParameter();
+      salaryAmountParameter.ParameterName = "@SalaryAmount";
+      salaryAmountParameter.Value = this.GetSalaryAmount();
+      cmd.Parameters.Add(salaryAmountParameter);
+
       SqlDataReader rdr = cmd.ExecuteReader();
       while(rdr.Read())
       {
@@ -66,26 +75,28 @@ namespace SeattleHealthClinic
       }
     }
     // a method to find an employee using the employee id
-    public Employee Find(int Id)
+    public Payroll Find(string Id)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees WHERE id = @EmployeeId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM payrolls WHERE employee_id = @EmployeeId;", conn);
       SqlParameter employeeIdParameter = new SqlParameter();
       employeeIdParameter.ParameterName = "@EmployeeId";
       employeeIdParameter.Value = Id.ToString();
       cmd.Parameters.Add(employeeIdParameter);
       SqlDataReader rdr = cmd.ExecuteReader();
-      int foundEmployeeId = 0;
-      string foundEmployeeFirstName = null;
-      string foundEmployeeLastName = null;
+      int foundPayrollId = 0;
+      string foundPayrollPayPeriod = null;
+      string foundPayrollSalaryType = null;
+      string foundPayrollSalaryAmount = null;
       while(rdr.Read())
       {
-        foundEmployeeId = rdr.GetInt32(0);
-        foundEmployeeFirstName = rdr.GetString(1);
-        foundEmployeeLastName = rdr.GetString(2);
+        foundPayrollId = rdr.GetInt32(0);
+        foundPayrollPayPeriod = rdr.GetString(1);
+        foundPayrollSalaryType = rdr.GetString(2);
+        foundPayrollSalaryAmount = rdr.GetString(3);
       }
-      Employee foundEmployee = new Employee(foundEmployeeFirstName, foundEmployeeLastName, foundEmployeeId);
+      Payroll foundPayroll = new Payroll(Id, foundPayrollPayPeriod, foundPayrollSalaryType, foundPayrollSalaryAmount, foundPayrollId);
 
       if (rdr != null)
       {
@@ -95,126 +106,7 @@ namespace SeattleHealthClinic
       {
         conn.Close();
       }
-      return foundEmployee;
-    }
-    // a method to update the name of an employee
-    public void UpdateName(string newFirst, string newLast)
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand("UPDATE employees SET employee_name_first = @NewFirst, employee_name_last = @NewLast OUTPUT INSERTED.employee_name_first, INSERTED.employee_name_last WHERE id = @EmployeeId;", conn);
-      SqlParameter newFirstParameter = new SqlParameter();
-      newFirstParameter.ParameterName = "@NewFirst";
-      newFirstParameter.Value = newFirst;
-      cmd.Parameters.Add(newFirstParameter);
-      SqlParameter newLastParameter = new SqlParameter();
-      newLastParameter.ParameterName = "@NewLast";
-      newLastParameter.Value = newLast;
-      cmd.Parameters.Add(newLastParameter);
-      SqlParameter employeeIdParameter = new SqlParameter();
-      employeeIdParameter.ParameterName = "@EmployeeId";
-      employeeIdParameter.Value = this.GetId().ToString();
-      cmd.Parameters.Add(employeeIdParameter);
-      SqlDataReader rdr = cmd.ExecuteReader();
-      while(rdr.Read())
-      {
-        this._employee_name_first = rdr.GetString(0);
-        this._employee_name_last = rdr.GetString(1);
-      }
-      if (rdr != null)
-      {
-        rdr.Close();
-      }
-      if (conn != null)
-      {
-        conn.Close();
-      }
-    }
-    // a method to return a list of all employees table records
-    public static List<Employee> GetAll()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees ORDER BY employee_name_last;", conn);
-      SqlDataReader rdr = cmd.ExecuteReader();
-      List<Employee> allEmployees = new List<Employee>{};
-      while(rdr.Read())
-      {
-        int id = rdr.GetInt32(0);
-        string firstName = rdr.GetString(1);
-        string lastName = rdr.GetString(2);
-        Employee newEmployee = new Employee(firstName, lastName, id);
-        allEmployees.Add(newEmployee);
-      }
-      if (rdr !=null)
-      {
-        rdr.Close();
-      }
-      if (conn !=null)
-      {
-        conn.Close();
-      }
-      return allEmployees;
-    }
-    // a method to delete all employees table records
-    public static void DeleteAll()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand("DELETE FROM employees;", conn);
-      cmd.ExecuteNonQuery();
-      conn.Close();
-    }
-    // methods which interact with the License class/datatable
-    // a method to add create an association between an employee and a license
-    public void AddLicense(License newLicense)
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO certifications (employee_id, license_id) VALUES (@EmployeeId, @LicenseId);", conn);
-      SqlParameter employeeIdParameter = new SqlParameter();
-      employeeIdParameter.ParameterName = "@EmployeeId";
-      employeeIdParameter.Value = this.GetId();
-      cmd.Parameters.Add(employeeIdParameter);
-      SqlParameter licenseIdParameter = new SqlParameter();
-      licenseIdParameter.ParameterName = "@LicenseId";
-      licenseIdParameter.Value = newLicense.GetId();
-      cmd.Parameters.Add(licenseIdParameter);
-      cmd.ExecuteNonQuery();
-      if (conn != null)
-      {
-        conn.Close();
-      }
-    }
-    // a method to get all licenses associated with a particular employee
-    public List<License> GetLicenses()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT licenses.* FROM employees JOIN certifications ON (employees.id = certifications.employee_id) JOIN licenses ON (certifications.license_id = licenses.id) WHERE employees.id = @EmployeeId;", conn);
-      SqlParameter EmployeeIdParameter = new SqlParameter();
-      EmployeeIdParameter.ParameterName = "@EmployeeId";
-      EmployeeIdParameter.Value = this.GetId().ToString();
-      cmd.Parameters.Add(EmployeeIdParameter);
-      SqlDataReader rdr = cmd.ExecuteReader();
-      List<License> licenses = new List<License>{};
-      while(rdr.Read())
-      {
-        int licenseId = rdr.GetInt32(0);
-        string licenseNumber = rdr.GetString(1);
-        string licenseType = rdr.GetString(2);
-        License newLicense = new License(licenseNumber, licenseType, licenseId);
-        licenses.Add(newLicense);
-      }
-      if (rdr != null)
-      {
-        rdr.Close();
-      }
-      if (conn != null)
-      {
-        conn.Close();
-      }
-      return licenses;
+      return foundPayroll;
     }
   }
 }
