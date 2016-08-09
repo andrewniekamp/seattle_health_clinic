@@ -36,13 +36,26 @@ namespace SeattleHealthClinic
     {
       return _id;
     }
+    public void SetEmployeeId(string employeeId)
+    {
+      _employeeId = employeeId;
+    }
+    public string GetEmployeeId()
+    {
+      return _employeeId;
+    }
     // other methods
     // a method to save payroll information to the database
     public void Save()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO payrolls (pay_period, salary_type, salary_amount) OUTPUT INSERTED.id VALUES (@PayPeriod, @SalaryType, @SalaryAmount);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO payrolls (employee_id, pay_period, salary_type, salary_amount) OUTPUT INSERTED.id VALUES (@EmployeeId, @PayPeriod, @SalaryType, @SalaryAmount);", conn);
+
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = this.GetEmployeeId();
+      cmd.Parameters.Add(employeeIdParameter);
 
       SqlParameter payPeriodParameter = new SqlParameter();
       payPeriodParameter.ParameterName = "@PayPeriod";

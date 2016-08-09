@@ -15,6 +15,8 @@ namespace SeattleHealthClinic
     public void Dispose()
     {
       Payroll.DeleteAll();
+      Employee.DeleteAll();
+      License.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
@@ -32,7 +34,8 @@ namespace SeattleHealthClinic
     {
       // Arrange
       Payroll newPayroll = new Payroll("Bi-Weekly","Annual", "$225,000");
-      // Act
+      newPayroll.SetEmployeeId("000-00-0000");
+      // Act"
       newPayroll.Save();
       List<Payroll> expectedPayrolls = Payroll.GetAll();
       int countActual = expectedPayrolls.Count;
@@ -44,6 +47,7 @@ namespace SeattleHealthClinic
     {
       //Arrange
       Payroll newPayroll = new Payroll("Bi-Weekly","Annual", "$225,000");
+      newPayroll.SetEmployeeId("000-00-0000");
       newPayroll.Save();
       int expectedId = newPayroll.GetId();
       //Act

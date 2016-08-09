@@ -16,6 +16,7 @@ namespace SeattleHealthClinic
     {
       Employee.DeleteAll();
       License.DeleteAll();
+      Payroll.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()

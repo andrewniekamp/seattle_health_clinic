@@ -1,7 +1,7 @@
 using Nancy;
 using System;
 using System.Collections.Generic;
-
+using newsApi;
 namespace SeattleHealthClinic
 {
   public class HomeModule : NancyModule
@@ -151,6 +151,20 @@ namespace SeattleHealthClinic
         return View["success.cshtml"];
       };
 
+      Get["/news"]= _ =>{
+        string[] listSearch= new string[]{"diabetes", "heart health", "health fitness", "healthcare", "pediatrics"};
+        Random myRandom = new Random();
+        int randomNum = myRandom.Next(0,5);
+       List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
+      //  foreach(var s in allResult)
+      //  {
+      //    Console.WriteLine(s.Headline);
+      //    Console.WriteLine(s.ConvertHeadline());
+       //
+      //  }
+       return View["news.cshtml",allResult];
+
+      };
     }
   }
 }
