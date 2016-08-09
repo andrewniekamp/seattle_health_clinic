@@ -14,7 +14,7 @@ namespace SeattleHealthClinic
     internal string _employeeId;
 
     // constructors, getters, setters
-    public Payroll(string employeeid, string payperiod, string salarytype, double salaryamount, int Id = 0)
+    public Payroll(string employeeid, string payperiod, string salarytype, string salaryamount, int Id = 0)
     {
       _employeeId = employeeid;
       _payPeriod = payperiod;
@@ -75,7 +75,7 @@ namespace SeattleHealthClinic
       }
     }
     // a method to find an employee using the employee id
-    public Payroll Find(int Id)
+    public Payroll Find(string Id)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
@@ -96,7 +96,7 @@ namespace SeattleHealthClinic
         foundPayrollSalaryType = rdr.GetString(2);
         foundPayrollSalaryAmount = rdr.GetString(3);
       }
-      Payroll foundPayroll = new Payroll(Id, foundPayrollPeriod, foundPayrollSalaryType, foundPayrollSalaryAmount, foundPayrollId);
+      Payroll foundPayroll = new Payroll(Id, foundPayrollPayPeriod, foundPayrollSalaryType, foundPayrollSalaryAmount, foundPayrollId);
 
       if (rdr != null)
       {
