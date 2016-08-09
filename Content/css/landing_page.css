@@ -35,6 +35,10 @@ form {
 	width: 450px;
 }
 
+.danger-text {
+	color: red;
+}
+
 /*for placeholder text*/
 ::-webkit-input-placeholder {
    font-style: italic;
