@@ -107,5 +107,27 @@ namespace SeattleHealthClinic
       Assert.Equal(testList, result);
     }
 
+    [Fact]
+    public void T7_Update_UpdatesPatientInDB()
+    {
+      Patient testPatient = new Patient("Anderson", "1234 Main Street");
+      testPatient.Save();
+      DateTime appointmentDate = new DateTime(2016,09,02);
+      PatientScheduling testPatientScheduling = new PatientScheduling(testPatient.GetId(),  1, "The patient reports general discomfort in the abdomen.", appointmentDate);
+      testPatientScheduling.Save();
+
+      // string apptDate=testPatientScheduling.GetPatientSchedulingDate();
+
+      DateTime newAppointmentDate = new DateTime(2016,08,20);
+      string newNote = "The patient has a rash.";
+
+      testPatientScheduling.Update(newNote, newAppointmentDate);
+      string result = testPatientScheduling.GetNote();
+      string result2 = testPatientScheduling.GetPatientSchedulingDate();
+      string apptDate = newAppointmentDate.ToString("MM/dd/yyyy");
+      Assert.Equal(newNote, result);
+      Assert.Equal(apptDate, result2);
+    }
+
   }
 }

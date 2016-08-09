@@ -198,6 +198,48 @@ namespace SeattleHealthClinic
       return foundPatientScheduling;
     }
 
+    public void Update(string newNote, DateTime newDate)
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+
+         SqlCommand cmd = new SqlCommand("UPDATE patients_scheduling SET note = @NewNote, appointment_date = @NewDate OUTPUT INSERTED.note, INSERTED.appointment_date WHERE id = @PatientSchedulingId;", conn);
+
+         SqlParameter newNoteParameter = new SqlParameter();
+         newNoteParameter.ParameterName = "@NewNote";
+         newNoteParameter.Value = newNote;
+
+         SqlParameter newDateParameter = new SqlParameter();
+         newDateParameter.ParameterName = "@NewDate";
+         newDateParameter.Value = newDate;
+
+         SqlParameter patientSchedulingIdParameter = new SqlParameter();
+         patientSchedulingIdParameter.ParameterName = "@PatientSchedulingId";
+         patientSchedulingIdParameter.Value = this.GetId();
+
+         cmd.Parameters.Add(newNoteParameter);
+         cmd.Parameters.Add(newDateParameter);
+         cmd.Parameters.Add(patientSchedulingIdParameter);
+
+         SqlDataReader rdr = cmd.ExecuteReader();
+
+         while (rdr.Read())
+         {
+           this._note = rdr.GetString(0);
+           this._appointmentDate = rdr.GetDateTime(1);
+
+         }
+
+         if (rdr != null)
+         {
+           rdr.Close();
+         }
+         if (conn != null)
+         {
+           conn.Close();
+         }
+       }
+
     public void Delete()
     {
       SqlConnection conn = DB.Connection();
