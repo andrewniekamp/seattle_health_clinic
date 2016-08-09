@@ -160,7 +160,7 @@ namespace SeattleHealthClinic
       Get["/news"]= _ =>{
         string[] listSearch= new string[]{"diabetes", "heart health", "health fitness", "healthcare", "pediatrics"};
         Random myRandom = new Random();
-        int randomNum = myRandom.Next(0,5);
+        int randomNum = myRandom.Next(0,listSearch.Length-1);
        List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
       //  foreach(var s in allResult)
       //  {
