@@ -1,0 +1,7 @@
+<h1>Hello! @Model["patient"].GetName()</h1>
+<ol>
+@foreach (var patientEvals in Model["evals"])
+{
+  <li>@patientEvals.GetConditionEvalDate() | @patientEvals.FindCondition().GetCondition()</li>
+}
+</ol>

@@ -12,6 +12,7 @@ namespace SeattleHealthClinic
       Get["/"] = _ => {
         return View["landing.cshtml"];
       };
+
       // home view, must pass through an employee object in each view!
       // Get["/login_status"] = _ => {
       //   if (Employee.VerifyLogin(Request.Form["login-email"], Request.Form["login-password"]))
@@ -24,9 +25,7 @@ namespace SeattleHealthClinic
       //   }
       // };
 
-
-
-
+      //home view, must pass through an employee object in each view!
       Get["/home_view/{id}"] = _ => {
         return View["index.cshtml"];
       };
@@ -95,10 +94,14 @@ namespace SeattleHealthClinic
         model.Add("patients",allPatients);
         return View["view_all_patients.cshtml",model];
       };
-      Get["/view/patient/visit/{id}"] =parameters =>{
+      Get["/view/patient/visit/{id}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.id);
-        return View["sucess.cshtml"];
+        List<ConditionEval> patientEvals = patientToUpdate.GetAllEval();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("evals", patientEvals);
+        model.Add("patient", patientToUpdate);
 
+        return View["patients_evals.cshtml",model];
       };
       Patch["/view/patient/edit/{id}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.id);
