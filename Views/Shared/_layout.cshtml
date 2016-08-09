@@ -5,40 +5,61 @@
     <title>Seattle Health Clinic</title>
 
     <!-- style sheets -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://bootswatch.com/superhero/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link href="/content/css/layout.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald|Slabo+27px" rel="stylesheet">
   </head>
   <body>
-    <div id="wrapper">
-      <div id="sidebar-wrapper">
-        <ul id="sidebar_menu" class="sidebar-nav">
-             <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
-        </ul>
-        <ul class="sidebar-nav" id="sidebar">
-          <!-- maximum of seven characters for link name -->
-          <!-- TEMPORARY ROUTES -->
-          <li><a href="/home_view">Home<i class="fa fa-home sub_icon"></i></a></li>
-          <li><a href="/">Profile<i class="fa fa-user-md sub_icon"></i></a></li>
-          <li><a href="/">Patients<i class="fa fa-users sub_icon"></i></a></li>
-          <li><a href="/">Staff<i class="fa fa-exclamation-triangle sub_icon"></i></a></li>
-          <li><a href="/">Stock<i class="fa fa-archive sub_icon"></i></a></li>
-          <li><a href="/">Sign Out<i class="fa fa-sign-out sub_icon"></i></a></li>
-        </ul>
-      </div>
-
-      <div class="container-fluid">
-        <h1>Seattle Health Clinic</h1>
-      </div>
-
+    <nav class="navbar navbar-default">
       <div class="container">
-        @RenderBody()
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">SEATTLE HEALTH CLINIC</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-medkit"></i>Hospital Resources</a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Book Room</a></li>
+                <li><a href="#">Check Out Equipment</a></li>
+                <li><a href="#">Contact IT</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-users"></i>Patients</a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Current Patients</a></li>
+                <li><a href="#">Patient Records</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Add New Patient</a></li>
+                <li><a href="#">Add New Records</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-user-md"></i>(John Malpractice)</a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Personal Records</a></li>
+                <li><a href="#">Payroll Information</a></li>
+                <li><a href="#">Schedule</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
+    </nav>
+
+
+    <div class="container">
+      @RenderBody()
     </div>
 
     <!-- scripts -->
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/content/js/layout.js"></script>
   </body>
 </html>

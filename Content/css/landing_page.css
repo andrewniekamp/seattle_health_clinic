@@ -9,7 +9,7 @@ html {
 body {
 	padding-top: 200px;
 	font-size: 16px;
-	font-family: 'Libre Baskerville', serif;
+	font-family: 'Oswald', sans-serif;
 	background: transparent;
 }
 
@@ -18,14 +18,20 @@ body {
 }
 
 h1 {
-	font-family: 'Patua One', cursive;
+	font-family: 'Slabo 27px', serif;
 	font-weight: 400;
-	font-size: 48px;
+	font-size: 52px;
+	color: black;
 }
 
-.input-group {
+h5 {
+	color: black;
+}
+
+form {
 	margin: auto;
-	margin-bottom: 8px;
+	margin-top: 32px;
+	margin-bottom: 32px;
 	width: 450px;
 }
 
