@@ -35,6 +35,12 @@ namespace SeattleHealthClinic
         return View["index.cshtml", model];
       };
 
+      Get["/profile/{id}/personal"] = parameters => {
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        return View["index.cshtml", model];
+      };
       //progress bar, dont move
 
       Get["/add/patients"] = _ =>{
