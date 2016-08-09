@@ -89,8 +89,14 @@ namespace SeattleHealthClinic
 
       Post["/add/diagnosis"] = _ =>{
         //Attempting to integrate checkbox or radio dial for selecting diagnosis
-        Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1, Request.Form["symptom-id"],Request.Form["diagnosis-date"]);
-        newDiagnosis.Save();
+        string symptomsFromForm = Request.Form["symptom-array"].ToString();
+        string[] symptoms = symptomsFromForm.Split(',');
+        foreach (var symptomString in symptoms)
+        {
+          int symptomId =int.Parse(symptomString);
+          Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1,symptomId,Request.Form["diagnosis-date"]);
+          newDiagnosis.Save();
+        }
         return View["success.cshtml"];
       };
 

@@ -7,16 +7,24 @@
     }
     </select>
   </label>
-  <label for=""> Choose Symptom
-    <select class="" name="symptom-id">
+
+  <div class="testCheckBox">
     @foreach(var allsymptom in Model["symptoms"])
     {
-    <option value="@allsymptom.GetId()">@allsymptom.GetName()</option>
+      <input type="checkbox" name="symptom" value="@allsymptom.GetId()">@allsymptom.GetName()
     }
-    </select>
-  </label>
+    <input id="hiddenInput" type="hidden" name="symptom-array" value="">
+  </div>
+
+
+
 
   <label for="diagnosis-date">diagnosis Date</label>
   <input type="date" name="diagnosis-date" id="diagnosis-date">
   <button type="submit" name="button">Submit</button>
 </form>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script src="/Content/js/checkbox.js" type="text/javascript">
+
+</script>
