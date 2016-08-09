@@ -40,6 +40,14 @@ namespace SeattleHealthClinic
     {
       return _id;
     }
+    public void SetSSN(string ssn)
+    {
+      _employee_ssn = ssn;
+    }
+    public string GetSSN(string ssn)
+    {
+      return _employee_ssn;
+    }
     //temporary methods, refactor if necessary
     public void SetLogin (string newEmail, string newPassword)
     {
