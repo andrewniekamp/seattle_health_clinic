@@ -12,9 +12,9 @@ Insert into licenses (license_type, license_number, license_issue, license_expir
 Insert into licenses (license_type, license_number, license_issue, license_expiration, license_issue_state) VALUES ('FP', 'WA0222', '1/1/2015', '1/1/2020', 'Washington');  
 
 
-Insert into certifications (employee_id, license_id) VALUES ('4', '1'); /**** FILL in the appropriate numbers AFTER populating the first two tables, then run only these three ****/  
-Insert into certifications (employee_id, license_id) VALUES ('4', '3');  
-Insert into certifications (employee_id, license_id) VALUES ('5', '2');  
+Insert into certifications (employee_id, license_id) VALUES ('1', '1'); /**** FILL in the appropriate numbers AFTER populating the first two tables, then run only these three ****/  
+Insert into certifications (employee_id, license_id) VALUES ('1', '3');  
+Insert into certifications (employee_id, license_id) VALUES ('2', '2');  
 
 Delete from employees
 Delete from licenses
