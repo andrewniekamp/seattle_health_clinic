@@ -95,10 +95,10 @@ namespace SeattleHealthClinic
         List<Patient> allPatients = Patient.GetAll();
         List<Condition> allConditions = Condition.GetAll();
         List<Symptom> allSymptoms = Symptom.GetAll();
-        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
         model.Add("currentEmployee", currentEmployee);
         // insert lines here
-        model.Add("conditionEval", allConditionEvals);
+        model.Add("diagnosis", allDiagnosis);
         model.Add("symptoms",allSymptoms);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
@@ -223,22 +223,22 @@ namespace SeattleHealthClinic
       //   return View["success.cshtml"];
       // };
 
-      Get["/view/all/visits"] =_=>{
-        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
-        Dictionary<string,object> model = new Dictionary<string,object>{};
-        model.Add("conditionEval", allConditionEvals);
-        return View["success.cshtml"];
-      };
+      // Get["/view/all/visits"] =_=>{
+      //   List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+      //   Dictionary<string,object> model = new Dictionary<string,object>{};
+      //   model.Add("conditionEval", allConditionEvals);
+      //   return View["success.cshtml"];
+      // };
 
-
-      Get["/add/appointment"] = _ =>{
-        List<Patient> allPatients = Patient.GetAll();
-        //List<Physician> allPhysicians = Physician.GetAll();
-        Dictionary<string,object> model = new Dictionary<string,object>{};
-        model.Add("patients",allPatients);
-        //model.Add("physicians", allPhysicians);
-        return View["add_appointment.cshtml",model];
-      };
+      //
+      // Get["/add/appointment"] = _ =>{
+      //   List<Patient> allPatients = Patient.GetAll();
+      //   //List<Physician> allPhysicians = Physician.GetAll();
+      //   Dictionary<string,object> model = new Dictionary<string,object>{};
+      //   model.Add("patients",allPatients);
+      //   //model.Add("physicians", allPhysicians);
+      //   return View["add_appointment.cshtml",model];
+      // };
 
       Post["/add/appointment"] = _ =>{
         //Attempting to integrate checkbox or radio dial for selecting diagnosis

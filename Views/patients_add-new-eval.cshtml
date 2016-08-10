@@ -28,10 +28,11 @@
         </div>
         <div class="panel-body panel-hide">
           <ul>
-            @foreach( var evals in Model["conditionEval"])
+            @foreach( var diagnosis in Model["diagnosis"])
             {
-              <li>Patient Name : @scheduling.GetPatient().GetName()</li>
-              <li> Date : @scheduling.GetPatientSchedulingDate()</li>
+              <li>Patient Name : @diagnosis.GetPatient().GetName()</li>
+              <li> Symotom : @diagnosis.GetSymptom().GetName()</li>
+              <li> Date : @diagnosis.GetDiagnosisDate()</li>
             }
 
           </ul>
@@ -76,8 +77,16 @@
           <h3 class="panel-title">View All Symptom</h3>
         </div>
         <div class="panel-body panel-hide">
-          (information)
-        </div>
+        <ul>
+          @foreach(var allsymptom in Model["symptoms"])
+          {
+            <li> Symptom Name : @allsymptom.GetName()</li>
+            <li> Is Contagious : @allsymptom.IsContagious()</li>
+            <li> Symptom Classification : @allsymptom.GetClassification()</li>
+
+          }
+        </ul>
+      </div>
       </div>
 
       <div class="panel">
