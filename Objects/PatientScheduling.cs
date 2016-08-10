@@ -30,7 +30,11 @@ namespace SeattleHealthClinic
     {
       return _patientId;
     }
-
+    public Patient GetPatient()
+    {
+      Patient onePatient = Patient.Find(_patientId);
+      return onePatient;
+    }
     public int GetDoctorId()
     {
       return _doctorId;

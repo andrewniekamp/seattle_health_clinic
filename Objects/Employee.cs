@@ -148,8 +148,8 @@ namespace SeattleHealthClinic
         employeeType = rdr.GetString(4);
         hireDate = rdr.GetDateTime(5);
         salaryType = rdr.GetString(6);
-        email = rdr.GetString(7);
-        password = rdr.GetString(8);
+        email = rdr.GetString(9);
+        password = rdr.GetString(10);
       }
       Employee foundEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password, hireDate, id);
 

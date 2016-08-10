@@ -1,0 +1,216 @@
+@{Layout = "Views/Shared/_Layout.cshtml";}
+<link rel="stylesheet" href="/Content/css/patients.css" media="screen" title="no title" charset="utf-8">
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- cosmetic feature shows the current page route -->
+      <ul class="breadcrumb">
+        <li>(Menu Name) > <span class="highlight-text">(Sub-menu Name)</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <!-- linked list used to navigate to parts of the page -->
+      <div class="list-group">
+        <a class="list-group-item">View All Patient</a>
+        <a class="list-group-item active">Add New Patient</a>
+        <a class="list-group-item">View All Appointment</a>
+        <a class="list-group-item">Add New Appointment</a>
+        <a class="list-group-item">View All Visit</a>
+        <a class="list-group-item">Add New Visit</a>
+        <a class="list-group-item">Display #4</a>
+      </div>
+    </div>
+    <!-- main body for display of material -->
+    <div class="col-md-7 col-md-offset-1">
+      <!-- main panel should have panel-primary -->
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">View All Patient</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <div class="row patient-header-row">
+            <div class="col-xs-4">
+              <h3>Patient ID</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3>Name</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3>Address</h3>
+            </div>
+          </div>
+          @foreach(var allPatient in Model["patients"])
+          {
+            <div class="row">
+              <div class="col-xs-4">
+                <h4>@allPatient.GetId()</h4>
+              </div>
+              <div class="col-xs-4">
+                <h4>@allPatient.GetName()</h4>
+              </div>
+              <div class="col-xs-4">
+                <h4>@allPatient.GetAddress()</h4>
+              </div>
+            </div>
+
+            <div class="row patient-margin-row">
+              <div class="col-xs-4">
+                <a href="/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
+              </div>
+              <div class="col-xs-4">
+                <a href="/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
+              </div>
+              <div class="col-xs-4">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <a href="#" class="btn btn-default patient-button btn-sm patient-button-wide patient-edit-button">Edit</a>
+                  </div>
+                  <div class="col-xs-6">
+                    <form class="" action="/view/patient/delete/@allPatient.GetId()" method="post">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row form-row">
+              <form class="patient-update-form" action="/view/patient/edit/@allPatient.GetId()" method="post">
+              <input class="patient-input" type="hidden" name="_method" value="PATCH">
+                <div class="col-xs-4">
+                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-name" value="" placeholder="Enter new name">
+                </div>
+                <div class="col-xs-4">
+                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-address" value="" placeholder="Enter new address">
+                </div>
+                <div class="col-xs-4">
+                  <button type="Submit" name="button" class="btn btn-default patient-button btn-sm patient-button-wide"> Submit Changes</button>
+                </div>
+            </div>
+          }
+          <div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add New Patient</h3>
+        </div>
+        <div class="panel-body">
+          <form class="" action="/add/patients" method="post">
+            <label for="patient-name">Patient Name</label>
+            <input type="text" name="patient-name" value="">
+            <label for="patient-address">Patient Address</label>
+            <input type="text" name="patient-address" value="">
+            <button type="submit" class="btn btn-info" name="button">Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- every panel after the hide should have the panel-hide class the panel-body -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">View All Appointment</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <ul>
+            @foreach( var scheduling in Model["patientScheduling"])
+            {
+              <li>Patient Name : @scheduling.GetPatient().GetName()</li>
+              <li> Date : @scheduling.GetPatientSchedulingDate()</li>
+            }
+
+          </ul>
+          <div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add New Appointment</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <form class="" action="/add/appointment" method="post">
+            <label for=""> Choose Patient
+              <select class="" name="appointment-patient-id">
+              @foreach(var allPatient in Model["patients"])
+              {
+              <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+              }
+              </select>
+            </label>
+            <label for="patient-appointment-note">Patient Appointment Note</label>
+            <textarea name="patient-appointment-note" id="patient-appointment-note" rows="8" cols="40"></textarea>
+
+            <label for="patient-appointment-date">Patient Appointment Date</label>
+            <input type="date" name="patient-appointment-date" id="patient-appointment-date">
+            <button type="submit" name="button">Submit</button>
+          </form>
+
+          <div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">View All Visit</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          @foreach( var visit in Model["conditionEval"])
+          {
+            <li>Patient Name : @visit.GetPatient().GetName()</li>
+            <li>Eval Date  : @visit.GetConditionEvalDate()</li>
+            <li> Condition : @visit.GetCondition().GetCondition()</li>
+
+          }
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add New Visit</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <form class="" action="/add/visit" method="post">
+            <label for=""> Enter  patient
+              <select class="" name="visit-patient-id">
+                @foreach(var allPatient in Model["patients"])
+                {
+                  <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                }
+              </select>
+            </label>
+            <label for=""> Enter  Condition
+              <select class="" name="visit-condition-id">
+                @foreach(var allCondition in Model["conditions"])
+                {
+                  <option value="@allCondition.GetId()">@allCondition.GetCondition()</option>
+                }
+              </select>
+            </label>
+
+            <label for="visit-date"> Visit Date</label>
+            <input type="date" name="visit-date" id="visit-date">
+            <button type="submit" name="button">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Display #4</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          (information)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script src="/Content/js/allPatients.js" type="text/javascript"></script>
