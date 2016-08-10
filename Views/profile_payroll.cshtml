@@ -11,43 +11,72 @@
   <div class="row">
     <div class="col-md-3">
       <div class="list-group">
-        <a class="list-group-item active">Display #1</a>
-        <a class="list-group-item">Display #2</a>
-        <a class="list-group-item">Display #3</a>
-        <a class="list-group-item">Display #4</a>
+        <a class="list-group-item active">Employment</a>
+        <a class="list-group-item">Payroll</a>
+        <a class="list-group-item">Licensing</a>
+        <a class="list-group-item">Misc</a>
       </div>
     </div>
     <div class="col-md-7 col-md-offset-1">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #1</h3>
+          <h3 class="panel-title">Employment</h3>
         </div>
         <div class="panel-body">
-          (information)
+          <p><strong>First Name:</strong> @Model["currentEmployee"].GetFirstName()</p>
+          <p><strong>Last Name:</strong> @Model["currentEmployee"].GetLastName()</p>
+          <p><strong>Employee Type:</strong> @Model["currentEmployee"].GetEmployeeType()</p>
+          <p><strong>Date Hired:</strong> @Model["currentEmployee"].GetDateHire()</p>
         </div>
       </div>
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #2</h3>
+          <h3 class="panel-title">Payroll</h3>
         </div>
         <div class="panel-body panel-hide">
-          (information)
+          <p><strong>Salary Type:</strong> @Model["currentPayroll"].GetSalaryType()</p>
+          <p><strong>Pay Period:</strong> @Model["currentPayroll"].GetPayPeriod()</p>
+          <p><strong>Salary Amount:</strong> @Model["currentPayroll"].GetSalaryType()</p>
         </div>
       </div>
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #3</h3>
+          <h3 class="panel-title">Licensing</h3>
         </div>
         <div class="panel-body panel-hide">
-          (information)
+          <p>
+            <strong>Current Licenses: </strong>
+            @if(@Model["currentLicenses"].Count != 0)
+            {
+              @foreach(var license in Model["currentLicenses"])
+              {
+                <span>@license.GetLicenseType() </span>
+              }
+            }
+            else
+            {
+              <span>none</span>
+            }
+          </p>
+          @if(@Model["currentLicenses"].Count != 0)
+          {
+            @foreach(var license in Model["currentLicenses"])
+            {
+              <p><strong>@license.GetLicenseType() #</strong>: @license.GetLicenseNumber()</p>
+            }
+            else
+            {
+              <p>Really? Nothing?</p>
+            }
+          }
         </div>
       </div>
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #4</h3>
+          <h3 class="panel-title">Misc</h3>
         </div>
         <div class="panel-body panel-hide">
-          (information)
+          (forthcoming feature)
         </div>
       </div>
     </div>
