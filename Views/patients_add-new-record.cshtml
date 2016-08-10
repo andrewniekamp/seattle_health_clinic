@@ -54,6 +54,10 @@
                }
              </ol>
 
+           }else if(Model.ContainsKey("message"))
+           {
+             <h2>Message</h2>
+             <p>@Model["message"]</p>
            }
       </div>
     </div>
@@ -112,7 +116,7 @@
               </div>
             </div>
             <div class="row form-row">
-              <form class="patient-update-form" action="/view/patient/edit/@allPatient.GetId()" method="post">
+              <form class="patient-update-form" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/edit/@allPatient.GetId()" method="post">
               <input class="patient-input" type="hidden" name="_method" value="PATCH">
                 <div class="col-xs-4">
                   <input class="form-control input-sm" class="form-group" type="text" name="edit-new-name" value="" placeholder="Enter new name">
@@ -123,6 +127,7 @@
                 <div class="col-xs-4">
                   <button type="Submit" name="button" class="btn btn-default patient-button btn-sm patient-button-wide"> Submit Changes</button>
                 </div>
+              </form>
             </div>
           }
           <div>

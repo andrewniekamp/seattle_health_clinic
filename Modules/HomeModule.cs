@@ -244,7 +244,21 @@ namespace SeattleHealthClinic
       Patch["/patients/{id}/add-new-record/view/patient/edit/{patientId}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.patientId);
         patientToUpdate.Update(Request.Form["edit-new-name"], Request.Form["edit-new-address"]);
-        return View["success.cshtml"];
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        model.Add("message", "You Change New Name to "+Request.Form["edit-new-name"]);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        model.Add("patientScheduling", allPatientSchedulings);
+        model.Add("currentEmployee", currentEmployee);
+        // return View["success.cshtml"];
+
+        return View["patients_add-new-record.cshtml",model];
       };
       Delete["/patients/{id}/add-new-record/view/patient/delete/{patientId}"] = parameters =>{
         Patient patientToDelete = Patient.Find(parameters.patientId);
