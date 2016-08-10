@@ -95,39 +95,15 @@ namespace SeattleHealthClinic
       SqlConnection conn = DB.Connection();
       conn.Open();
       SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_name_first, employee_name_last, employee_ssn, employee_type, employee_salary_type, employee_email, employee_password, employee_date_hire) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast, @SSN, @EmployeeType, @SalaryType, @Email, @Password, @HireDate);", conn);
-      SqlParameter firstNameParameter = new SqlParameter();
-      firstNameParameter.ParameterName = "@EmployeeNameFirst";
-      firstNameParameter.Value = this.GetFirstName();
-      cmd.Parameters.Add(firstNameParameter);
-      SqlParameter lastNameParameter = new SqlParameter();
-      lastNameParameter.ParameterName = "@EmployeeNameLast";
-      lastNameParameter.Value = this.GetLastName();
-      cmd.Parameters.Add(lastNameParameter);
-      SqlParameter ssnParameter = new SqlParameter();
-      ssnParameter.ParameterName = "@SSN";
-      ssnParameter.Value = this.GetSSN();
-      cmd.Parameters.Add(ssnParameter);
-      SqlParameter employeeTypeParameter = new SqlParameter();
-      employeeTypeParameter.ParameterName = "@EmployeeType";
-      employeeTypeParameter.Value = this.GetEmployeeType();
-      cmd.Parameters.Add(employeeTypeParameter);
-      SqlParameter salaryTypeParameter = new SqlParameter();
-      salaryTypeParameter.ParameterName = "@SalaryType";
-      salaryTypeParameter.Value = this.GetSalaryType();
-      cmd.Parameters.Add(salaryTypeParameter);
-      SqlParameter emailParameter = new SqlParameter();
-      emailParameter.ParameterName = "@Email";
-      emailParameter.Value = this.GetEmail();
-      cmd.Parameters.Add(emailParameter);
-      SqlParameter passwordParameter = new SqlParameter();
-      passwordParameter.ParameterName = "@Password";
-      passwordParameter.Value = this.GetPassword();
-      cmd.Parameters.Add(passwordParameter);
-      SqlParameter hireDateParameter = new SqlParameter();
-      hireDateParameter.ParameterName = "@HireDate";
-      hireDateParameter.Value = this.GetHireDate();
-      cmd.Parameters.Add(hireDateParameter);
-      
+      cmd.Parameters.Add("EmployeeNameFirst", SqlDbType.VarChar).Value = this.GetFirstName();
+      cmd.Parameters.Add("EmployeeNameLast", SqlDbType.VarChar).Value = this.GetLastName();
+      cmd.Parameters.Add("SSN", SqlDbType.VarChar).Value = this.GetSSN();
+      cmd.Parameters.Add("EmployeeType", SqlDbType.VarChar).Value = this.GetEmployeeType();
+      cmd.Parameters.Add("SalaryType", SqlDbType.VarChar).Value = this.GetSalaryType();
+      cmd.Parameters.Add("Email", SqlDbType.VarChar).Value = this.GetEmail();
+      cmd.Parameters.Add("Password", SqlDbType.VarChar).Value = this.GetPassword();
+      cmd.Parameters.Add("HireDate", SqlDbType.DateTime).Value = this.GetHireDate();
+
       SqlDataReader rdr = cmd.ExecuteReader();
       while(rdr.Read())
       {

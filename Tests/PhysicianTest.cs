@@ -22,7 +22,7 @@ namespace SeattleHealthClinic
     public void Test_EmptyDataTable_DataTableIsEmpty()
     {
       // Arrange
-      List<Employee> allPhysicians = new List<Employee>{};
+      List<Employee> allPhysicians = new List<Employee>{}; // must use employee, not physician...
       allPhysicians = Physician.GetAll();
       // Act
       int countActual = allPhysicians.Count;
