@@ -8,6 +8,7 @@ namespace SeattleHealthClinic
   {
     public HomeModule()
     {
+
       //landing page
       Get["/"] = _ => {
         return View["index.cshtml"];
@@ -163,6 +164,32 @@ namespace SeattleHealthClinic
         {
           model.Add("message", newPatient.GetName() + " has been added.");
         }
+        model.Add("employees", allEmployees);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        model.Add("patientScheduling", allPatientSchedulings);
+        model.Add("currentEmployee", currentEmployee);
+
+        return View["patients_add-new-record.cshtml",model];
+      };
+      Post["/patients/{id}/add-new-record/add/Condition"]=parameters =>{
+        Condition.DeleteAll();
+        Condition StableCondition=new Condition("Stable");
+        StableCondition.Save();
+        Condition UrgentCondition=new Condition("Urgent");
+        UrgentCondition.Save();
+        Condition CriticalCondition=new Condition("Critical");
+        CriticalCondition.Save();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("message",  "Conditions have been added.");
+
         model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
@@ -362,11 +389,31 @@ namespace SeattleHealthClinic
       //   return View["add_appointment.cshtml",model];
       // };
 
-      Post["/add/appointment"] = _ =>{
-        //Attempting to integrate checkbox or radio dial for selecting diagnosis
-        PatientScheduling newScheduling = new PatientScheduling(Request.Form["appointment-patient-id"],1, Request.Form["patient-appointment-note"],Request.Form["patient-appointment-date"]);
-        newScheduling.Save();
-        return View["success.cshtml"];
+      Post["/patients/{id}/add-new-record/add/appointment/"] = parameters =>{
+
+        PatientScheduling newPatientScheduling = new PatientScheduling(Request.Form["appointment-patient-id"], Request.Form["appointment-employees-id"], Request.Form["patient-appointment-note"], Request.Form["patient-appointment-date"]);
+
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
+        model.Add("currentEmployee", currentEmployee);
+        model.Add("message", "You just Add New Appointment");
+        model.Add("patients", allPatients);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patientScheduling", allPatientSchedulings);
+        return View["patients_add-new-record.cshtml",model];
+
+
+        // //Attempting to integrate checkbox or radio dial for selecting diagnosis
+        // PatientScheduling newScheduling = new PatientScheduling(Request.Form["appointment-patient-id"],1, Request.Form["patient-appointment-note"],Request.Form["patient-appointment-date"]);
+        // newScheduling.Save();
+        // return View["success.cshtml"];
       };
 
       Get["/news"]= _ =>{
