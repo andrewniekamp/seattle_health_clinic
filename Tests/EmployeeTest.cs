@@ -14,10 +14,10 @@ namespace SeattleHealthClinic
     }
     public void Dispose()
     {
-      // Employee.DeleteAll();
-      // License.DeleteAll();
-      // Payroll.DeleteAll();
-      // Physician.DeleteAll();
+      Employee.DeleteAll("employees");
+      License.DeleteAll();
+      Payroll.DeleteAll();
+      Physician.DeleteAll("physicians");
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
