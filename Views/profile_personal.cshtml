@@ -45,6 +45,20 @@
         <div class="panel-body all-panels">
           <p><strong>Date Hired:</strong> @Model["currentEmployee"].GetDateHire()</p>
           <p><strong>Employee Type:</strong> @Model["currentEmployee"].GetEmployeeType()</p>
+          <p>
+            <strong>Current Licenses: </strong>
+            @if(@Model["currentLicenses"].Count != 0)
+            {
+              @foreach(var license in Model["currentLicenses"])
+              {
+                <span>@license.GetLicenseType() </span>
+              }
+            }
+            else
+            {
+              <span>none</span>
+            }
+          </p>
           <p><strong>Salary Type:</strong> @Model["currentEmployee"].GetSalaryType()</p>
         </div>
       </div>

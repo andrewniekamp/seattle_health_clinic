@@ -38,9 +38,13 @@ namespace SeattleHealthClinic
       Get["/profile/{id}/personal"] = parameters => {
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
+        List<License> currentLicenses = currentEmployee.GetLicenses();
         model.Add("currentEmployee", currentEmployee);
+        model.Add("currentLicenses", currentLicenses);
         return View["profile_personal.cshtml", model];
       };
+
+      // Get["/profile/{id}/"]
 
       //finished routes go above, unfinished routes go below
       // this is how a minimum route should look like:
