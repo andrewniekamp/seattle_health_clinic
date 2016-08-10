@@ -39,7 +39,7 @@
             {
               <tr>
                 <td>@employee.GetId()</td>
-                <td>@employee.GetFullName()</td>
+                <td><a href="/personnel/@Model["currentEmployee"].GetId()/current/@employee.GetId()">@employee.GetFullName()</a></td>
                 <td>@employee.GetEmployeeType()</td>
                 <td>@employee.GetEmail()</td>
               </tr>
