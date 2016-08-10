@@ -14,7 +14,6 @@
   <body>
     <!-- navbar -->
     <nav class="navbar navbar-default container">
-      <!-- <div class="container"> -->
         <div class="navbar-header">
           <a class="navbar-brand" href="/home_view/@Model["currentEmployee"].GetId()">SEATTLE HEALTH CLINIC</a>
         </div>
@@ -45,14 +44,13 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-user-md"></i>Profile</a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="/profile/@Model["currentEmployee"].GetId()/personal">Personal</a></li>
-                <li><a href="#">Payroll Information</a></li>
-                <li><a href="#">Scheduling</a></li>
+                <li><a href="/profile/@Model["currentEmployee"].GetId()/payroll">Payroll Information</a></li>
+                <li><a href="/profile/@Model["currentEmployee"].GetId()/scheduling">Scheduling</a></li>
               </ul>
             </li>
             <li><a href="#"><strong id="name"> @Model["currentEmployee"].GetFullName()</strong></a></li>
           </ul>
         </div>
-      <!-- </div> -->
     </nav>
 
     <!-- alert message-->

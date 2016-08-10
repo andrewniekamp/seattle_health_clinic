@@ -2,18 +2,20 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <!-- cosmetic feature: shows the current page route -->
+    <div class="col-md-3">
+      <!-- cosmetic feature shows the current page route; use highlight-text -->
       <ul class="breadcrumb">
         <li>Profile > <span class="highlight-text">Personal</span></li>
       </ul>
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-3">
       <!-- linked list: used to navigate to parts of the page -->
       <div class="list-group">
-        <a id="list-one" class="list-group-item active">Contact</a>
-        <a id="list-two" class="list-group-item">"Secure"</a>
-        <a id="list-three" class="list-group-item">Employment</a>
+        <a class="list-group-item">Contact</a>
+        <a class="list-group-item">"Secure"</a>
+        <a class="list-group-item">Employment</a>
       </div>
     </div>
     <!-- main body for display of material -->
@@ -23,7 +25,7 @@
           <h3 class="panel-title">Personal</h3>
         </div>
         <!-- panel-one should not have all-panels since it should display on page load -->
-        <div class="panel-body" id="panel-one">
+        <div class="panel-body">
           <p><strong>First Name:</strong> @Model["currentEmployee"].GetFirstName()</p>
           <p><strong>Last Name:</strong> @Model["currentEmployee"].GetLastName()</p>
           <p><strong>Email:</strong> @Model["currentEmployee"].GetEmail()</p>
@@ -33,7 +35,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">"Secure"</h3>
         </div>
-        <div class="panel-body all-panels"  id="panel-two">
+        <div class="panel-body all-panels">
           <p><strong>Password:</strong> @Model["currentEmployee"].GetPassword()</p>
           <p><strong>SSN:</strong> @Model["currentEmployee"].GetSSN()</p>
         </div>
@@ -42,9 +44,23 @@
         <div class="panel-heading">
           <h3 class="panel-title">Employment</h3>
         </div>
-        <div class="panel-body all-panels"  id="panel-three">
+        <div class="panel-body all-panels">
           <p><strong>Date Hired:</strong> @Model["currentEmployee"].GetDateHire()</p>
           <p><strong>Employee Type:</strong> @Model["currentEmployee"].GetEmployeeType()</p>
+          <p>
+            <strong>Current Licenses: </strong>
+            @if(@Model["currentLicenses"].Count != 0)
+            {
+              @foreach(var license in Model["currentLicenses"])
+              {
+                <span>@license.GetLicenseType() </span>
+              }
+            }
+            else
+            {
+              <span>none</span>
+            }
+          </p>
           <p><strong>Salary Type:</strong> @Model["currentEmployee"].GetSalaryType()</p>
         </div>
       </div>
