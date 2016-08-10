@@ -31,6 +31,13 @@ namespace SeattleHealthClinic
       return _patientId;
     }
 
+    public Patient GetPatient()
+    {
+      Patient onePatient= Patient.Find(_patientId);
+      return onePatient;
+    }
+
+
     public int GetDoctorId()
     {
       return _doctorId;
@@ -44,6 +51,11 @@ namespace SeattleHealthClinic
     public int GetSymptomId()
     {
       return _symptomId;
+    }
+    public Symptom GetSymptom()
+    {
+      Symptom oneSymptom = Symptom.Find(_symptomId);
+      return oneSymptom;
     }
     public void SetSymptomId(int newSymptomId)
     {
@@ -85,7 +97,7 @@ namespace SeattleHealthClinic
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM diagnosis ORDER BY diagnosis_date;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM diagnosis ORDER BY patient_id;", conn);
       SqlDataReader rdr = cmd.ExecuteReader();
 
       while (rdr.Read())

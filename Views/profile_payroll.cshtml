@@ -13,7 +13,7 @@
       <div class="list-group">
         <a class="list-group-item active">Employment</a>
         <a class="list-group-item">Payroll</a>
-        <a class="list-group-item">Licensing</a>
+        <!-- <a class="list-group-item">Licensing</a> -->
         <a class="list-group-item">Misc</a>
       </div>
     </div>
@@ -36,10 +36,10 @@
         <div class="panel-body panel-hide">
           <p><strong>Salary Type:</strong> @Model["currentPayroll"].GetSalaryType()</p>
           <p><strong>Pay Period:</strong> @Model["currentPayroll"].GetPayPeriod()</p>
-          <p><strong>Salary Amount:</strong> @Model["currentPayroll"].GetSalaryType()</p>
+          <p><strong>Salary Amount:</strong> @Model["currentPayroll"].GetSalaryAmount()</p>
         </div>
       </div>
-      <div class="panel">
+      <!-- <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Licensing</h3>
         </div>
@@ -70,13 +70,14 @@
             <p>Really? Nothing?</p>
           }
         </div>
-      </div>
+      </div> -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Misc</h3>
+          <h3 class="panel-title">Message Board</h3>
         </div>
         <div class="panel-body panel-hide">
-          (forthcoming feature)
+          <p>Be sure that your W2 forms are updated and submitted to HR by November 15!<p>
+          <p>Open Enrollment for benefits begins December 1 and closes December 31!
         </div>
       </div>
     </div>
