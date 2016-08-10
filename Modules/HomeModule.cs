@@ -120,10 +120,27 @@ namespace SeattleHealthClinic
 
 
 
-      Post["/add/patients"] = _ =>{
+      Post["/patients/{id}/add-new-record/add/patients"] =parameters =>{
         Patient newPatient = new Patient(Request.Form["patient-name"], Request.Form["patient-address"]);
         newPatient.Save();
-        return View["success.cshtml"];
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        // List<Employee> allEmployees = Employee.GetAll(TABLE NAME);
+        if(!String.IsNullOrEmpty(newPatient.GetName()))
+        {
+          model.Add("message", newPatient.GetName() + " has been added.");
+        }
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        model.Add("patientScheduling", allPatientSchedulings);
+        model.Add("currentEmployee", currentEmployee);
+
+        return View["patients_add-new-record.cshtml",model];
       };
 
       // Get["/add/visit"] = _ =>{
@@ -260,10 +277,27 @@ namespace SeattleHealthClinic
 
         return View["patients_add-new-record.cshtml",model];
       };
+
       Delete["/patients/{id}/add-new-record/view/patient/delete/{patientId}"] = parameters =>{
         Patient patientToDelete = Patient.Find(parameters.patientId);
         patientToDelete.Delete();
-        return View["success.cshtml"];
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        if(!String.IsNullOrEmpty(patientToDelete.GetName()))
+        {
+          model.Add("message", patientToDelete.GetName() + " and all associated information has been deleted.");
+        }
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        model.Add("patientScheduling", allPatientSchedulings);
+        model.Add("currentEmployee", currentEmployee);
+
+        return View["patients_add-new-record.cshtml",model];
       };
 
       // Get["/view/all/appointments"] =_=>{
