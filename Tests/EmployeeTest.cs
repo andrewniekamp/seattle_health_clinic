@@ -33,12 +33,21 @@ namespace SeattleHealthClinic
     public void Test_AddEmployee_AddsEmployeeToDatabase()
     {
       // Arrange
-      Employee newEmployee = new Employee("Doc", "Gonzo");
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
       // Act
       newEmployee.Save();
       List<Employee> expectedEmployees = Employee.GetAll();
       int countActual = expectedEmployees.Count;
       // Assert
+      Console.WriteLine("Expected = 1; Actual = " + countActual);
       Assert.Equal(1, countActual);
     }
     [Fact]
@@ -47,7 +56,13 @@ namespace SeattleHealthClinic
       //Arrange
       string firstExpected = "Doc";
       string lastExpected = "Gonzo";
-      Employee newEmployee = new Employee(firstExpected, lastExpected);
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
       newEmployee.Save();
       int expectedId = newEmployee.GetId();
       //Act
@@ -62,7 +77,13 @@ namespace SeattleHealthClinic
       // Arrange
       string firstExpected = "Doc";
       string lastExpected = "Gonzo";
-      Employee newEmployee = new Employee(firstExpected, lastExpected);
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
       newEmployee.Save();
       int findId = newEmployee.GetId();
       // Act
@@ -77,7 +98,15 @@ namespace SeattleHealthClinic
     public void Test_UpdateName_UpdatesEmployeeNameInDatabase()
     {
       // Arrange
-      Employee newEmployee = new Employee("Doc", "Gonzo");
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
       newEmployee.Save();
       string newFirst = "Dr.";
       string newLast = "Aharchi";
@@ -91,19 +120,27 @@ namespace SeattleHealthClinic
     public void Test_AddLicense_AddsLicenseToEmployee()
     {
       //Arrange
-      Employee testEmployee = new Employee("Doc", "Gonzo");
-      testEmployee.Save();
-      License testLicense1 = new License("WA9999", "MD");
-      testLicense1.Save();
-      License testLicense2 = new License("WA0000", "RN");
-      testLicense2.Save();
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
+      newEmployee.Save();
+      License newLicense1 = new License("WA9999", "MD");
+      newLicense1.Save();
+      License newLicense2 = new License("WA0000", "RN");
+      newLicense2.Save();
       //Act
-      testEmployee.AddLicense(testLicense1);
-      testEmployee.AddLicense(testLicense2);
-      List<License> result = testEmployee.GetLicenses();
+      newEmployee.AddLicense(newLicense1);
+      newEmployee.AddLicense(newLicense2);
+      List<License> result = newEmployee.GetLicenses();
       int actualCount = result.Count;
-      List<License> testList = new List<License>{testLicense1, testLicense2};
-      int expectedCount = testList.Count;
+      List<License> newList = new List<License>{newLicense1, newLicense2};
+      int expectedCount = newList.Count;
       //Assert
       Assert.Equal(expectedCount, actualCount);
     }
@@ -111,17 +148,25 @@ namespace SeattleHealthClinic
     public void Test_GetLicenses_ReturnsAllEmployeeLicenses()
     {
       //Arrange
-      Employee testEmployee = new Employee("Doc", "Gonzo");
-      testEmployee.Save();
-      License testLicense1 = new License("WA9999", "MD");
-      testLicense1.Save();
-      License testLicense2 = new License("WA0000", "RN");
-      testLicense2.Save();
-      List<License> testList = new List<License> {testLicense1};
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
+      newEmployee.Save();
+      License newLicense1 = new License("WA9999", "MD");
+      newLicense1.Save();
+      License newLicense2 = new License("WA0000", "RN");
+      newLicense2.Save();
+      List<License> newList = new List<License> {newLicense1};
       //Act
-      testEmployee.AddLicense(testLicense1);
-      List<License> savedLicenses = testEmployee.GetLicenses();
-      int expectedCount = testList.Count;
+      newEmployee.AddLicense(newLicense1);
+      List<License> savedLicenses = newEmployee.GetLicenses();
+      int expectedCount = newList.Count;
       int actualCount = savedLicenses.Count;
       //Assert
       Assert.Equal(expectedCount, actualCount);
@@ -130,10 +175,18 @@ namespace SeattleHealthClinic
     public void Test_VerifyLogin_ChecksLoginInfoAgainstDatabase()
     {
       //Arrange
-      Employee testEmployee = new Employee ("Doc", "Gonzo");
-      testEmployee.SetLogin("doc@doc.com", "password");
-      testEmployee.Save();
-      testEmployee.SaveLogin();
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
+      newEmployee.SetLogin("doc@doc.com", "password");
+      newEmployee.Save();
+      newEmployee.SaveLogin();
 
       //Act
       bool expected = true;

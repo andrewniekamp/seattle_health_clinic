@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,16 +13,21 @@ namespace SeattleHealthClinic
     internal string  _employee_name_last;
     internal string  _employee_ssn;
     internal string  _employee_type;
-    internal string  _employee_date_hire;
     internal string  _employee_salary_type;
-    // internal string  _employee_data_access;
     internal string  _employee_email;
     internal string  _employee_password;
+    internal DateTime  _employee_date_hire = new DateTime();
     // constructors, getters, setters
-    public Employee(string first_name, string last_name, int Id = 0)
+    public Employee(string firstName, string lastName, string SSN, string employeeType, string salaryType, string email, string password, DateTime hireDate, int Id = 0)
     {
-      _employee_name_first = first_name;
-      _employee_name_last = last_name;
+      _employee_name_first = firstName;
+      _employee_name_last = lastName;
+      _employee_ssn = SSN;
+      _employee_type = employeeType;
+      _employee_salary_type = salaryType;
+      _employee_email = email;
+      _employee_password = password;
+      _employee_date_hire = hireDate;
       _id = Id;
     }
     public string GetFirstName()
@@ -48,6 +54,14 @@ namespace SeattleHealthClinic
     {
       return _employee_ssn;
     }
+    public void SetHireDate(DateTime hireDate)
+    {
+      _employee_date_hire = hireDate;
+    }
+    public DateTime GetHireDate()
+    {
+      return _employee_date_hire;
+    }
     //temporary methods, refactor if necessary
     public void SetLogin (string newEmail, string newPassword)
     {
@@ -66,7 +80,7 @@ namespace SeattleHealthClinic
     {
       return  _employee_type;
     }
-    public string GetDateHire()
+    public DateTime GetDateHire()
     {
       return _employee_date_hire;
     }
@@ -80,7 +94,7 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_name_first, employee_name_last) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_name_first, employee_name_last, employee_ssn, employee_type, employee_salary_type, employee_email, employee_password, employee_date_hire) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast, @SSN, @EmployeeType, @SalaryType, @Email, @Password, @HireDate);", conn);
       SqlParameter firstNameParameter = new SqlParameter();
       firstNameParameter.ParameterName = "@EmployeeNameFirst";
       firstNameParameter.Value = this.GetFirstName();
@@ -89,6 +103,31 @@ namespace SeattleHealthClinic
       lastNameParameter.ParameterName = "@EmployeeNameLast";
       lastNameParameter.Value = this.GetLastName();
       cmd.Parameters.Add(lastNameParameter);
+      SqlParameter ssnParameter = new SqlParameter();
+      ssnParameter.ParameterName = "@SSN";
+      ssnParameter.Value = this.GetSSN();
+      cmd.Parameters.Add(ssnParameter);
+      SqlParameter employeeTypeParameter = new SqlParameter();
+      employeeTypeParameter.ParameterName = "@EmployeeType";
+      employeeTypeParameter.Value = this.GetEmployeeType();
+      cmd.Parameters.Add(employeeTypeParameter);
+      SqlParameter salaryTypeParameter = new SqlParameter();
+      salaryTypeParameter.ParameterName = "@SalaryType";
+      salaryTypeParameter.Value = this.GetSalaryType();
+      cmd.Parameters.Add(salaryTypeParameter);
+      SqlParameter emailParameter = new SqlParameter();
+      emailParameter.ParameterName = "@Email";
+      emailParameter.Value = this.GetEmail();
+      cmd.Parameters.Add(emailParameter);
+      SqlParameter passwordParameter = new SqlParameter();
+      passwordParameter.ParameterName = "@Password";
+      passwordParameter.Value = this.GetPassword();
+      cmd.Parameters.Add(passwordParameter);
+      SqlParameter hireDateParameter = new SqlParameter();
+      hireDateParameter.ParameterName = "@HireDate";
+      hireDateParameter.Value = this.GetHireDate();
+      cmd.Parameters.Add(hireDateParameter);
+      
       SqlDataReader rdr = cmd.ExecuteReader();
       while(rdr.Read())
       {
@@ -114,16 +153,28 @@ namespace SeattleHealthClinic
       employeeIdParameter.Value = Id.ToString();
       cmd.Parameters.Add(employeeIdParameter);
       SqlDataReader rdr = cmd.ExecuteReader();
-      int foundEmployeeId = 0;
-      string foundEmployeeFirstName = null;
-      string foundEmployeeLastName = null;
+      int id = 0;
+      string firstName = null;
+      string lastName = null;
+      string ssn = null;
+      string employeeType = null;
+      string salaryType = null;
+      string email = null;
+      string password = null;
+      DateTime  hireDate = new DateTime();
       while(rdr.Read())
       {
-        foundEmployeeId = rdr.GetInt32(0);
-        foundEmployeeFirstName = rdr.GetString(1);
-        foundEmployeeLastName = rdr.GetString(2);
+        id = rdr.GetInt32(0);
+        firstName = rdr.GetString(1);
+        lastName = rdr.GetString(2);
+        ssn = rdr.GetString(3);
+        employeeType = rdr.GetString(4);
+        hireDate = rdr.GetDateTime(5);
+        salaryType = rdr.GetString(6);
+        email = rdr.GetString(9);
+        password = rdr.GetString(10);
       }
-      Employee foundEmployee = new Employee(foundEmployeeFirstName, foundEmployeeLastName, foundEmployeeId);
+      Employee foundEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password, hireDate, id);
 
       if (rdr != null)
       {
@@ -173,7 +224,7 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees ORDER BY employee_name_last;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM employees;", conn);
       SqlDataReader rdr = cmd.ExecuteReader();
       List<Employee> allEmployees = new List<Employee>{};
       while(rdr.Read())
@@ -181,7 +232,13 @@ namespace SeattleHealthClinic
         int id = rdr.GetInt32(0);
         string firstName = rdr.GetString(1);
         string lastName = rdr.GetString(2);
-        Employee newEmployee = new Employee(firstName, lastName, id);
+        string ssn = rdr.GetString(3);
+        string employeeType = rdr.GetString(4);
+        DateTime hireDate = rdr.GetDateTime(5);
+        string salaryType = rdr.GetString(6);
+        string email = rdr.GetString(9);
+        string password = rdr.GetString(10);
+        Employee newEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password,  hireDate, id);
         allEmployees.Add(newEmployee);
       }
       if (rdr !=null)
@@ -325,16 +382,28 @@ namespace SeattleHealthClinic
       employeeEmailParameter.Value = email;
       cmd.Parameters.Add(employeeEmailParameter);
       SqlDataReader rdr = cmd.ExecuteReader();
-      int foundEmployeeId = 0;
-      string foundEmployeeFirstName = null;
-      string foundEmployeeLastName = null;
+      int id = 0;
+      string firstName = null;
+      string lastName = null;
+      string ssn = null;
+      string employeeType = null;
+      string salaryType = null;
+      string email2 = null;
+      string password = null;
+      DateTime  hireDate = new DateTime();
       while(rdr.Read())
       {
-        foundEmployeeId = rdr.GetInt32(0);
-        foundEmployeeFirstName = rdr.GetString(1);
-        foundEmployeeLastName = rdr.GetString(2);
+        id = rdr.GetInt32(0);
+        firstName = rdr.GetString(1);
+        lastName = rdr.GetString(2);
+        ssn = rdr.GetString(3);
+        employeeType = rdr.GetString(4);
+        hireDate = rdr.GetDateTime(5);
+        salaryType = rdr.GetString(6);
+        email2 = rdr.GetString(9);
+        password = rdr.GetString(10);
       }
-      Employee foundEmployee = new Employee(foundEmployeeFirstName, foundEmployeeLastName, foundEmployeeId);
+      Employee foundEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email2, password, hireDate, id);
 
       if (rdr != null)
       {
