@@ -235,7 +235,6 @@
           {
             <li>Patient Name : @visit.GetPatient().GetName()</li>
             <li>Eval Date  : @visit.GetConditionEvalDate()</li>
-            <li> Condition : @visit.GetCondition().GetCondition()</li>
 
           }
         </div>
@@ -246,7 +245,7 @@
           <h3 class="panel-title">Add New Visit</h3>
         </div>
         <div class="panel-body panel-hide">
-          <form class="" action="/add/visit" method="post">
+          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
             <label for=""> Enter  patient
               <select class="" name="visit-patient-id">
                 @foreach(var allPatient in Model["patients"])
@@ -270,7 +269,7 @@
               <select class="" name="visit-condition-id">
                 @foreach(var allCondition in Model["conditions"])
                 {
-                  <option value="@allCondition.GetId()">@allCondition.GetCondition()</option>
+                  <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
                 }
               </select>
             </label>

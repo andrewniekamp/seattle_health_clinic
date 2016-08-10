@@ -51,7 +51,7 @@ namespace SeattleHealthClinic
       return _conditionId;
     }
 
-    public Condition GetCondition()
+    public Condition GetConditionConstructor()
     {
       Condition oneCondition = Condition.Find(_conditionId);
       return oneCondition;
