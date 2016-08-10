@@ -82,7 +82,7 @@ namespace SeattleHealthClinic
         return View["personnel_current.cshtml", model];
       };
 
-      Get["/personnel/{id}/payroll"] = parameters => {
+      Get["/personnel/{id}/records"] = parameters => {
         Dictionary<string, object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
