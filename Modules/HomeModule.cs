@@ -10,7 +10,7 @@ namespace SeattleHealthClinic
     {
       //landing page
       Get["/"] = _ => {
-        return View["landing.cshtml"];
+        return View["index.cshtml"];
       };
 
       // home view, must pass through an employee object in each view!
@@ -32,21 +32,36 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        return View["index.cshtml", model];
+        return View["home_view.cshtml", model];
       };
 
       Get["/profile/{id}/personal"] = parameters => {
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
-        List<License> currentLicenses = currentEmployee.GetLicenses();
         model.Add("currentEmployee", currentEmployee);
+        List<License> currentLicenses = currentEmployee.GetLicenses();
         model.Add("currentLicenses", currentLicenses);
         return View["profile_personal.cshtml", model];
       };
 
-      // Get["/profile/{id}/"]
+      Get["/profile/{id}/payroll"] = parameters => {
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        // insert lines here
+        return View["profile_payroll.cshtml", model];
+      };
+
+      Get["/profile/{id}/scheduling"] = parameters => {
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        // insert lines here
+        return View["profile_scheduling.cshtml", model];
+      };
 
       //finished routes go above, unfinished routes go below
+
       // this is how a minimum route should look like:
       // Get["/(menu name)/{id}/(sub-menu name)"] = parameters => {
       //   Dictionary<string, object> model = new Dictionary<string,object>();
