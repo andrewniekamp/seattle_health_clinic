@@ -48,7 +48,7 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        Employee currentPayroll = Payroll.Find(parameters.id);
+        Payroll currentPayroll = Payroll.Find(parameters.id);
         model.Add("currentPayroll", currentPayroll);
         List<License> currentLicenses = currentEmployee.GetLicenses();
         model.Add("currentLicenses", currentLicenses);
