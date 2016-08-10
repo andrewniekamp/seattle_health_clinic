@@ -202,6 +202,16 @@
               }
               </select>
             </label>
+
+            <label for=""> Choose Doctor
+              <select class="" name="appointment-patient-id">
+              @foreach(var employee in Model["employees"])
+              {
+              <option value="@employee.GetId()">@employee.GetFullName()</option>
+              }
+              </select>
+            </label>
+
             <label for="patient-appointment-note">Patient Appointment Note</label>
             <textarea name="patient-appointment-note" id="patient-appointment-note" rows="8" cols="40"></textarea>
 
@@ -245,6 +255,17 @@
                 }
               </select>
             </label>
+
+            <label for=""> Choose Doctor
+              <select class="" name="appointment-patient-id">
+              @foreach(var employee in Model["employees"])
+              {
+              <option value="@employee.GetId()">@employee.GetFullName()</option>
+              }
+              </select>
+            </label>
+
+
             <label for=""> Enter  Condition
               <select class="" name="visit-condition-id">
                 @foreach(var allCondition in Model["conditions"])

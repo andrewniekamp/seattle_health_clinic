@@ -108,7 +108,8 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
-
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("currentEmployee", currentEmployee);
         model.Add("conditions",allConditions);
@@ -157,11 +158,12 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
-        // List<Employee> allEmployees = Employee.GetAll(TABLE NAME);
+        List<Employee> allEmployees = Employee.GetAll("employees");
         if(!String.IsNullOrEmpty(newPatient.GetName()))
         {
           model.Add("message", newPatient.GetName() + " has been added.");
         }
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
@@ -244,6 +246,11 @@ namespace SeattleHealthClinic
       Get["/patients/{id}/add-new-record/view/patient/visit/{patientId}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.patientId);
         List<ConditionEval> patientEvals = patientToUpdate.GetAllEval();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+
         Dictionary<string,object> model = new Dictionary<string,object>{};
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
@@ -253,10 +260,7 @@ namespace SeattleHealthClinic
         List<Patient> allPatients = Patient.GetAll();
 
         model.Add("patients", allPatients);
-
-        List<Condition> allConditions = Condition.GetAll();
-        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
-        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        model.Add("employees", allEmployees);
 
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
@@ -275,6 +279,8 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("patient", patientToUpdate);
         model.Add("appointmentForPatient", patientSchedule);
         model.Add("currentEmployee", currentEmployee);
@@ -296,6 +302,8 @@ namespace SeattleHealthClinic
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
         model.Add("message", "You Change New Name to "+Request.Form["edit-new-name"]);
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
@@ -315,10 +323,12 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
         if(!String.IsNullOrEmpty(patientToDelete.GetName()))
         {
           model.Add("message", patientToDelete.GetName() + " and all associated information has been deleted.");
         }
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
