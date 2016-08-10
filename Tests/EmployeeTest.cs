@@ -47,7 +47,6 @@ namespace SeattleHealthClinic
       List<Employee> expectedEmployees = Employee.GetAll();
       int countActual = expectedEmployees.Count;
       // Assert
-      Console.WriteLine("Expected = 1; Actual = " + countActual);
       Assert.Equal(1, countActual);
     }
     [Fact]
