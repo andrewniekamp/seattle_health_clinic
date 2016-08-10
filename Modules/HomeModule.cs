@@ -105,18 +105,18 @@ namespace SeattleHealthClinic
         return View["patients_add-new-eval.cshtml", model];
       };
 
-      Get["/patients/{id}/administrative-records"] = parameters => {
-        Dictionary<string,object> model = new Dictionary<string,object>();
-        Employee currentEmployee = Employee.Find(parameters.id);
-        List<Patient> allPatients = Patient.GetAll();
-        List<Condition> allConditions = Condition.GetAll();
-        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
-        model.Add("currentEmployee", currentEmployee);
-        model.Add("conditionEval", allConditionEvals);
-        model.Add("conditions",allConditions);
-        model.Add("patients",allPatients);
-        return View["patients_administrative-records.cshtml", model];
-      };
+      // Get["/patients/{id}/administrative-records"] = parameters => {
+      //   Dictionary<string,object> model = new Dictionary<string,object>();
+      //   Employee currentEmployee = Employee.Find(parameters.id);
+      //   List<Patient> allPatients = Patient.GetAll();
+      //   List<Condition> allConditions = Condition.GetAll();
+      //   List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+      //   model.Add("currentEmployee", currentEmployee);
+      //   model.Add("conditionEval", allConditionEvals);
+      //   model.Add("conditions",allConditions);
+      //   model.Add("patients",allPatients);
+      //   return View["patients_administrative-records.cshtml", model];
+      // };
 
 
 
@@ -196,22 +196,58 @@ namespace SeattleHealthClinic
         return View["patients_current-patients.cshtml", model];
       };
 
-      Get["/view/patient/visit/{id}"] = parameters =>{
-        Patient patientToUpdate = Patient.Find(parameters.id);
+      Get["/patients/{id}/add-new-record/view/patient/visit/{patientId}"] = parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.patientId);
         List<ConditionEval> patientEvals = patientToUpdate.GetAllEval();
         Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
         model.Add("evals", patientEvals);
         model.Add("patient", patientToUpdate);
+        model.Add("message", "Here is your result");
+        List<Patient> allPatients = Patient.GetAll();
 
-        return View["patients_evals.cshtml",model];
+        model.Add("patients", allPatients);
+
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patientScheduling", allPatientSchedulings);
+
+
+        return View["patients_add-new-record.cshtml",model];
       };
-      Patch["/view/patient/edit/{id}"] = parameters =>{
-        Patient patientToUpdate = Patient.Find(parameters.id);
+
+      Get["/patients/{id}/add-new-record/view/patient/appointments/{patientId}"] = parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.patientId);
+        List<PatientScheduling> patientSchedule=patientToUpdate.GetAllPatientScheduling();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        model.Add("patient", patientToUpdate);
+        model.Add("appointmentForPatient", patientSchedule);
+        model.Add("currentEmployee", currentEmployee);
+        model.Add("message", "Here is your result");
+        model.Add("patients", allPatients);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patientScheduling", allPatientSchedulings);
+        return View["patients_add-new-record.cshtml",model];
+      };
+
+      Patch["/patients/{id}/add-new-record/view/patient/edit/{patientId}"] = parameters =>{
+        Patient patientToUpdate = Patient.Find(parameters.patientId);
         patientToUpdate.Update(Request.Form["edit-new-name"], Request.Form["edit-new-address"]);
         return View["success.cshtml"];
       };
-      Delete["/view/patient/delete/{id}"] = parameters =>{
-        Patient patientToDelete = Patient.Find(parameters.id);
+      Delete["/patients/{id}/add-new-record/view/patient/delete/{patientId}"] = parameters =>{
+        Patient patientToDelete = Patient.Find(parameters.patientId);
         patientToDelete.Delete();
         return View["success.cshtml"];
       };

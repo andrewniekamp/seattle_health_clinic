@@ -115,7 +115,6 @@ namespace SeattleHealthClinic
     }
 
 
-
     public void Save()
     {
       SqlConnection conn = DB.Connection();

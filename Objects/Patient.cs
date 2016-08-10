@@ -272,6 +272,44 @@ namespace SeattleHealthClinic
        return allConditionEvals;
      }
 
+     public List<PatientScheduling> GetAllPatientScheduling()
+     {
+       List<PatientScheduling> allPatientScheduling = new List<PatientScheduling>{};
+
+       SqlConnection conn = DB.Connection();
+       conn.Open();
+
+       SqlCommand cmd = new SqlCommand("SELECT * FROM patients_scheduling WHERE patient_id = @PatientId;", conn);
+
+       SqlParameter patientIdParameter = new SqlParameter();
+       patientIdParameter.ParameterName="@PatientId";
+       patientIdParameter.Value= this.GetId();
+       cmd.Parameters.Add(patientIdParameter);
+
+       SqlDataReader rdr = cmd.ExecuteReader();
+
+       while (rdr.Read())
+       {
+         int patientSchedulingId = rdr.GetInt32(0);
+         int patientId = rdr.GetInt32(1);
+         int patientSchedulingDoctorId = rdr.GetInt32(2);
+         string note = rdr.GetString(3);
+         DateTime appointmentDate = rdr.GetDateTime(4);
+
+         PatientScheduling newPatiendScheduling = new PatientScheduling(patientId, patientSchedulingDoctorId, note, appointmentDate, patientSchedulingId);
+         allPatientScheduling.Add(newPatiendScheduling);
+       }
+       if (rdr != null)
+       {
+         rdr.Close();
+       }
+       if (conn != null)
+       {
+         conn.Close();
+       }
+       return allPatientScheduling;
+     }
+
 
   }
 }

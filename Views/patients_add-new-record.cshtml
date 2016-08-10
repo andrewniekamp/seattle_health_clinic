@@ -13,13 +13,48 @@
     <div class="col-md-3">
       <!-- linked list used to navigate to parts of the page -->
       <div class="list-group">
-        <a class="list-group-item">View All Patient</a>
-        <a class="list-group-item active">Add New Patient</a>
+        <a class="list-group-item active">View All Patient</a>
+        <a class="list-group-item">Add New Patient</a>
         <a class="list-group-item">View All Appointment</a>
         <a class="list-group-item">Add New Appointment</a>
         <a class="list-group-item">View All Visit</a>
         <a class="list-group-item">Add New Visit</a>
         <a class="list-group-item">Display #4</a>
+        @if(Model.ContainsKey("message")&&Model.ContainsKey("evals"))
+           {
+             <h2>Message</h2>
+             <p>@Model["message"]</p>
+
+             <ol>
+               @if(Model["evals"].Count != 0)
+               {
+                 <h5>Patient Name : @Model["patient"].GetName()</h5>
+                 @foreach (var patientEvals in Model["evals"])
+                 {
+                   <li>@patientEvals.GetConditionEvalDate() | @patientEvals.FindCondition().GetCondition()</li>
+                 }
+               }else{
+                 <h5>No Visit Records Yet</h5>
+               }
+             </ol>
+           }else if(Model.ContainsKey("message")&&Model.ContainsKey("appointmentForPatient")){
+             <h2>Message</h2>
+             <p>@Model["message"]</p>
+
+             <ol>
+               @if(Model["appointmentForPatient"].Count != 0)
+               {
+                 <h5>Patient Name : @Model["patient"].GetName()</h5>
+                 @foreach (var patientAppoint in Model["appointmentForPatient"])
+                 {
+                   <li>@patientAppoint.GetNote() | @patientAppoint.GetPatientSchedulingDate()</li>
+                 }
+               }else{
+                 <h5>No Appointment Records Yet</h5>
+               }
+             </ol>
+
+           }
       </div>
     </div>
     <!-- main body for display of material -->
@@ -29,7 +64,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">View All Patient</h3>
         </div>
-        <div class="panel-body panel-hide">
+        <div class="panel-body">
           <div class="row patient-header-row">
             <div class="col-xs-4">
               <h3>Patient ID</h3>
@@ -57,10 +92,10 @@
 
             <div class="row patient-margin-row">
               <div class="col-xs-4">
-                <a href="/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
+                <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
               </div>
               <div class="col-xs-4">
-                <a href="/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
+                <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
               </div>
               <div class="col-xs-4">
                 <div class="row">
@@ -68,7 +103,7 @@
                     <a href="#" class="btn btn-default patient-button btn-sm patient-button-wide patient-edit-button">Edit</a>
                   </div>
                   <div class="col-xs-6">
-                    <form class="" action="/view/patient/delete/@allPatient.GetId()" method="post">
+                    <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/delete/@allPatient.GetId()" method="post">
                       <input type="hidden" name="_method" value="DELETE">
                       <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">Delete</button>
                     </form>
@@ -99,7 +134,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">Add New Patient</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-hide">
           <form class="" action="/add/patients" method="post">
             <label for="patient-name">Patient Name</label>
             <input type="text" name="patient-name" value="">
