@@ -96,8 +96,14 @@ namespace SeattleHealthClinic
 
       Post["/add/diagnosis"] = _ =>{
         //Attempting to integrate checkbox or radio dial for selecting diagnosis
-        Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1, Request.Form["symptom-id"],Request.Form["diagnosis-date"]);
-        newDiagnosis.Save();
+        string symptomsFromForm = Request.Form["symptom-array"].ToString();
+        string[] symptoms = symptomsFromForm.Split(',');
+        foreach (var symptomString in symptoms)
+        {
+          int symptomId =int.Parse(symptomString);
+          Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1,symptomId,Request.Form["diagnosis-date"]);
+          newDiagnosis.Save();
+        }
         return View["success.cshtml"];
       };
 
@@ -161,7 +167,7 @@ namespace SeattleHealthClinic
       Get["/news"]= _ =>{
         string[] listSearch= new string[]{"diabetes", "heart health", "health fitness", "healthcare", "pediatrics"};
         Random myRandom = new Random();
-        int randomNum = myRandom.Next(0,5);
+        int randomNum = myRandom.Next(0,listSearch.Length-1);
        List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
       //  foreach(var s in allResult)
       //  {
