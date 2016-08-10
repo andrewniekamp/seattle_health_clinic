@@ -48,7 +48,10 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        // insert lines here
+        Payroll currentPayroll = Payroll.Find(parameters.id);
+        model.Add("currentPayroll", currentPayroll);
+        List<License> currentLicenses = currentEmployee.GetLicenses();
+        model.Add("currentLicenses", currentLicenses);
         return View["profile_payroll.cshtml", model];
       };
 
@@ -56,9 +59,34 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        // insert lines here
         return View["profile_scheduling.cshtml", model];
       };
+
+      Get["/profile/{id}/licensure"] = parameters => {
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        return View["profile_licensure.cshtml", model];
+      };
+
+      Get["/personnel/{id}/current"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        return View["personnel_current.cshtml", model];
+      };
+
+      Get["/personnel/{id}/payroll"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        // insert lines here
+        return View["personnel_records.cshtml", model];
+      };
+
+
 
       //finished routes go above, unfinished routes go below
 

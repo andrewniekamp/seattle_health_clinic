@@ -144,7 +144,7 @@ namespace SeattleHealthClinic
       return allPayrolls;
     }
     // a method to find payroll information based on an employee ssn
-    public Payroll Find(string Id)
+    public static Payroll Find(string Id)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
