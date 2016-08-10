@@ -13,10 +13,6 @@ body {
 	background: transparent;
 }
 
-.panel {
-	background-color: rgba(255, 255, 255, 0.7);
-}
-
 h1 {
 	font-family: 'Slabo 27px', serif;
 	font-weight: 400;
@@ -24,15 +20,17 @@ h1 {
 	color: black;
 }
 
-h5 {
-	color: black;
-}
-
 form {
 	margin: auto;
-	margin-top: 32px;
-	margin-bottom: 32px;
+	/*margin-top: 32px;
+	margin-bottom: 32px;*/
 	width: 450px;
+}
+
+.panel {
+	background-color: rgba(255, 255, 255, 0.7);
+	padding-top: 16px;
+	padding-bottom: 16px;
 }
 
 .danger-text {
@@ -51,4 +49,8 @@ form {
 }
 :-ms-input-placeholder {
    font-style: italic;
+}
+
+h5 {
+	color: black;
 }
