@@ -134,12 +134,22 @@ namespace SeattleHealthClinic
         return View["success.cshtml"];
       };
 
-      Get["/view/all/patients"] =_=>{
+      // Get["/view/all/patients"] =_=>{
+      //   List<Patient> allPatients = Patient.GetAll();
+      //   Dictionary<string,object> model = new Dictionary<string,object>{};
+      //   model.Add("patients",allPatients);
+      //   return View["view_all_patients.cshtml",model];
+      // };
+
+      Get["/patients/{id}/current-patients"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
-        Dictionary<string,object> model = new Dictionary<string,object>{};
+        model.Add("currentEmployee", currentEmployee);
         model.Add("patients",allPatients);
-        return View["view_all_patients.cshtml",model];
+        return View["patients_current-patients.cshtml", model];
       };
+
       Get["/view/patient/visit/{id}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.id);
         List<ConditionEval> patientEvals = patientToUpdate.GetAllEval();
@@ -152,26 +162,26 @@ namespace SeattleHealthClinic
       Patch["/view/patient/edit/{id}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.id);
         patientToUpdate.Update(Request.Form["edit-new-name"], Request.Form["edit-new-address"]);
-        return View["sucess.cshtml"];
+        return View["success.cshtml"];
       };
       Delete["/view/patient/delete/{id}"] = parameters =>{
         Patient patientToDelete = Patient.Find(parameters.id);
         patientToDelete.Delete();
-        return View["sucess.cshtml"];
+        return View["success.cshtml"];
       };
 
       Get["/view/all/appointments"] =_=>{
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
         Dictionary<string,object> model = new Dictionary<string,object>{};
         model.Add("patientScheduling", allPatientSchedulings);
-        return View["sucess.cshtml"];
+        return View["success.cshtml"];
       };
 
       Get["/view/all/visits"] =_=>{
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         Dictionary<string,object> model = new Dictionary<string,object>{};
         model.Add("conditionEval", allConditionEvals);
-        return View["sucess.cshtml"];
+        return View["success.cshtml"];
       };
 
 
