@@ -22,12 +22,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-medkit"></i>Personnel</a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Current Roster</a></li>
-                <li><a href="#">Employment Records</a></li>
-                <li><a href="#">Payroll Records</a></li>
+                <li><a href="/personnel/@Model["currentEmployee"].GetId()/current">Current Employees</a></li>
+                <li><a href="/personnel/@Model["currentEmployee"].GetId()/records">Payroll Records</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Add new Employee</a></li>
-                <li><a href="#">Add new Records</a></li>
+                <li><a href="#">Add New Employee</a></li>
+                <li><a href="#">Edit Current Employee</a></li>
               </ul>
             </li>
             <li class="dropdown">
@@ -44,7 +43,8 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-user-md"></i>Profile</a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="/profile/@Model["currentEmployee"].GetId()/personal">Personal</a></li>
-                <li><a href="/profile/@Model["currentEmployee"].GetId()/payroll">Payroll Information</a></li>
+                <li><a href="/profile/@Model["currentEmployee"].GetId()/payroll">Payroll</a></li>
+                <li><a href="/profile/@Model["currentEmployee"].GetId()/licensure">Licensure</a></li>
                 <li><a href="/profile/@Model["currentEmployee"].GetId()/scheduling">Scheduling</a></li>
               </ul>
             </li>
