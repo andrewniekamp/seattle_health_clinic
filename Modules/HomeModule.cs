@@ -73,6 +73,14 @@ namespace SeattleHealthClinic
       Get["/add/patients"] = _ =>{
         return View["add_new_patient.cshtml"];
       };
+      Get["/patients/{id}/add-new-patient"] = parameters => {
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        // insert lines here
+        return View["patients_add-new-patient.cshtml", model];
+      };
+
 
       Post["/add/patients"] = _ =>{
         Patient newPatient = new Patient(Request.Form["patient-name"], Request.Form["patient-address"]);
