@@ -41,7 +41,15 @@ namespace SeattleHealthClinic
         model.Add("currentEmployee", currentEmployee);
         return View["profile_personal.cshtml", model];
       };
-      //progress bar, dont move
+
+      //finished routes go above, unfinished routes go below
+      // this is how a minimum route should look like:
+      // Get["/(menu name)/{id}/(sub-menu name)"] = parameters => {
+      //   Dictionary<string, object> model = new Dictionary<string,object>();
+      //   Employee currentEmployee = Employee.Find(parameters.id);
+      //   model.Add("currentEmployee", currentEmployee);
+      //   return View["(menu name)_(sub-menu name)", model];
+      // };
 
       Get["/add/patients"] = _ =>{
         return View["add_new_patient.cshtml"];
