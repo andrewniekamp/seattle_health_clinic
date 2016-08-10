@@ -90,11 +90,12 @@ namespace SeattleHealthClinic
     }
     // other methods
     // a method to save an employee to the database
-    public void Save()
+    public void Save(string tableName)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("INSERT INTO employees (employee_name_first, employee_name_last, employee_ssn, employee_type, employee_salary_type, employee_email, employee_password, employee_date_hire) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast, @SSN, @EmployeeType, @SalaryType, @Email, @Password, @HireDate);", conn);
+      string sql = "INSERT INTO " + tableName + " (employee_name_first, employee_name_last, employee_ssn, employee_type, employee_salary_type, employee_email, employee_password, employee_date_hire) OUTPUT INSERTED.id VALUES (@EmployeeNameFirst, @EmployeeNameLast, @SSN, @EmployeeType, @SalaryType, @Email, @Password, @HireDate);";
+      SqlCommand cmd = new SqlCommand(sql, conn);
       cmd.Parameters.Add("EmployeeNameFirst", SqlDbType.VarChar).Value = this.GetFirstName();
       cmd.Parameters.Add("EmployeeNameLast", SqlDbType.VarChar).Value = this.GetLastName();
       cmd.Parameters.Add("SSN", SqlDbType.VarChar).Value = this.GetSSN();
@@ -147,8 +148,8 @@ namespace SeattleHealthClinic
         employeeType = rdr.GetString(4);
         hireDate = rdr.GetDateTime(5);
         salaryType = rdr.GetString(6);
-        email = rdr.GetString(9);
-        password = rdr.GetString(10);
+        email = rdr.GetString(7);
+        password = rdr.GetString(8);
       }
       Employee foundEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password, hireDate, id);
 
@@ -196,11 +197,12 @@ namespace SeattleHealthClinic
       }
     }
     // a method to return a list of all employees table records
-    public static List<Employee> GetAll()
+    public static List<Employee> GetAll(string tableName)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("SELECT * FROM employees;", conn);
+      string sql = "Select * from " + tableName + ";";
+      SqlCommand cmd = new SqlCommand(sql, conn);
       SqlDataReader rdr = cmd.ExecuteReader();
       List<Employee> allEmployees = new List<Employee>{};
       while(rdr.Read())
@@ -212,8 +214,8 @@ namespace SeattleHealthClinic
         string employeeType = rdr.GetString(4);
         DateTime hireDate = rdr.GetDateTime(5);
         string salaryType = rdr.GetString(6);
-        string email = rdr.GetString(9);
-        string password = rdr.GetString(10);
+        string email = rdr.GetString(7);
+        string password = rdr.GetString(8);
         Employee newEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password,  hireDate, id);
         allEmployees.Add(newEmployee);
       }
@@ -228,11 +230,12 @@ namespace SeattleHealthClinic
       return allEmployees;
     }
     // a method to delete all employees table records
-    public static void DeleteAll()
+    public static void DeleteAll(string tableName)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("DELETE FROM employees;", conn);
+      string sql = "DELETE from " + tableName + ";";
+      SqlCommand cmd = new SqlCommand(sql, conn);
       cmd.ExecuteNonQuery();
       conn.Close();
     }

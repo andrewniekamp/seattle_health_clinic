@@ -14,16 +14,17 @@ namespace SeattleHealthClinic
     }
     public void Dispose()
     {
-      Physician.DeleteAll();
-      License.DeleteAll();
-      Payroll.DeleteAll();
+      // Physician.DeleteAll();
+      // License.DeleteAll();
+      // Payroll.DeleteAll();
+      // Employees.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
     {
       // Arrange
       List<Employee> allPhysicians = new List<Employee>{}; // must use employee, not physician...
-      allPhysicians = Physician.GetAll();
+      allPhysicians = Physician.GetAll("physicians");
       // Act
       int countActual = allPhysicians.Count;
       // Assert
@@ -43,7 +44,7 @@ namespace SeattleHealthClinic
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       // Act
       Physician newPhysician = new Physician(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
-      newPhysician.Save();
+      newPhysician.Save("physicians");
       // Assert
       Assert.Equal(firstExpected, newPhysician.GetFirstName());
     }

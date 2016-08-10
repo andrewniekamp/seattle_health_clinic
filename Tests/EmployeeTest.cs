@@ -14,16 +14,17 @@ namespace SeattleHealthClinic
     }
     public void Dispose()
     {
-      Employee.DeleteAll();
-      License.DeleteAll();
-      Payroll.DeleteAll();
+      // Employee.DeleteAll();
+      // License.DeleteAll();
+      // Payroll.DeleteAll();
+      // Physician.DeleteAll();
     }
     [Fact]
     public void Test_EmptyDataTable_DataTableIsEmpty()
     {
       // Arrange
       List<Employee> allEmployees = new List<Employee>{};
-      allEmployees = Employee.GetAll();
+      allEmployees = Employee.GetAll("employees");
       // Act
       int countActual = allEmployees.Count;
       // Assert
@@ -43,8 +44,8 @@ namespace SeattleHealthClinic
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
       // Act
-      newEmployee.Save();
-      List<Employee> expectedEmployees = Employee.GetAll();
+      newEmployee.Save("employees");
+      List<Employee> expectedEmployees = Employee.GetAll("employees");
       int countActual = expectedEmployees.Count;
       // Assert
       Assert.Equal(1, countActual);
@@ -62,10 +63,10 @@ namespace SeattleHealthClinic
       string passwordExpected = "password";
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
-      newEmployee.Save();
+      newEmployee.Save("employees");
       int expectedId = newEmployee.GetId();
       //Act
-      Employee savedEmployee = Employee.GetAll()[0];
+      Employee savedEmployee = Employee.GetAll("employees")[0];
       int actualId = savedEmployee.GetId();
       //Assert
       Assert.Equal(expectedId, actualId);
@@ -83,7 +84,7 @@ namespace SeattleHealthClinic
       string passwordExpected = "password";
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
-      newEmployee.Save();
+      newEmployee.Save("employees");
       int findId = newEmployee.GetId();
       // Act
       Employee employeeActual = Employee.Find(findId);
@@ -106,7 +107,7 @@ namespace SeattleHealthClinic
       string passwordExpected = "password";
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
-      newEmployee.Save();
+      newEmployee.Save("employees");
       string newFirst = "Dr.";
       string newLast = "Aharchi";
       string newName = "Dr." + "Aharchi";
@@ -128,7 +129,7 @@ namespace SeattleHealthClinic
       string passwordExpected = "password";
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
-      newEmployee.Save();
+      newEmployee.Save("employees");
       License newLicense1 = new License("WA9999", "MD");
       newLicense1.Save();
       License newLicense2 = new License("WA0000", "RN");
@@ -156,7 +157,7 @@ namespace SeattleHealthClinic
       string passwordExpected = "password";
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
-      newEmployee.Save();
+      newEmployee.Save("employees");
       License newLicense1 = new License("WA9999", "MD");
       newLicense1.Save();
       License newLicense2 = new License("WA0000", "RN");
@@ -184,7 +185,7 @@ namespace SeattleHealthClinic
       DateTime hireDateExpected = new DateTime(2016, 1, 1);
       Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
       newEmployee.SetLogin("doc@doc.com", "password");
-      newEmployee.Save();
+      newEmployee.Save("employees");
       newEmployee.SaveLogin();
 
       //Act

@@ -1,6 +1,11 @@
 $(document).ready(function() {
-  $(".list-group-item").click(function() {
-    var index = $(".list-group-item").index(this);
+  $(".list-group-item, .panel-heading").click(function() {
+    var index = $(".list-group-item, .panel-heading").index(this);
+    var numItems = $(".list-group-item").length;
+    if (index >= numItems)
+    {
+      index -= numItems;
+    }
     $("a").each(function() {
       if($(".list-group-item").index(this) === index) {
         $(this).addClass("active");
@@ -8,12 +13,18 @@ $(document).ready(function() {
         $(this).removeClass("active");
       }
     });
-    $(this).addClass("active");
     $(".panel-body").each(function() {
       if($(".panel-body").index(this) === index) {
         $(this).slideDown();
       } else {
         $(this).slideUp();
+      }
+    });
+    $(".panel").each(function() {
+      if($(".panel").index(this) === index) {
+        $(this).addClass("panel-primary");
+      } else {
+        $(this).removeClass("panel-primary");
       }
     });
   });
