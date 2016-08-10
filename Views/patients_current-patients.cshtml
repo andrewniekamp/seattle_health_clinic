@@ -1,0 +1,100 @@
+@{Layout = "Views/Shared/_Layout.cshtml";}
+<link rel="stylesheet" href="/Content/css/patients.css" media="screen" title="no title" charset="utf-8">
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3">
+      <!-- cosmetic feature shows the current page route -->
+      <ul class="breadcrumb">
+        <li><span class="highlight-text">Home</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <!-- linked list used to navigate to parts of the page -->
+      <div class="list-group">
+        <a class="list-group-item active">All Patients</a>
+      </div>
+      <!-- cosmetic feature -->
+      <blockquote>
+        <p>Good care makes happy patients and happy patients line pockets.</p>
+        <small>Sam Markitter, <em>Inspiration for the Unhappy Worker</em></small>
+      </blockquote>
+    </div>
+    <!-- main body for display of material -->
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">All Patients</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row patient-header-row">
+            <div class="col-xs-4">
+              <h3>Patient ID</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3>Name</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3>Address</h3>
+            </div>
+          </div>
+          @foreach(var allPatient in Model["patients"])
+          {
+            <div class="row">
+              <div class="col-xs-4">
+                <h4>@allPatient.GetId()</h4>
+              </div>
+              <div class="col-xs-4">
+                <h4>@allPatient.GetName()</h4>
+              </div>
+              <div class="col-xs-4">
+                <h4>@allPatient.GetAddress()</h4>
+              </div>
+            </div>
+
+            <div class="row patient-margin-row">
+              <div class="col-xs-4">
+                <a href="/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
+              </div>
+              <div class="col-xs-4">
+                <a href="/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
+              </div>
+              <div class="col-xs-4">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <a href="#" class="btn btn-default patient-button btn-sm patient-button-wide patient-edit-button">Edit</a>
+                  </div>
+                  <div class="col-xs-6">
+                    <form class="" action="/view/patient/delete/@allPatient.GetId()" method="post">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row form-row">
+              <form class="patient-update-form" action="/view/patient/edit/@allPatient.GetId()" method="post">
+              <input class="patient-input" type="hidden" name="_method" value="PATCH">
+                <div class="col-xs-4">
+                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-name" value="" placeholder="Enter new name">
+                </div>
+                <div class="col-xs-4">
+                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-address" value="" placeholder="Enter new address">
+                </div>
+                <div class="col-xs-4">
+                  <button type="Submit" name="button" class="btn btn-default patient-button btn-sm patient-button-wide"> Submit Changes</button>
+                </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script src="/Content/js/allPatients.js" type="text/javascript"></script>

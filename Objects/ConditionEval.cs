@@ -31,6 +31,11 @@ namespace SeattleHealthClinic
       return _patientId;
     }
 
+    public Patient GetPatient()
+    {
+      Patient onePatient= Patient.Find(_patientId);
+      return onePatient;
+    }
     public int GetDoctorId()
     {
       return _doctorId;
@@ -45,6 +50,13 @@ namespace SeattleHealthClinic
     {
       return _conditionId;
     }
+
+    public Condition GetCondition()
+    {
+      Condition oneCondition = Condition.Find(_conditionId);
+      return oneCondition;
+    }
+
     public void SetConditionId(int newConditionId)
     {
       _conditionId = newConditionId;

@@ -1,0 +1,19 @@
+.patient-button-wide {
+  width: 100%;
+}
+
+.patient-margin-row {
+  margin-bottom: 10px;
+}
+
+.patient-button {
+  background-color: #777;
+}
+
+.patient-header-row {
+  background-color: #485563;
+}
+
+.form-row{
+  display: none;
+}

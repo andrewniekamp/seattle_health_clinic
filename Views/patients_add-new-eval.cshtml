@@ -1,0 +1,120 @@
+@{Layout = "Views/Shared/_Layout.cshtml";}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- cosmetic feature shows the current page route -->
+      <ul class="breadcrumb">
+        <li>(Menu Name) > <span class="highlight-text">(Sub-menu Name)</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <!-- linked list used to navigate to parts of the page -->
+      <div class="list-group">
+        <a class="list-group-item active">View All Diagnosis</a>
+        <a class="list-group-item">Add New Diagnosis</a>
+        <a class="list-group-item">Vie All Symptom</a>
+        <a class="list-group-item">Add New Symptom</a>
+      </div>
+    </div>
+    <!-- main body for display of material -->
+    <div class="col-md-7 col-md-offset-1">
+      <!-- main panel should have panel-primary -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">View All Diagnosis</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <ul>
+            @foreach( var diagnosis in Model["diagnosis"])
+            {
+              <li>Patient Name : @diagnosis.GetPatient().GetName()</li>
+              <li> Symotom : @diagnosis.GetSymptom().GetName()</li>
+              <li> Date : @diagnosis.GetDiagnosisDate()</li>
+            }
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add New Diagnosis</h3>
+        </div>
+        <div class="panel-body">
+          <form class="" action="/add/diagnosis" method="post">
+            <label for=""> Choose Patient
+              <select class="" name="diagnosis-patient-id">
+              @foreach(var allPatient in Model["patients"])
+              {
+              <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+              }
+              </select>
+            </label>
+
+            <div class="testCheckBox">
+              @foreach(var allsymptom in Model["symptoms"])
+              {
+                <input type="checkbox" name="symptom" value="@allsymptom.GetId()">@allsymptom.GetName()
+              }
+              <input id="hiddenInput" type="hidden" name="symptom-array" value="">
+            </div>
+
+
+
+
+            <label for="diagnosis-date">diagnosis Date</label>
+            <input type="date" name="diagnosis-date" id="diagnosis-date">
+            <button type="submit" name="button">Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- every panel after the hide should have the panel-hide class the panel-body -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">View All Symptom</h3>
+        </div>
+        <div class="panel-body panel-hide">
+        <ul>
+          @foreach(var allsymptom in Model["symptoms"])
+          {
+            <li> Symptom Name : @allsymptom.GetName()</li>
+            <li> Is Contagious : @allsymptom.IsContagious()</li>
+            <li> Symptom Classification : @allsymptom.GetClassification()</li>
+
+          }
+        </ul>
+      </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add New Symptom</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <form class="" action="/add/symptom" method="post">
+            <label for="symptom-name">Symptom Name</label>
+            <input type="text" name="symptom-name" value="">
+            <label for="symptom-classification">Symptom Classification</label>
+            <input type="text" name="symptom-classification" value="">
+            <label for="visit-contagious">Contagious
+              <select class="" name="visit-contagious">
+                <option value="true">Contagious</option>
+                <option value="false">Not Contagious</option>
+                <option value="true">Potentially Contagious</option>
+              </select>
+            </label>
+            <button type="submit" name="button">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script src="/Content/js/checkbox.js" type="text/javascript">
+
+</script>
