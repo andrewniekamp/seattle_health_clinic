@@ -14,7 +14,7 @@ namespace SeattleHealthClinic
     internal string  _employee_type;
     internal string  _employee_date_hire;
     internal string  _employee_salary_type;
-    internal string  _employee_data_access;
+    // internal string  _employee_data_access;
     internal string  _employee_email;
     internal string  _employee_password;
     // constructors, getters, setters
@@ -44,7 +44,7 @@ namespace SeattleHealthClinic
     {
       _employee_ssn = ssn;
     }
-    public string GetSSN(string ssn)
+    public string GetSSN()
     {
       return _employee_ssn;
     }
@@ -61,6 +61,18 @@ namespace SeattleHealthClinic
     public string GetPassword()
     {
       return _employee_password;
+    }
+    public string GetEmployeeType()
+    {
+      return  _employee_type;
+    }
+    public string GetDateHire()
+    {
+      return _employee_date_hire;
+    }
+    public string GetSalaryType()
+    {
+      return _employee_salary_type;
     }
     // other methods
     // a method to save an employee to the database
