@@ -1,0 +1,87 @@
+@{Layout = "Views/Shared/_Layout.cshtml";}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="breadcrumb">
+        <li>Personnel > Edit Employee ><span class="highlight-text">@Model["viewEmployee"].GetFullName()</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group">
+        <a class="list-group-item active">Edit Employee</a>
+      </div>
+    </div>
+    <div class="col-md-7 col-md-offset-1">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Edit Employee</h3>
+        </div>
+        <div class="panel-body">
+          <form action="/personnel/@Model["currentEmployee"].GetId()/edit_employee/@Model["viewEmployee"].GetId()" method="post" class="form-horizontal">
+            <fieldset>
+              <div class="form-group">
+                <label for="input-firstname" class="col-lg-2 control-label">First Name</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" name="input-firstname" value="@Model["viewEmployee"].GetFirstName()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-lastname" class="col-lg-2 control-label">Last Name</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" name="input-lastname" value="@Model["viewEmployee"].GetLastName()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-email" class="col-lg-2 control-label">Email</label>
+                <div class="col-lg-10">
+                  <input type="email" class="form-control" name="input-email" value="@Model["viewEmployee"].GetEmail()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-password" class="col-lg-2 control-label">Password</label>
+                <div class="col-lg-10">
+                  <input type="password" class="form-control" name="input-password" value="@Model["viewEmployee"].GetPassword()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-ssn" class="col-lg-2 control-label">SSN</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" name="input-ssn" value="@Model["viewEmployee"].GetSSN()">
+                </div>
+              </div>
+              <!-- select boxes require a javascript hookup and some more fineese -->
+              <div class="form-group">
+                <label for="input-employeetype" class="col-lg-2 control-label">Employee Type</label>
+                <div class="col-lg-10">
+                  <select class="form-control" name="input-employeetype">
+                    <option value="Medical">Medical</option>
+                    <option value="Administrative">Administrative</option>
+                    <option value="Managerial" >Managerial</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-salarytype" class="col-lg-2 control-label">Salary Type</label>
+                <div class="col-lg-10">
+                  <select class="form-control" name="input-salarytype">
+                    <option value="Annual">Annual</option>
+                    <option value="Hourly">Hourly</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                  <p>Upcoming feature!</p>
+                  <!-- <button type="submit" class="btn btn-success">Submit</button> -->
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
