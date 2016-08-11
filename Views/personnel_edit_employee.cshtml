@@ -21,6 +21,7 @@
         </div>
         <div class="panel-body">
           <form action="/personnel/@Model["currentEmployee"].GetId()/edit_employee/@Model["viewEmployee"].GetId()" method="post" class="form-horizontal">
+            <input type="hidden" name="_method" value="PATCH">
             <fieldset>
               <div class="form-group">
                 <label for="input-firstname" class="col-lg-2 control-label">First Name</label>
@@ -75,7 +76,7 @@
               <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                   <p>Upcoming feature!</p>
-                  <!-- <button type="submit" class="btn btn-success">Submit</button> -->
+                  <button type="submit" class="btn btn-success">Submit</button>
                 </div>
               </div>
             </fieldset>
