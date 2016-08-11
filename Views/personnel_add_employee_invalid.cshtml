@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-12">
       <!-- cosmetic feature shows the current page route -->
       <ul class="breadcrumb">
         <li>Personnel > <span class="highlight-text">Add New Employee</span></li>
@@ -23,9 +23,9 @@
         <div class="panel-heading">
           <h3 class="panel-title">Add New Employee</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body text-center">
           <p>Please fill out the form completely!</p>
-          <a href="/personnel/@Model["currentEmployee"].GetId()/add_employee"></a>
+          <a href="/personnel/@Model["currentEmployee"].GetId()/add_employee" button type="button" class="btn btn-danger">Return</a>
         </div>
       </div>
     </div>

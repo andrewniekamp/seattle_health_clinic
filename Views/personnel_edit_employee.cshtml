@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-12">
       <ul class="breadcrumb">
         <li>Personnel > Edit Employee ><span class="highlight-text">@Model["viewEmployee"].GetFullName()</span></li>
       </ul>
@@ -75,7 +75,7 @@
               </div>
               <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                  <p>Upcoming feature!</p>
+                  <a href="/personnel/@Model["currentEmployee"].GetId()/edit_employee" button type="button" class="btn btn-danger login-margin-bottom">Return</a>
                   <button type="submit" class="btn btn-success">Submit</button>
                 </div>
               </div>

@@ -24,6 +24,14 @@
   text-align: center;
 }
 
+.breadcrumb {
+   background-color: transparent;
+   border-radius: 0;
+   -moz-border-radius: 0;
+   -webkit-border-radius: 0;
+   -o-border-radius: 0;
+}
+
 /*for placeholder text*/
 ::-webkit-input-placeholder {
    font-style: italic;
