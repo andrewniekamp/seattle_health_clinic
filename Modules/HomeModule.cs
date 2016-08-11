@@ -131,7 +131,9 @@ namespace SeattleHealthClinic
           Request.Form["input-hiredate"]
         );
         newEmployee.Save("employees");
-        return View["personnel_add_employee.cshtml", model];
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        return View["personnel_current.cshtml", model];
       };
 
 
