@@ -5,7 +5,7 @@
     <div class="col-md-3">
       <!-- cosmetic feature shows the current page route -->
       <ul class="breadcrumb">
-        <li>(Menu Name) > <span class="highlight-text">(Sub-menu Name)</span></li>
+        <li>Patients > <span class="highlight-text">Medical Records</span></li>
       </ul>
     </div>
   </div>
@@ -13,10 +13,10 @@
     <div class="col-md-3">
       <!-- linked list used to navigate to parts of the page -->
       <div class="list-group">
-        <a class="list-group-item active">View All Diagnoses</a>
-        <a class="list-group-item">Add New Diagnosis</a>
+        <a class="list-group-item active">Add New Symptom</a>
         <a class="list-group-item">View All Symptoms</a>
-        <a class="list-group-item">Add New Symptom</a>
+        <a class="list-group-item">Add New Diagnosis</a>
+        <a class="list-group-item">View All Diagnoses</a>
 
         @if(Model.ContainsKey("message"))
            {
@@ -32,32 +32,64 @@
       <!-- main panel should have panel-primary -->
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">View All Diagnoses</h3>
+          <h3 class="panel-title">Add New Symptom</h3>
         </div>
         <div class="panel-body">
-          @if(Model["diagnosis"].Count!=0)
-          {
-          <ul>
-            @foreach( var diagnosis in Model["diagnosis"])
-            {
-              <li>Patient Name: @diagnosis.GetPatient().GetName()</li>
-              <ul>
-                <li> Date of Diagnosis: @diagnosis.GetDiagnosisDate()</li>
-                <li> Symptoms Observed: @diagnosis.GetSymptom().GetName()</li>
-              </ul>
-            }
-          </ul>
-        }else{
-          <h4>No Any Diagnosis in System yet.</h4>
-        }
+          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/symptom" method="post">
+            <div class="row">
+              <div class="col-xs-3">
+                <input required class="form-control input-sm" type="text" name="symptom-name" value="" placeholder="Symptom">
+              </div>
+              <div class="col-xs-3">
+                <input required class="form-control input-sm" type="text" name="symptom-classification" value="" placeholder="Classification">
+              </div>
+              <div class="col-xs-3">
+                <select required class="form-control input-sm" class="" name="visit-contagious">
+                  <option selected disabled value="true">Select</option>
+                  <option value="true">Contagious</option>
+                  <option value="false">Not Contagious</option>
+                  <option value="true">Potentially Contagious</option>
+                </select>
+              </div>
+              <div class="col-xs-3">
+                <button class="btn btn-info btn-sm" type="submit" name="button">Add Symptom</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">View All Symptoms</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          @foreach(var allsymptom in Model["symptoms"])
+          {
+            <li> Symptom: @allsymptom.GetName()</li>
+            <ul>
+              <li> Classification: @allsymptom.GetClassification()</li>
+            </ul>
+            @if (@allsymptom.IsContagious())
+            {
+              <ul>
+                <li>Contagious or potentially contagious</li>
+              </ul>
+            } else {
+              <ul>
+                <li>Not contagious</li>
+              </ul>
+            }
+          }
+        </ul>
+        </div>
+      </div>
+      <!-- every panel after the hide should have the panel-hide class the panel-body -->
       <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Add New Diagnosis</h3>
         </div>
         <div class="panel-body panel-hide">
+        <ul>
           @if(Model["symptoms"].Count!=0)
           {
             <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/diagnosis" method="post">
@@ -108,63 +140,28 @@
           }else{
             <h4>Symptoms are required to create a new diagnosis.</h4>
           }
-
         </div>
       </div>
-      <!-- every panel after the hide should have the panel-hide class the panel-body -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">View All Symptoms</h3>
+          <h3 class="panel-title">View All Diagnoses</h3>
         </div>
         <div class="panel-body panel-hide">
-        <ul>
-          @foreach(var allsymptom in Model["symptoms"])
-          {
-            <li> Symptom: @allsymptom.GetName()</li>
-            <ul>
-              <li> Classification: @allsymptom.GetClassification()</li>
-            </ul>
-            @if (@allsymptom.IsContagious())
+            @if(Model["diagnosis"].Count!=0)
             {
-              <ul>
-                <li>Contagious or potentially contagious</li>
-              </ul>
-            } else {
-              <ul>
-                <li>Not contagious</li>
-              </ul>
-            }
+            <ul>
+              @foreach( var diagnosis in Model["diagnosis"])
+              {
+                <li>Patient Name: @diagnosis.GetPatient().GetName()</li>
+                <ul>
+                  <li> Date of Diagnosis: @diagnosis.GetDiagnosisDate()</li>
+                  <li> Symptoms Observed: @diagnosis.GetSymptom().GetName()</li>
+                </ul>
+              }
+            </ul>
+          }else{
+            <h4>No Diagnosis is in System yet.</h4>
           }
-        </ul>
-      </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">Add New Symptom</h3>
-        </div>
-        <div class="panel-body panel-hide">
-          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/symptom" method="post">
-            <div class="row">
-              <div class="col-xs-3">
-                <input required class="form-control input-sm" type="text" name="symptom-name" value="" placeholder="Symptom">
-              </div>
-              <div class="col-xs-3">
-                <input required class="form-control input-sm" type="text" name="symptom-classification" value="" placeholder="Classification">
-              </div>
-              <div class="col-xs-3">
-                <select required class="form-control input-sm" class="" name="visit-contagious">
-                  <option selected disabled value="true">Select</option>
-                  <option value="true">Contagious</option>
-                  <option value="false">Not Contagious</option>
-                  <option value="true">Potentially Contagious</option>
-                </select>
-              </div>
-              <div class="col-xs-3">
-                <button class="btn btn-info btn-sm" type="submit" name="button">Add Symptom</button>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>
