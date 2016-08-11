@@ -8,7 +8,22 @@ namespace SeattleHealthClinic
   {
     public HomeModule()
     {
+      Patch["/personnel/{id}/edit_employee/{employeeId}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        Employee viewEmployee = Employee.Find(parameters.employeeId);
+        viewEmployee.Update(Request.Form["input-firstname"],Request.Form["input-lastname"],Request.Form["input-ssn"],Request.Form["input-employeetype"],viewEmployee.GetHireDate(),Request.Form["input-salarytype"],Request.Form["input-email"],Request.Form["input-password"]);
 
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        model.Add("viewEmployee", viewEmployee);
+        List<Employee> namedEmployees = Employee.SortByName("employees");
+        model.Add("namedEmployees", namedEmployees);
+        List<Employee> typedEmployees = Employee.SortByType("employees");
+        model.Add("typedEmployees", typedEmployees);
+        return View["personnel_current.cshtml", model];
+      };
       //landing page
       Get["/"] = _ => {
         return View["index.cshtml"];
@@ -114,7 +129,10 @@ namespace SeattleHealthClinic
         viewEmployee.Delete();
         List<Employee> allEmployees = Employee.GetAll("employees");
         model.Add("allEmployees", allEmployees);
-        model.Add("viewEmployee", viewEmployee);
+        List<Employee> namedEmployees = Employee.SortByName("employees");
+        model.Add("namedEmployees", namedEmployees);
+        List<Employee> typedEmployees = Employee.SortByType("employees");
+        model.Add("typedEmployees", typedEmployees);
         return View["personnel_current.cshtml", model];
 
       };
@@ -161,11 +179,15 @@ namespace SeattleHealthClinic
           newEmployee.Save("employees");
           List<Employee> allEmployees = Employee.GetAll("employees");
           model.Add("allEmployees", allEmployees);
+          List<Employee> namedEmployees = Employee.SortByName("employees");
+          model.Add("namedEmployees", namedEmployees);
+          List<Employee> typedEmployees = Employee.SortByType("employees");
+          model.Add("typedEmployees", typedEmployees);
           return View["personnel_current.cshtml", model];
         }
         catch
         {
-          return View["personnel_add_employee_invalid.cshtml"];
+          return View["personnel_add_employee_invalid.cshtml", model];
         }
       };
 
