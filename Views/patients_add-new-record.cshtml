@@ -3,10 +3,10 @@
 <script src="/Content/js/allPatients.js" type="text/javascript"></script>
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-12">
       <!-- cosmetic feature shows the current page route -->
       <ul class="breadcrumb">
-        <li>(Menu Name) > <span class="highlight-text">(Sub-menu Name)</span></li>
+        <li>Patients > <span class="highlight-text">Administrative Records</span></li>
       </ul>
     </div>
   </div>
@@ -21,6 +21,7 @@
         <a class="list-group-item">View All Evaluations</a>
         <a class="list-group-item">Add New Evaluation</a>
         <a class="list-group-item">Add Condition</a>
+        <br>
         @if(Model.ContainsKey("message")&&Model.ContainsKey("evals"))
         {
           <blockquote>
@@ -112,7 +113,9 @@
                     </div>
                     <div class="col-xs-6">
 
-                        <button type="button" name="button" class="btn btn-danger btn-sm patient-button-wide" data-toggle="modal" data-target="#myModal">Delete</button>
+                      <button type="submit" name="button" class="btn btn-danger btn-sm patient-button-wide" data-toggle="modal" data-target="#myModal@(allPatient.GetId())">Delete</button>
+
+
                     </div>
                   </div>
                 </div>
@@ -132,7 +135,7 @@
                 </form>
               </div>
 
-              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal fade" id="myModal@(allPatient.GetId())" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -140,10 +143,10 @@
                       <h4 class="modal-title" id="myModalLabel">Delete Patient Records</h4>
                     </div>
                     <div class="modal-body">
-                      <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/delete/@allPatient.GetId()" method="post">
+                      <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/delete/@allPatient.GetId()"  class="myCustomModel" method="post">
                         <input type="hidden" name="_method" value="DELETE">
                         <h3>Are you sure? This operation cannot be undone!</h3>
-                        <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">DELETE PATIENT AND ALL ASSOCIATED INFORMATION</button>
+                        <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">DELETE PATIENT AND ALL ASSOCIATED INFORMATION @allPatient.GetId() </button>
                       </form>
                     </div>
                     <div class="modal-footer">
