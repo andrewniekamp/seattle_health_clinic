@@ -142,6 +142,8 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<Symptom> allSymptoms = Symptom.GetAll();
         List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("currentEmployee", currentEmployee);
         // insert lines here
         model.Add("diagnosis", allDiagnosis);
@@ -257,19 +259,26 @@ namespace SeattleHealthClinic
 
       Post["/patients/{id}/add-new-eval/add/symptom"] = parameters =>{
         //Temporary DoctorId used in constructor below
-        Symptom newSymptom = new Symptom(Request.Form["symptom-name"], Request.Form["symptom-classification"],Request.Form["visit-contagious"]);
-        newSymptom.Save();
         Dictionary<string,object> model = new Dictionary<string,object>();
+
+        if(!string.IsNullOrEmpty(Request.Form["symptom-name"])&&!string.IsNullOrEmpty(Request.Form["symptom-classification"])){
+          Symptom newSymptom = new Symptom(Request.Form["symptom-name"], Request.Form["symptom-classification"],Request.Form["visit-contagious"]);
+          newSymptom.Save();
+          model.Add("message", "You just Add New symptom "+ Request.Form["symptom-name"]);
+
+        }else{
+          model.Add("message", "Your did not enter correct input. Please retry");
+
+        }
         Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
         List<Condition> allConditions = Condition.GetAll();
         List<Symptom> allSymptoms = Symptom.GetAll();
         List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("currentEmployee", currentEmployee);
-        if(!string.IsNullOrEmpty(Request.Form["symptom-name"]))
-        {
-          model.Add("message", "You just Add New symptom "+ Request.Form["symptom-name"]);
-        }
+
         model.Add("diagnosis", allDiagnosis);
         model.Add("symptoms",allSymptoms);
         model.Add("conditions",allConditions);
@@ -295,17 +304,20 @@ namespace SeattleHealthClinic
         foreach (var symptomString in symptoms)
         {
           int symptomId =int.Parse(symptomString);
-          Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1,symptomId,Request.Form["diagnosis-date"]);
+          Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],Request.Form["diagnosis-employees-id"],symptomId,Request.Form["diagnosis-date"]);
           newDiagnosis.Save();
         }
+        Patient onePatient = Patient.Find(Request.Form["diagnosis-patient-id"]);
         Dictionary<string,object> model = new Dictionary<string,object>();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
         List<Condition> allConditions = Condition.GetAll();
         List<Symptom> allSymptoms = Symptom.GetAll();
         List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
         model.Add("currentEmployee", currentEmployee);
-        model.Add("message", "You just Add New symptom"+Request.Form["symptom-name"]);
+        model.Add("message", "You just Add New diagnosis for "+onePatient.GetName());
         model.Add("diagnosis", allDiagnosis);
         model.Add("symptoms",allSymptoms);
         model.Add("conditions",allConditions);

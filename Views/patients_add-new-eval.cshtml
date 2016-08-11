@@ -50,31 +50,41 @@
           <h3 class="panel-title">Add New Diagnosis</h3>
         </div>
         <div class="panel-body">
-          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/diagnosis" method="post">
-            <label for=""> Choose Patient
-              <select class="" name="diagnosis-patient-id">
-              @foreach(var allPatient in Model["patients"])
-              {
-              <option value="@allPatient.GetId()">@allPatient.GetName()</option>
-              }
-              </select>
-            </label>
+          @if(Model["symptoms"].Count!=0)
+          {
+            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/diagnosis" method="post">
+              <label for=""> Choose Patient
+                <select class="" name="diagnosis-patient-id">
+                @foreach(var allPatient in Model["patients"])
+                {
+                <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                }
+                </select>
+              </label>
 
-            <div class="testCheckBox">
-              @foreach(var allsymptom in Model["symptoms"])
-              {
-                <input type="checkbox" name="symptom" value="@allsymptom.GetId()">@allsymptom.GetName()
-              }
-              <input id="hiddenInput" type="hidden" name="symptom-array" value="">
-            </div>
+              <label for=""> Choose Doctor
+                <select class="" name="diagnosis-employees-id">
+                @foreach(var employee in Model["employees"])
+                {
+                <option value="@employee.GetId()">@employee.GetFullName()</option>
+                }
+                </select>
+              </label>
+              <div class="testCheckBox">
+                @foreach(var allsymptom in Model["symptoms"])
+                {
+                  <input type="checkbox" name="symptom" value="@allsymptom.GetId()">@allsymptom.GetName()
+                }
+                <input id="hiddenInput" type="hidden" name="symptom-array" value="">
+              </div>
+              <label for="diagnosis-date">diagnosis Date</label>
+              <input type="date" name="diagnosis-date" id="diagnosis-date">
+              <button type="submit" name="button">Submit</button>
+            </form>
+          }else{
+            <h4>Add New Symptom first In order to Add new Diagnosis</h4>
+          }
 
-
-
-
-            <label for="diagnosis-date">diagnosis Date</label>
-            <input type="date" name="diagnosis-date" id="diagnosis-date">
-            <button type="submit" name="button">Submit</button>
-          </form>
         </div>
       </div>
       <!-- every panel after the hide should have the panel-hide class the panel-body -->
