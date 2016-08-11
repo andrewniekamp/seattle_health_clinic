@@ -196,7 +196,7 @@
             <ul>
               @foreach( var scheduling in Model["patientScheduling"])
               {
-                <li>Date : @scheduling.GetPatientSchedulingDate() | Patient Name : @scheduling.GetPatient().GetName()</li>
+                <li>Date: @scheduling.GetPatientSchedulingDate() | Patient Name: @scheduling.GetPatient().GetName()</li>
               }
             </ul>
           }else{

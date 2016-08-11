@@ -239,6 +239,72 @@ namespace SeattleHealthClinic
       cmd.ExecuteNonQuery();
       conn.Close();
     }
+    // a method to sort all employees by name
+    public static List<Employee> SortByName(string tableName)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      string sql = "SELECT * FROM " + tableName + " ORDER BY employee_name_last;";
+      SqlCommand cmd = new SqlCommand(sql, conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Employee> allEmployees = new List<Employee>{};
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        string ssn = rdr.GetString(3);
+        string employeeType = rdr.GetString(4);
+        DateTime hireDate = rdr.GetDateTime(5);
+        string salaryType = rdr.GetString(6);
+        string email = rdr.GetString(7);
+        string password = rdr.GetString(8);
+        Employee newEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password,  hireDate, id);
+        allEmployees.Add(newEmployee);
+      }
+      if (rdr !=null)
+      {
+        rdr.Close();
+      }
+      if (conn !=null)
+      {
+        conn.Close();
+      }
+      return allEmployees;
+    }
+    // a method to sort all employees by employee type
+    public static List<Employee> SortByType(string tableName)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      string sql = "SELECT * FROM " + tableName + " ORDER BY employee_type;";
+      SqlCommand cmd = new SqlCommand(sql, conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Employee> allEmployees = new List<Employee>{};
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        string ssn = rdr.GetString(3);
+        string employeeType = rdr.GetString(4);
+        DateTime hireDate = rdr.GetDateTime(5);
+        string salaryType = rdr.GetString(6);
+        string email = rdr.GetString(7);
+        string password = rdr.GetString(8);
+        Employee newEmployee = new Employee(firstName, lastName, ssn, employeeType, salaryType, email, password,  hireDate, id);
+        allEmployees.Add(newEmployee);
+      }
+      if (rdr !=null)
+      {
+        rdr.Close();
+      }
+      if (conn !=null)
+      {
+        conn.Close();
+      }
+      return allEmployees;
+    }
     // methods which interact with the License class/datatable
     // a method to add create an association between an employee and a license
     public void AddLicense(License newLicense)
