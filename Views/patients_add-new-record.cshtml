@@ -33,7 +33,7 @@
               {
                 <p class="message-li">Date: @patientEvals.GetConditionEvalDate()</p>
                 <ul>
-                  <li class="message-li">Condition: @patientEvals.FindCondition().GetCondition()</li>
+                  <li class="message-li">Condition: @patientEvals.GetCondition()</li>
                 </ul>
               }
             }else{
@@ -273,7 +273,7 @@
           @if(Model["conditionEval"].Count!=0){
             @foreach( var visit in Model["conditionEval"])
             {
-              <li>Date: @visit.GetConditionEvalDate() | Patient Name : @visit.GetPatient().GetName()</li>
+              <li>Date: @visit.GetConditionEvalDate() | Patient Name : @visit.GetPatient().GetName() |Condition : @visit.GetCondition() </li>
             }
           }else{
               <h4>No records found.</h4>
@@ -301,7 +301,7 @@
                 </select>
               </div>
               <div class="col-xs-6">
-                <select required class="form-control input-sm" name="appointment-employees-id">
+                <select required class="form-control input-sm" name="visit-employees-id">
                   <option selected disabled>Select Physician</option>
                   @foreach(var employee in Model["employees"])
                   {

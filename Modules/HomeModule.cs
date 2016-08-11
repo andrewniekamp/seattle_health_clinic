@@ -327,10 +327,14 @@ namespace SeattleHealthClinic
 
       Post["/patients/{id}/add-new-record/add/visit"] = parameters =>{
         //Temporary DoctorId used in constructor below
-        ConditionEval newVisit = new ConditionEval(Request.Form["visit-patient-id"],Request.Form["appointment-employees-id"], Request.Form["visit-condition-id"],Request.Form["visit-date"]);
+        ConditionEval newVisit = new ConditionEval(Request.Form["visit-patient-id"],Request.Form["visit-condition-id"],Request.Form["visit-employees-id"], Request.Form["visit-date"]);
+        Console.WriteLine(newVisit.GetConditionId());
+
         newVisit.Save();
         string newId=Request.Form["visit-condition-id"];
         Console.WriteLine(newId);
+        Console.WriteLine(newVisit.GetConditionId());
+
         Dictionary<string,object> model = new Dictionary<string,object>{};
         Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
