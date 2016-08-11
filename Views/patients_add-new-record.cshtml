@@ -241,7 +241,7 @@
 
               <label for="patient-appointment-note">Patient Appointment Note</label>
               <textarea required class="form-control" rows="5" name="patient-appointment-note" id="patient-appointment-note"></textarea>
-              <label for="patient-appointment-date">Patient Appointment Date</label>
+              <br>
               <div class="row">
                 <div class="col-xs-9">
                   <input required class="form-control input-sm" type="date" name="patient-appointment-date" id="patient-appointment-date">
@@ -253,7 +253,7 @@
             </form>
 
           }else {
-            <h4> No Patients or Doctors In system yet. Add a Doctor or a Patient first </h4>
+            <h4> A patient and doctor must be added.</h4>
           }
 
           <div>
@@ -274,7 +274,7 @@
               <li>Eval Date  : @visit.GetConditionEvalDate()</li>
             }
           }else{
-            <h4>No Visit Yet</h4>
+            <h4>No records found.</h4>
           }
 
         </div>
@@ -282,66 +282,65 @@
 
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Add New Visit</h3>
+          <h3 class="panel-title">Add New Evaluation</h3>
         </div>
         <div class="panel-body panel-hide">
-          @if(Model["patients"].Count!=0&&Model["employees"].Count!=0&&Model["conditions"].Count!=0)
-          {
-            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
-              <div class="row">
-                <div class="col-xs-6">
-                  <select required class="form-control input-sm" name="visit-patient-id">
-                    <option selected disabled>Select Patient</option>
-                    @foreach(var allPatient in Model["patients"])
-                    {
-                      <option value="@allPatient.GetId()">@allPatient.GetName()</option>
-                    }
-                  </select>
-                </div>
-                <div class="col-xs-6">
-                  <select required class="form-control input-sm" name="appointment-employees-id">
-                    <option selected disabled>Select Physician</option>
-                    @foreach(var employee in Model["employees"])
-                    {
-                      <option value="@employee.GetId()">@employee.GetFullName()</option>
-                    }
-                  </select>
-                </div>
+        @if(Model["patients"].Count!=0&&Model["employees"].Count!=0&&Model["conditions"].Count!=0)
+        {
+          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
+            <div class="row">
+              <div class="col-xs-6">
+                <select required class="form-control input-sm" name="visit-patient-id">
+                  <option selected disabled>Select Patient</option>
+                  @foreach(var allPatient in Model["patients"])
+                  {
+                    <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                  }
+                </select>
               </div>
-              <br>
-              <div class="row">
-                <div class="col-xs-5">
-                  <select required class="form-control input-sm" name="visit-condition-id">
-                    <option selected disabled>Select Condition</option>
-                    @foreach(var allCondition in Model["conditions"])
-                    {
-                      <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
-                    }
-                  </select>
-                </div>
-                <div class="col-xs-5">
-                  <input required class="form-control input-sm"type="date" name="visit-date" id="visit-date">
-                </div>
-                <div class="col-xs-2">
-                  <button type="submit" name="button" class="btn btn-info btn-sm">Submit</button>
-                </div>
+              <div class="col-xs-6">
+                <select required class="form-control input-sm" name="appointment-employees-id">
+                  <option selected disabled>Select Physician</option>
+                  @foreach(var employee in Model["employees"])
+                  {
+                    <option value="@employee.GetId()">@employee.GetFullName()</option>
+                  }
+                </select>
               </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-xs-5">
+                <select required class="form-control input-sm" name="visit-condition-id">
+                  <option selected disabled>Select Condition</option>
+                  @foreach(var allCondition in Model["conditions"])
+                  {
+                    <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
+                  }
+                </select>
+              </div>
+              <div class="col-xs-5">
+                <input required class="form-control input-sm"type="date" name="visit-date" id="visit-date">
+              </div>
+              <div class="col-xs-2">
+                <button type="submit" name="button" class="btn btn-info btn-sm">Submit</button>
+              </div>
+            </div>
           </form>
         }else{
-          <h4>Please add a patient, doctor and condition before adding a new evaluation</h4>
+          <h4>Please add a patient, doctor and condition before adding a new evaluation.</h4>
         }
-          </div>
         </div>
-        <div class="panel">
-          <div class="panel-heading">
-            <h3 class="panel-title">Add Condition</h3>
-          </div>
-          <div class="panel-body panel-hide">
-            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/Condition" method="post">
-              <button type="submit" name="button" class="btn btn-info">Add Stable, Urgent and Critical in System</button>
-            </form>
-
       </div>
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add Condition</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/Condition" method="post">
+            <button type="submit" name="button" class="btn btn-info">Add Stable, Urgent and Critical in System</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
