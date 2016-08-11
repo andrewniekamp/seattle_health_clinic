@@ -54,41 +54,6 @@
                 <h4>@allPatient.GetAddress()</h4>
               </div>
             </div>
-
-            <div class="row patient-margin-row">
-              <div class="col-xs-4">
-                <a href="/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
-              </div>
-              <div class="col-xs-4">
-                <a href="/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
-              </div>
-              <div class="col-xs-4">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="#" class="btn btn-default patient-button btn-sm patient-button-wide patient-edit-button">Edit</a>
-                  </div>
-                  <div class="col-xs-6">
-                    <form class="" action="/view/patient/delete/@allPatient.GetId()" method="post">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">Delete</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row form-row">
-              <form class="patient-update-form" action="/view/patient/edit/@allPatient.GetId()" method="post">
-              <input class="patient-input" type="hidden" name="_method" value="PATCH">
-                <div class="col-xs-4">
-                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-name" value="" placeholder="Enter new name">
-                </div>
-                <div class="col-xs-4">
-                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-address" value="" placeholder="Enter new address">
-                </div>
-                <div class="col-xs-4">
-                  <button type="Submit" name="button" class="btn btn-default patient-button btn-sm patient-button-wide"> Submit Changes</button>
-                </div>
-            </div>
           }
         </div>
       </div>
