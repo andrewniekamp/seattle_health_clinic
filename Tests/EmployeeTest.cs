@@ -199,5 +199,39 @@ namespace SeattleHealthClinic
       Assert.Equal(expected, result);
       Assert.Equal(expected2, result2);
     }
+
+    [Fact]
+    public void Test_Delete_DeleteSingleOneAndAssociateTable()
+    {
+      //Arrange
+      string firstExpected = "Doc";
+      string lastExpected = "Gonzo";
+      string ssnExpected = "000-00-0000";
+      string typeExpected = "Medical";
+      string salaryTypeExpected = "Annual";
+      string emailExpected = "docgonzo@outlook.com";
+      string passwordExpected = "password";
+      DateTime hireDateExpected = new DateTime(2016, 1, 1);
+      Employee newEmployee = new Employee(firstExpected, lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
+      newEmployee.Save("employees");
+      Employee newEmployee2 = new Employee("John", lastExpected, ssnExpected, typeExpected, salaryTypeExpected, emailExpected, passwordExpected, hireDateExpected);
+      newEmployee2.Save("employees");
+      License newLicense1 = new License("WA9999", "MD");
+      newLicense1.Save();
+      License newLicense2 = new License("WA0000", "RN");
+      newLicense2.Save();
+      List<License> newList = new List<License> {newLicense1};
+      //Act
+      newEmployee.AddLicense(newLicense1);
+      newEmployee.Delete();
+      List<Employee> resultEmployees = Employee.GetAll("employees");
+      List<Employee> expectedEmployees = new List<Employee>{newEmployee2};
+        Console.WriteLine(newEmployee.GetFullName());
+          Console.WriteLine(newEmployee2.GetFullName());
+          Console.WriteLine(resultEmployees[0].GetFullName());
+
+      //Assert
+      Assert.Equal(expectedEmployees[0].GetFullName(), resultEmployees[0].GetFullName());
+    }
   }
 }

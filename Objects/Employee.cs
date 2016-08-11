@@ -394,5 +394,22 @@ namespace SeattleHealthClinic
       }
       return foundEmployee;
     }
+
+    public void Delete()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        SqlCommand cmd = new SqlCommand( "DELETE from employees Where id=@EmployeesId; DELETE from certifications Where employee_id=@EmployeesId;",conn);
+        SqlParameter employeeIdIdParameter = new SqlParameter();
+        employeeIdIdParameter.ParameterName = "@EmployeesId";
+        employeeIdIdParameter.Value = this.GetId();
+        cmd.Parameters.Add(employeeIdIdParameter);
+        cmd.ExecuteNonQuery();
+
+        if (conn != null)
+        {
+          conn.Close();
+        }
+    }
   }
 }
