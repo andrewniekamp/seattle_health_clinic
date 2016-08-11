@@ -19,46 +19,46 @@
         <a class="list-group-item">Add New Appointment</a>
         <a class="list-group-item">View All Visit</a>
         <a class="list-group-item">Add New Visit</a>
-        <a class="list-group-item">Display #4</a>
+        <a class="list-group-item">Add Condition</a>
         @if(Model.ContainsKey("message")&&Model.ContainsKey("evals"))
-           {
-             <h2>Message</h2>
-             <p>@Model["message"]</p>
-
-             <ol>
-               @if(Model["evals"].Count != 0)
-               {
-                 <h5>Patient Name : @Model["patient"].GetName()</h5>
-                 @foreach (var patientEvals in Model["evals"])
-                 {
-                   <li>@patientEvals.GetConditionEvalDate() | @patientEvals.FindCondition().GetCondition()</li>
-                 }
-               }else{
-                 <h5>No Visit Records Yet</h5>
-               }
-             </ol>
-           }else if(Model.ContainsKey("message")&&Model.ContainsKey("appointmentForPatient")){
-             <h2>Message</h2>
-             <p>@Model["message"]</p>
-
-             <ol>
-               @if(Model["appointmentForPatient"].Count != 0)
-               {
-                 <h5>Patient Name : @Model["patient"].GetName()</h5>
-                 @foreach (var patientAppoint in Model["appointmentForPatient"])
-                 {
-                   <li>@patientAppoint.GetNote() | @patientAppoint.GetPatientSchedulingDate()</li>
-                 }
-               }else{
-                 <h5>No Appointment Records Yet</h5>
-               }
-             </ol>
-
-           }else if(Model.ContainsKey("message"))
-           {
-             <h2>Message</h2>
-             <p>@Model["message"]</p>
-           }
+        {
+          <blockquote>
+            <h4>@Model["message"]</h4>
+            @if(Model["evals"].Count != 0)
+            {
+            <h5>Patient Name : @Model["patient"].GetName()</h5>
+            <ol>
+              @foreach (var patientEvals in Model["evals"])
+              {
+                <li>@patientEvals.GetConditionEvalDate() | @patientEvals.FindCondition().GetCondition()</li>
+              }
+            </ol>
+            }else{
+            <h5>No records found.</h5>
+            }
+          </blockquote>
+        }else if(Model.ContainsKey("message")&&Model.ContainsKey("appointmentForPatient")){
+          <blockquote>
+            <h4>@Model["message"]</h4>
+            @if(Model["appointmentForPatient"].Count != 0)
+            {
+              <h5>Patient Name : @Model["patient"].GetName()</h5>
+              <ol>
+              @foreach (var patientAppoint in Model["appointmentForPatient"])
+              {
+                <li>@patientAppoint.GetNote() | @patientAppoint.GetPatientSchedulingDate()</li>
+              }
+            </ol>
+            }else{
+              <h5>No records found.</h5>
+            }
+          </blockquote>
+        }else if(Model.ContainsKey("message"))
+        {
+          <blockquote>
+            <h4>@Model["message"]</h4>
+          </blockquote>
+        }
       </div>
     </div>
     <!-- main body for display of material -->
@@ -69,87 +69,93 @@
           <h3 class="panel-title">View All Patient</h3>
         </div>
         <div class="panel-body">
-          <div class="row patient-header-row">
-            <div class="col-xs-4">
-              <h3>Patient ID</h3>
-            </div>
-            <div class="col-xs-4">
-              <h3>Name</h3>
-            </div>
-            <div class="col-xs-4">
-              <h3>Address</h3>
-            </div>
-          </div>
-          @foreach(var allPatient in Model["patients"])
-          {
-            <div class="row">
+          @if(Model["patients"].Count!=0){
+            <div class="row patient-header-row">
               <div class="col-xs-4">
-                <h4>@allPatient.GetId()</h4>
+                <h3>Patient ID</h3>
               </div>
               <div class="col-xs-4">
-                <h4>@allPatient.GetName()</h4>
+                <h3>Name</h3>
               </div>
               <div class="col-xs-4">
-                <h4>@allPatient.GetAddress()</h4>
+                <h3>Address</h3>
               </div>
             </div>
-
-            <div class="row patient-margin-row">
-              <div class="col-xs-4">
-                <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
-              </div>
-              <div class="col-xs-4">
-                <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
-              </div>
-              <div class="col-xs-4">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="#" class="btn btn-default patient-button btn-sm patient-button-wide patient-edit-button">Edit</a>
-                  </div>
-                  <div class="col-xs-6">
-
-                      <button type="button" name="button" class="btn btn-danger btn-sm patient-button-wide" data-toggle="modal" data-target="#myModal">Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row form-row">
-              <form class="patient-update-form" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/edit/@allPatient.GetId()" method="post">
-              <input class="patient-input" type="hidden" name="_method" value="PATCH">
+            @foreach(var allPatient in Model["patients"])
+            {
+              <div class="row">
                 <div class="col-xs-4">
-                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-name" value="" placeholder="Enter new name">
+                  <h4>@allPatient.GetId()</h4>
                 </div>
                 <div class="col-xs-4">
-                  <input class="form-control input-sm" class="form-group" type="text" name="edit-new-address" value="" placeholder="Enter new address">
+                  <h4>@allPatient.GetName()</h4>
                 </div>
                 <div class="col-xs-4">
-                  <button type="Submit" name="button" class="btn btn-default patient-button btn-sm patient-button-wide"> Submit Changes</button>
+                  <h4>@allPatient.GetAddress()</h4>
                 </div>
-              </form>
-            </div>
+              </div>
 
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                  </div>
-                  <div class="modal-body">
-                    <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/delete/@allPatient.GetId()" method="post">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <h3>Are you sure? This operation cannot be undone!</h3>
-                      <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">DELETE PATIENT AND ALL ASSOCIATED INFORMATION</button>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <div class="row patient-margin-row">
+                <div class="col-xs-4">
+                  <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
+                </div>
+                <div class="col-xs-4">
+                  <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
+                </div>
+                <div class="col-xs-4">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <a href="#" class="btn btn-default patient-button btn-sm patient-button-wide patient-edit-button">Edit</a>
+                    </div>
+                    <div class="col-xs-6">
+
+                        <button type="button" name="button" class="btn btn-danger btn-sm patient-button-wide" data-toggle="modal" data-target="#myModal">Delete</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+              <div class="row form-row">
+                <form class="patient-update-form" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/edit/@allPatient.GetId()" method="post">
+                <input class="patient-input" type="hidden" name="_method" value="PATCH">
+                  <div class="col-xs-4">
+                    <input class="form-control input-sm" class="form-group" type="text" name="edit-new-name" value="" placeholder="Enter new name">
+                  </div>
+                  <div class="col-xs-4">
+                    <input class="form-control input-sm" class="form-group" type="text" name="edit-new-address" value="" placeholder="Enter new address">
+                  </div>
+                  <div class="col-xs-4">
+                    <button type="Submit" name="button" class="btn btn-default patient-button btn-sm patient-button-wide"> Submit Changes</button>
+                  </div>
+                </form>
+              </div>
 
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/delete/@allPatient.GetId()" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <h3>Are you sure? This operation cannot be undone!</h3>
+                        <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">DELETE PATIENT AND ALL ASSOCIATED INFORMATION</button>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            }
+
+          }else{
+            <h4>No Patients in System</h4>
           }
+
           <div>
           </div>
         </div>
@@ -175,14 +181,19 @@
           <h3 class="panel-title">View All Appointment</h3>
         </div>
         <div class="panel-body panel-hide">
-          <ul>
-            @foreach( var scheduling in Model["patientScheduling"])
-            {
-              <li>Patient Name : @scheduling.GetPatient().GetName()</li>
-              <li> Date : @scheduling.GetPatientSchedulingDate()</li>
-            }
+          @if(Model["patientScheduling"].Count!=0)
+          {
+            <ul>
+              @foreach( var scheduling in Model["patientScheduling"])
+              {
+                <li>Patient Name : @scheduling.GetPatient().GetName()</li>
+                <li> Date : @scheduling.GetPatientSchedulingDate()</li>
+              }
+            </ul>
+          }else{
+            <h4>Not any Appointment in System yet</h4>
+          }
 
-          </ul>
           <div>
           </div>
         </div>
@@ -193,22 +204,39 @@
           <h3 class="panel-title">Add New Appointment</h3>
         </div>
         <div class="panel-body panel-hide">
-          <form class="" action="/add/appointment" method="post">
-            <label for=""> Choose Patient
-              <select class="" name="appointment-patient-id">
-              @foreach(var allPatient in Model["patients"])
-              {
-              <option value="@allPatient.GetId()">@allPatient.GetName()</option>
-              }
-              </select>
-            </label>
-            <label for="patient-appointment-note">Patient Appointment Note</label>
-            <textarea name="patient-appointment-note" id="patient-appointment-note" rows="8" cols="40"></textarea>
 
-            <label for="patient-appointment-date">Patient Appointment Date</label>
-            <input type="date" name="patient-appointment-date" id="patient-appointment-date">
-            <button type="submit" name="button">Submit</button>
-          </form>
+          @if(Model["patients"].Count!=0&&Model["employees"].Count!=0)
+          {
+            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/appointment/" method="post">
+              <label for=""> Choose Patient
+                <select class="" name="appointment-patient-id">
+                @foreach(var allPatient in Model["patients"])
+                {
+                <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                }
+                </select>
+              </label>
+
+              <label for=""> Choose Doctor
+                <select class="" name="appointment-employees-id">
+                @foreach(var employee in Model["employees"])
+                {
+                <option value="@employee.GetId()">@employee.GetFullName()</option>
+                }
+                </select>
+              </label>
+
+              <label for="patient-appointment-note">Patient Appointment Note</label>
+              <textarea name="patient-appointment-note" id="patient-appointment-note" rows="8" cols="40"></textarea>
+
+              <label for="patient-appointment-date">Patient Appointment Date</label>
+              <input type="date" name="patient-appointment-date" id="patient-appointment-date">
+              <button type="submit" name="button">Submit</button>
+            </form>
+
+          }else {
+            <h4> No Patients or Doctors In system yet. Add a Doctor or a Patient first </h4>
+          }
 
           <div>
 
@@ -221,13 +249,17 @@
           <h3 class="panel-title">View All Visit</h3>
         </div>
         <div class="panel-body panel-hide">
-          @foreach( var visit in Model["conditionEval"])
-          {
-            <li>Patient Name : @visit.GetPatient().GetName()</li>
-            <li>Eval Date  : @visit.GetConditionEvalDate()</li>
-            <li> Condition : @visit.GetCondition().GetCondition()</li>
+          @if(Model["conditionEval"].Count!=0){
+            @foreach( var visit in Model["conditionEval"])
+            {
+              <li>Patient Name : @visit.GetPatient().GetName()</li>
+              <li>Eval Date  : @visit.GetConditionEvalDate()</li>
 
+            }
+          }else{
+            <h4>No Visit Yet</h4>
           }
+
         </div>
       </div>
 
@@ -236,37 +268,56 @@
           <h3 class="panel-title">Add New Visit</h3>
         </div>
         <div class="panel-body panel-hide">
-          <form class="" action="/add/visit" method="post">
-            <label for=""> Enter  patient
-              <select class="" name="visit-patient-id">
-                @foreach(var allPatient in Model["patients"])
-                {
-                  <option value="@allPatient.GetId()">@allPatient.GetName()</option>
-                }
-              </select>
-            </label>
-            <label for=""> Enter  Condition
-              <select class="" name="visit-condition-id">
-                @foreach(var allCondition in Model["conditions"])
-                {
-                  <option value="@allCondition.GetId()">@allCondition.GetCondition()</option>
-                }
-              </select>
-            </label>
+          @if(Model["patients"].Count!=0&&Model["employees"].Count!=0&&Model["conditions"].Count!=0)
+          {
+            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
+              <label for=""> Enter  patient
+                <select class="" name="visit-patient-id">
+                  @foreach(var allPatient in Model["patients"])
+                  {
+                    <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                  }
+                </select>
+              </label>
 
-            <label for="visit-date"> Visit Date</label>
-            <input type="date" name="visit-date" id="visit-date">
-            <button type="submit" name="button">Submit</button>
-          </form>
+              <label for=""> Choose Doctor
+                <select class="" name="appointment-employees-id">
+                @foreach(var employee in Model["employees"])
+                {
+                <option value="@employee.GetId()">@employee.GetFullName()</option>
+                }
+                </select>
+              </label>
+
+
+              <label for=""> Enter  Condition
+                <select class="" name="visit-condition-id">
+                  @foreach(var allCondition in Model["conditions"])
+                  {
+                    <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
+                  }
+                </select>
+              </label>
+
+              <label for="visit-date"> Visit Date</label>
+              <input type="date" name="visit-date" id="visit-date">
+              <button type="submit" name="button" class="btn btn-info">Submit</button>
+            </form>
+        }else{
+          <h4>Make Sure You already has existied patients, doctors and condition before add new visit</h4>
+        }
+          </div>
         </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add Condition</h3>
+          </div>
+          <div class="panel-body panel-hide">
+            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/Condition" method="post">
+              <button type="submit" name="button" class="btn btn-info">Add Stable, Urgent and Critical in System</button>
+            </form>
+
       </div>
-      <div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">Display #4</h3>
-        </div>
-        <div class="panel-body panel-hide">
-          (information)
-        </div>
       </div>
     </div>
   </div>

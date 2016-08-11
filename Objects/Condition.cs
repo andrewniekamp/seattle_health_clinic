@@ -40,6 +40,7 @@ namespace SeattleHealthClinic
     {
       return _status;
     }
+
     public void SetCondition(string newCondition)
     {
       _status = newCondition;
