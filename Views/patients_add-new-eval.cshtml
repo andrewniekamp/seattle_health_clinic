@@ -17,6 +17,12 @@
         <a class="list-group-item">Add New Diagnosis</a>
         <a class="list-group-item">Vie All Symptom</a>
         <a class="list-group-item">Add New Symptom</a>
+
+        @if(Model.ContainsKey("message"))
+           {
+             <h2>Message</h2>
+             <p>@Model["message"]</p>
+           }
       </div>
     </div>
     <!-- main body for display of material -->

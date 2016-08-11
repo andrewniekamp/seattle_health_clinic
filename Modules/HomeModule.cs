@@ -243,7 +243,6 @@ namespace SeattleHealthClinic
         //Temporary DoctorId used in constructor below
         Symptom newSymptom = new Symptom(Request.Form["symptom-name"], Request.Form["symptom-classification"],Request.Form["visit-contagious"]);
         newSymptom.Save();
-        return View["success.cshtml"];
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
@@ -251,7 +250,10 @@ namespace SeattleHealthClinic
         List<Symptom> allSymptoms = Symptom.GetAll();
         List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
         model.Add("currentEmployee", currentEmployee);
-        model.Add("message", "You just Add New symptom"+Request.Form["symptom-name"]);
+        if(!string.IsNullOrEmpty(Request.Form["symptom-name"]))
+        {
+          model.Add("message", "You just Add New symptom "+ Request.Form["symptom-name"]);
+        }
         model.Add("diagnosis", allDiagnosis);
         model.Add("symptoms",allSymptoms);
         model.Add("conditions",allConditions);
