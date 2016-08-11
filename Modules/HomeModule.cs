@@ -129,7 +129,10 @@ namespace SeattleHealthClinic
         viewEmployee.Delete();
         List<Employee> allEmployees = Employee.GetAll("employees");
         model.Add("allEmployees", allEmployees);
-        model.Add("viewEmployee", viewEmployee);
+        List<Employee> namedEmployees = Employee.SortByName("employees");
+        model.Add("namedEmployees", namedEmployees);
+        List<Employee> typedEmployees = Employee.SortByType("employees");
+        model.Add("typedEmployees", typedEmployees);
         return View["personnel_current.cshtml", model];
 
       };
