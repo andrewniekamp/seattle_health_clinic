@@ -97,6 +97,18 @@ namespace SeattleHealthClinic
         model.Add("viewLicenses", viewLicenses);
         return View["personnel_view_employee.cshtml", model];
       };
+      Delete["/personnel/{id}/current/delete/{employeeId}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        Employee viewEmployee = Employee.Find(parameters.employeeId);
+        viewEmployee.Delete();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        model.Add("viewEmployee", viewEmployee);
+        return View["personnel_current.cshtml", model];
+
+      };
 
       Get["/personnel/{id}/records"] = parameters => {
         Dictionary<string,object> model = new Dictionary<string,object>();

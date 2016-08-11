@@ -28,11 +28,13 @@
     <!-- main body for display of material -->
     <div class="col-md-7 col-md-offset-1">
       <!-- main panel should have panel-primary -->
-      <div class="panel">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">View All Diagnosis</h3>
         </div>
-        <div class="panel-body panel-hide">
+        <div class="panel-body">
+          @if(Model["diagnosis"].Count!=0)
+          {
           <ul>
             @foreach( var diagnosis in Model["diagnosis"])
             {
@@ -40,16 +42,18 @@
               <li> Symotom : @diagnosis.GetSymptom().GetName()</li>
               <li> Date : @diagnosis.GetDiagnosisDate()</li>
             }
-
           </ul>
+        }else{
+          <h4>No Any Diagnosis in System yet.</h4>
+        }
         </div>
       </div>
 
-      <div class="panel panel-primary">
+      <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Add New Diagnosis</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-hide">
           @if(Model["symptoms"].Count!=0)
           {
             <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/diagnosis" method="post">
