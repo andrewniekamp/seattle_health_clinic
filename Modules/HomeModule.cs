@@ -109,6 +109,35 @@ namespace SeattleHealthClinic
         return View["personnel_records.cshtml", model];
       };
 
+      Get["/personnel/{id}/add_employee"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        return View["personnel_add_employee.cshtml", model];
+      };
+
+      Post["/personnel/{id}/add_employee"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        Employee newEmployee = new Employee(
+          Request.Form["input-firstname"],
+          Request.Form["input-lastname"],
+          Request.Form["input-ssn"],
+          Request.Form["input-employeetype"],
+          Request.Form["input-salarytype"],
+          Request.Form["input-email"],
+          Request.Form["input-password"],
+          Request.Form["input-hiredate"]
+        );
+        newEmployee.Save("employees");
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        return View["personnel_current.cshtml", model];
+      };
+
+
+
       //finished routes go above, unfinished routes go below
 
       // this is how a minimum route should look like:
@@ -272,7 +301,6 @@ namespace SeattleHealthClinic
 
         }else{
           model.Add("message", "Your did not enter correct input. Please retry");
-
         }
         Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
