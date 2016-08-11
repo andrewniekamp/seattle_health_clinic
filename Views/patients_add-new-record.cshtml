@@ -14,12 +14,12 @@
     <div class="col-md-3">
       <!-- linked list used to navigate to parts of the page -->
       <div class="list-group">
-        <a class="list-group-item active">View All Patient</a>
+        <a class="list-group-item active">View All Patients</a>
         <a class="list-group-item">Add New Patient</a>
-        <a class="list-group-item">View All Appointment</a>
+        <a class="list-group-item">View All Appointments</a>
         <a class="list-group-item">Add New Appointment</a>
-        <a class="list-group-item">View All Visit</a>
-        <a class="list-group-item">Add New Visit</a>
+        <a class="list-group-item">View All Evaluations</a>
+        <a class="list-group-item">Add New Evaluation</a>
         <a class="list-group-item">Add Condition</a>
         @if(Model.ContainsKey("message")&&Model.ContainsKey("evals"))
         {
@@ -69,41 +69,41 @@
       <!-- main panel should have panel-primary -->
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">View All Patient</h3>
+          <h3 class="panel-title">View All Patients</h3>
         </div>
         <div class="panel-body">
           @if(Model["patients"].Count!=0){
             <div class="row patient-header-row">
               <div class="col-xs-4">
-                <h3>Patient ID</h3>
+                <h4>Patient ID</h4>
               </div>
               <div class="col-xs-4">
-                <h3>Name</h3>
+                <h4>Name</h4>
               </div>
               <div class="col-xs-4">
-                <h3>Address</h3>
+                <h4>Address</h4>
               </div>
             </div>
             @foreach(var allPatient in Model["patients"])
             {
               <div class="row">
                 <div class="col-xs-4">
-                  <h4>@allPatient.GetId()</h4>
+                  <h5>@allPatient.GetId()</h5>
                 </div>
                 <div class="col-xs-4">
-                  <h4>@allPatient.GetName()</h4>
+                  <h5>@allPatient.GetName()</h5>
                 </div>
                 <div class="col-xs-4">
-                  <h4>@allPatient.GetAddress()</h4>
+                  <h5>@allPatient.GetAddress()</h5>
                 </div>
               </div>
 
               <div class="row patient-margin-row">
                 <div class="col-xs-4">
-                  <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Visit</a>
+                  <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/visit/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View Evaluations</a>
                 </div>
                 <div class="col-xs-4">
-                  <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View All Appointment</a>
+                  <a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/appointments/@allPatient.GetId()" class="btn btn-info btn-sm patient-button-wide">View Appointments</a>
                 </div>
                 <div class="col-xs-4">
                   <div class="row">
@@ -137,7 +137,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                      <h4 class="modal-title" id="myModalLabel">Delete Patient Records</h4>
                     </div>
                     <div class="modal-body">
                       <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/view/patient/delete/@allPatient.GetId()" method="post">
@@ -188,7 +188,7 @@
       <!-- every panel after the hide should have the panel-hide class the panel-body -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">View All Appointment</h3>
+          <h3 class="panel-title">View All Appointments</h3>
         </div>
         <div class="panel-body panel-hide">
           @if(Model["patientScheduling"].Count!=0)
@@ -196,12 +196,11 @@
             <ul>
               @foreach( var scheduling in Model["patientScheduling"])
               {
-                <li>Patient Name : @scheduling.GetPatient().GetName()</li>
-                <li> Date : @scheduling.GetPatientSchedulingDate()</li>
+                <li>Date : @scheduling.GetPatientSchedulingDate() | Patient Name : @scheduling.GetPatient().GetName()</li>
               }
             </ul>
           }else{
-            <h4>Not any Appointment in System yet</h4>
+            <h4>No records found.</h4>
           }
 
           <div>
@@ -264,19 +263,19 @@
 
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">View All Visit</h3>
+          <h3 class="panel-title">View All Evaluations</h3>
         </div>
         <div class="panel-body panel-hide">
+          <ul>
           @if(Model["conditionEval"].Count!=0){
             @foreach( var visit in Model["conditionEval"])
             {
-              <li>Patient Name : @visit.GetPatient().GetName()</li>
-              <li>Eval Date  : @visit.GetConditionEvalDate()</li>
+              <li>Date: @visit.GetConditionEvalDate() | Patient Name : @visit.GetPatient().GetName()</li>
             }
           }else{
-            <h4>No records found.</h4>
+              <h4>No records found.</h4>
           }
-
+          </ul>
         </div>
       </div>
 
