@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  //collapsable panel
   $(".list-group-item, .panel-heading").click(function() {
     var index = $(".list-group-item, .panel-heading").index(this);
     var numItems = $(".list-group-item").length;
@@ -27,5 +28,10 @@ $(document).ready(function() {
         $(this).removeClass("panel-primary");
       }
     });
+  });
+
+  //table in personnel_current.cshtml
+  $("tr:odd").each(function() {
+    $(this).addClass("active");
   });
 });

@@ -1,0 +1,63 @@
+@{Layout = "Views/Shared/_Layout.cshtml";}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- cosmetic feature shows the current page route -->
+      <ul class="breadcrumb">
+        <li>Personnel > Current > <span class="highlight-text">@Model["viewEmployee"].GetFullName()</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <!-- linked list used to navigate to parts of the page -->
+      <div class="list-group">
+        <a class="list-group-item active">Employee Profile</a>
+        <a class="list-group-item">Employer Actions</a>
+      </div>
+    </div>
+    <!-- main body for display of material -->
+    <div class="col-md-7 col-md-offset-1">
+      <!-- main panel should have panel-primary -->
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Employee Profile</h3>
+        </div>
+        <div class="panel-body">
+          <p><strong>First Name:</strong> @Model["viewEmployee"].GetFirstName()</p>
+          <p><strong>Last Name:</strong> @Model["viewEmployee"].GetLastName()</p>
+          <p><strong>Email:</strong> @Model["viewEmployee"].GetEmail()</p>
+          <p><strong>SSN:</strong> @Model["viewEmployee"].GetSSN()</p>
+          <p class="divider"></p>
+          <p><strong>Employee Type:</strong> @Model["viewEmployee"].GetEmployeeType()</p>
+          <p><strong>Date Hired:</strong> @Model["viewEmployee"].GetDateHire()</p>
+          <p><strong>Salary Amount:</strong> @Model["viewEmployee"].GetSalaryType()</p>
+          <p>
+            <strong>Current Licenses: </strong>
+            @if(@Model["viewLicenses"].Count != 0)
+            {
+              @foreach(var license in Model["viewLicenses"])
+              {
+                <span>@license.GetLicenseType() </span>
+              }
+            }
+            else
+            {
+              <span>none</span>
+            }
+          </p>
+        </div>
+      </div>
+      <!-- every panel after the hide should have the panel-hide class the panel-body -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Employer Actions</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          (information)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

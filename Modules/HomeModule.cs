@@ -67,6 +67,10 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
+        Payroll currentPayroll = Payroll.Find(parameters.id);
+        model.Add("currentPayroll", currentPayroll);
+        List<License> currentLicenses = currentEmployee.GetLicenses();
+        model.Add("currentLicenses", currentLicenses);
         return View["profile_licensure.cshtml", model];
       };
 
@@ -79,15 +83,27 @@ namespace SeattleHealthClinic
         return View["personnel_current.cshtml", model];
       };
 
-      Get["/personnel/{id}/payroll"] = parameters => {
+      Get["/personnel/{id}/current/{employeeId}"] = parameters => {
         Dictionary<string, object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        // insert lines here
-        return View["personnel_records.cshtml", model];
+        Employee viewEmployee = Employee.Find(parameters.employeeId);
+        model.Add("viewEmployee", viewEmployee);
+        List<License> viewLicenses = viewEmployee.GetLicenses();
+        model.Add("viewLicenses", viewLicenses);
+        return View["personnel_view_employee.cshtml", model];
       };
 
-
+      Get["/personnel/{id}/records"] = parameters => {
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        List<Patient> allPatients = Patient.GetAll();
+        model.Add("allPatients", allPatients);
+        return View["personnel_records.cshtml", model];
+      };
 
       //finished routes go above, unfinished routes go below
 
