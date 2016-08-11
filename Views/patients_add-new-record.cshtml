@@ -173,13 +173,13 @@
           <div class="row">
             <form class=""   action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/patients" method="post">
               <div class="col-xs-4">
-                <input type="text" name="patient-name" value="" placeholder="Patient Name">
+                <input required class="form-control input-sm" type="text" name="patient-name" value="" placeholder="Patient Name">
               </div>
               <div class="col-xs-4">
-                <input type="text" name="patient-address" value="">
+                <input required class="form-control input-sm" type="text" name="patient-address" value="" placeholder="Patient Address">
               </div>
               <div class="col-xs-4">
-                <button type="submit" class="btn btn-info" name="button">Submit</button>
+                <button type="submit" class="btn btn-info btn-sm" name="button">Submit</button>
               </div>
             </form>
           </div>
@@ -218,30 +218,38 @@
           @if(Model["patients"].Count!=0&&Model["employees"].Count!=0)
           {
             <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/appointment/" method="post">
-              <label for=""> Choose Patient
-                <select class="" name="appointment-patient-id">
-                @foreach(var allPatient in Model["patients"])
-                {
-                <option value="@allPatient.GetId()">@allPatient.GetName()</option>
-                }
-                </select>
-              </label>
-
-              <label for=""> Choose Doctor
-                <select class="" name="appointment-employees-id">
-                @foreach(var employee in Model["employees"])
-                {
-                <option value="@employee.GetId()">@employee.GetFullName()</option>
-                }
-                </select>
-              </label>
+              <div class="row">
+                <div class="col-xs-6">
+                  <select class="form-control input-sm" name="appointment-patient-id">
+                    <option selected disabled>Select Patient</option>
+                    @foreach(var allPatient in Model["patients"])
+                    {
+                      <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-xs-6">
+                  <select required class="form-control input-sm" name="appointment-employees-id">
+                    <option selected disabled>Select Physician</option>
+                    @foreach(var employee in Model["employees"])
+                    {
+                      <option value="@employee.GetId()">@employee.GetFullName()</option>
+                    }
+                  </select>
+                </div>
+              </div>
 
               <label for="patient-appointment-note">Patient Appointment Note</label>
-              <textarea name="patient-appointment-note" id="patient-appointment-note" rows="8" cols="40"></textarea>
-
+              <textarea required class="form-control" rows="5" name="patient-appointment-note" id="patient-appointment-note"></textarea>
               <label for="patient-appointment-date">Patient Appointment Date</label>
-              <input type="date" name="patient-appointment-date" id="patient-appointment-date">
-              <button type="submit" name="button">Submit</button>
+              <div class="row">
+                <div class="col-xs-9">
+                  <input required class="form-control input-sm" type="date" name="patient-appointment-date" id="patient-appointment-date">
+                </div>
+                <div class="col-xs-3">
+                  <button class="btn btn-info btn-sm" type="submit" name="button">Submit</button>
+                </div>
+              </div>
             </form>
 
           }else {
@@ -280,40 +288,47 @@
           @if(Model["patients"].Count!=0&&Model["employees"].Count!=0&&Model["conditions"].Count!=0)
           {
             <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
-              <label for=""> Enter  patient
-                <select class="" name="visit-patient-id">
-                  @foreach(var allPatient in Model["patients"])
-                  {
-                    <option value="@allPatient.GetId()">@allPatient.GetName()</option>
-                  }
-                </select>
-              </label>
-
-              <label for=""> Choose Doctor
-                <select class="" name="appointment-employees-id">
-                @foreach(var employee in Model["employees"])
-                {
-                <option value="@employee.GetId()">@employee.GetFullName()</option>
-                }
-                </select>
-              </label>
-
-
-              <label for=""> Enter  Condition
-                <select class="" name="visit-condition-id">
-                  @foreach(var allCondition in Model["conditions"])
-                  {
-                    <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
-                  }
-                </select>
-              </label>
-
-              <label for="visit-date"> Visit Date</label>
-              <input type="date" name="visit-date" id="visit-date">
-              <button type="submit" name="button" class="btn btn-info">Submit</button>
-            </form>
+              <div class="row">
+                <div class="col-xs-6">
+                  <select required class="form-control input-sm" name="visit-patient-id">
+                    <option selected disabled>Select Patient</option>
+                    @foreach(var allPatient in Model["patients"])
+                    {
+                      <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-xs-6">
+                  <select required class="form-control input-sm" name="appointment-employees-id">
+                    <option selected disabled>Select Physician</option>
+                    @foreach(var employee in Model["employees"])
+                    {
+                      <option value="@employee.GetId()">@employee.GetFullName()</option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-xs-5">
+                  <select required class="form-control input-sm" name="visit-condition-id">
+                    <option selected disabled>Select Condition</option>
+                    @foreach(var allCondition in Model["conditions"])
+                    {
+                      <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-xs-5">
+                  <input required class="form-control input-sm"type="date" name="visit-date" id="visit-date">
+                </div>
+                <div class="col-xs-2">
+                  <button type="submit" name="button" class="btn btn-info btn-sm">Submit</button>
+                </div>
+              </div>
+          </form>
         }else{
-          <h4>Make Sure You already has existied patients, doctors and condition before add new visit</h4>
+          <h4>Please add a patient, doctor and condition before adding a new evaluation</h4>
         }
           </div>
         </div>
