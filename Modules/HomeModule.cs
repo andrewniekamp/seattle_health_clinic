@@ -109,6 +109,18 @@ namespace SeattleHealthClinic
         return View["personnel_records.cshtml", model];
       };
 
+      Get["/personnel/{id}/add_employee"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        // insert lines here
+        return View["personnel_add_employee.cshtml", model];
+      };
+
+      //dont forget post route
+
+
+
       //finished routes go above, unfinished routes go below
 
       // this is how a minimum route should look like:
