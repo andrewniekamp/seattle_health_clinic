@@ -120,33 +120,49 @@ namespace SeattleHealthClinic
         Dictionary<string, object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        Employee newEmployee = new Employee(
-          Request.Form["input-firstname"],
-          Request.Form["input-lastname"],
-          Request.Form["input-ssn"],
-          Request.Form["input-employeetype"],
-          Request.Form["input-salarytype"],
-          Request.Form["input-email"],
-          Request.Form["input-password"],
-          Request.Form["input-hiredate"]
-        );
-        newEmployee.Save("employees");
-        List<Employee> allEmployees = Employee.GetAll("employees");
-        model.Add("allEmployees", allEmployees);
-        return View["personnel_current.cshtml", model];
+        //not working yet
+        try
+        {
+          Employee newEmployee = new Employee(
+            Request.Form["input-firstname"],
+            Request.Form["input-lastname"],
+            Request.Form["input-ssn"],
+            Request.Form["input-employeetype"],
+            Request.Form["input-salarytype"],
+            Request.Form["input-email"],
+            Request.Form["input-password"],
+            Request.Form["input-hiredate"]
+          );
+          newEmployee.Save("employees");
+          List<Employee> allEmployees = Employee.GetAll("employees");
+          model.Add("allEmployees", allEmployees);
+          return View["personnel_current.cshtml", model];
+        }
+        catch
+        {
+          return View["personnel_add_employee_invalid.cshtml"];
+        }
       };
 
+      Get["/personnel/{id}/edit_employee"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        return View["personnel_edit_current.cshtml", model];
+      };
 
+      Get["/personnel/{id}/edit_employee/{employeeId}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        Employee viewEmployee = Employee.Find(parameters.employeeId);
+        model.Add("viewEmployee", viewEmployee);
+        return View["personnel_edit_employee.cshtml", model];
+      };
 
-      //finished routes go above, unfinished routes go below
-
-      // this is how a minimum route should look like:
-      // Get["/(menu name)/{id}/(sub-menu name)"] = parameters => {
-      //   Dictionary<string, object> model = new Dictionary<string,object>();
-      //   Employee currentEmployee = Employee.Find(parameters.id);
-      //   model.Add("currentEmployee", currentEmployee);
-      //   return View["(menu name)_(sub-menu name)", model];
-      // };
+      // Post ROUTE
 
       Get["/add/patients"] = _ =>{
         return View["add_new_patient.cshtml"];
