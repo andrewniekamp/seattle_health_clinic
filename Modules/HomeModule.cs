@@ -8,6 +8,7 @@ namespace SeattleHealthClinic
   {
     public HomeModule()
     {
+
       //landing page
       Get["/"] = _ => {
         return View["index.cshtml"];
@@ -128,7 +129,8 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
-
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("currentEmployee", currentEmployee);
         model.Add("conditions",allConditions);
@@ -177,11 +179,38 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
-        // List<Employee> allEmployees = Employee.GetAll(TABLE NAME);
+        List<Employee> allEmployees = Employee.GetAll("employees");
         if(!String.IsNullOrEmpty(newPatient.GetName()))
         {
           model.Add("message", newPatient.GetName() + " has been added.");
         }
+        model.Add("employees", allEmployees);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        model.Add("patientScheduling", allPatientSchedulings);
+        model.Add("currentEmployee", currentEmployee);
+
+        return View["patients_add-new-record.cshtml",model];
+      };
+      Post["/patients/{id}/add-new-record/add/Condition"]=parameters =>{
+        Condition.DeleteAll();
+        Condition StableCondition=new Condition("Stable");
+        StableCondition.Save();
+        Condition UrgentCondition=new Condition("Urgent");
+        UrgentCondition.Save();
+        Condition CriticalCondition=new Condition("Critical");
+        CriticalCondition.Save();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("message",  "Conditions have been added.");
+
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
@@ -202,11 +231,27 @@ namespace SeattleHealthClinic
       //   return View["add_visit.cshtml",model];
       // };
 
-      Post["/add/visit"] = _ =>{
+      Post["/patients/{id}/add-new-record/add/visit"] = parameters =>{
         //Temporary DoctorId used in constructor below
-        ConditionEval newVisit = new ConditionEval(Request.Form["visit-patient-id"],1, Request.Form["visit-condition-id"],Request.Form["visit-date"]);
+        ConditionEval newVisit = new ConditionEval(Request.Form["visit-patient-id"],Request.Form["appointment-employees-id"], Request.Form["visit-condition-id"],Request.Form["visit-date"]);
         newVisit.Save();
-        return View["success.cshtml"];
+        string newId=Request.Form["visit-condition-id"];
+        Console.WriteLine(newId);
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
+        model.Add("currentEmployee", currentEmployee);
+        model.Add("message", "You just Add New Vist");
+        model.Add("patients", allPatients);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patientScheduling", allPatientSchedulings);
+        return View["patients_add-new-record.cshtml",model];
       };
 
       // Get["/add/symptom"] = _ =>{
@@ -214,11 +259,26 @@ namespace SeattleHealthClinic
       //   return View["add_new_symptom.cshtml"];
       // };
 
-      Post["/add/symptom"] = _ =>{
+      Post["/patients/{id}/add-new-eval/add/symptom"] = parameters =>{
         //Temporary DoctorId used in constructor below
         Symptom newSymptom = new Symptom(Request.Form["symptom-name"], Request.Form["symptom-classification"],Request.Form["visit-contagious"]);
         newSymptom.Save();
-        return View["success.cshtml"];
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<Symptom> allSymptoms = Symptom.GetAll();
+        List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
+        model.Add("currentEmployee", currentEmployee);
+        if(!string.IsNullOrEmpty(Request.Form["symptom-name"]))
+        {
+          model.Add("message", "You just Add New symptom "+ Request.Form["symptom-name"]);
+        }
+        model.Add("diagnosis", allDiagnosis);
+        model.Add("symptoms",allSymptoms);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        return View["patients_add-new-eval.cshtml", model];
       };
       //
       // Get["/add/diagnosis"] = _ =>{
@@ -232,7 +292,7 @@ namespace SeattleHealthClinic
       //   return View["add_diagnosis.cshtml",model];
       // };
 
-      Post["/add/diagnosis"] = _ =>{
+      Post["/patients/{id}/add-new-eval/add/diagnosis"] = parameters =>{
         //Attempting to integrate checkbox or radio dial for selecting diagnosis
         string symptomsFromForm = Request.Form["symptom-array"].ToString();
         string[] symptoms = symptomsFromForm.Split(',');
@@ -242,7 +302,19 @@ namespace SeattleHealthClinic
           Diagnosis newDiagnosis = new Diagnosis(Request.Form["diagnosis-patient-id"],1,symptomId,Request.Form["diagnosis-date"]);
           newDiagnosis.Save();
         }
-        return View["success.cshtml"];
+        Dictionary<string,object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<Symptom> allSymptoms = Symptom.GetAll();
+        List<Diagnosis> allDiagnosis = Diagnosis.GetAll();
+        model.Add("currentEmployee", currentEmployee);
+        model.Add("message", "You just Add New symptom"+Request.Form["symptom-name"]);
+        model.Add("diagnosis", allDiagnosis);
+        model.Add("symptoms",allSymptoms);
+        model.Add("conditions",allConditions);
+        model.Add("patients",allPatients);
+        return View["patients_add-new-eval.cshtml", model];
       };
 
       // Get["/view/all/patients"] =_=>{
@@ -264,6 +336,11 @@ namespace SeattleHealthClinic
       Get["/patients/{id}/add-new-record/view/patient/visit/{patientId}"] = parameters =>{
         Patient patientToUpdate = Patient.Find(parameters.patientId);
         List<ConditionEval> patientEvals = patientToUpdate.GetAllEval();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+
         Dictionary<string,object> model = new Dictionary<string,object>{};
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
@@ -273,10 +350,7 @@ namespace SeattleHealthClinic
         List<Patient> allPatients = Patient.GetAll();
 
         model.Add("patients", allPatients);
-
-        List<Condition> allConditions = Condition.GetAll();
-        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
-        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        model.Add("employees", allEmployees);
 
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
@@ -295,6 +369,8 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("patient", patientToUpdate);
         model.Add("appointmentForPatient", patientSchedule);
         model.Add("currentEmployee", currentEmployee);
@@ -316,6 +392,8 @@ namespace SeattleHealthClinic
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
         model.Add("message", "You Change New Name to "+Request.Form["edit-new-name"]);
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
@@ -335,10 +413,12 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
         if(!String.IsNullOrEmpty(patientToDelete.GetName()))
         {
           model.Add("message", patientToDelete.GetName() + " and all associated information has been deleted.");
         }
+        model.Add("employees", allEmployees);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);
@@ -372,11 +452,31 @@ namespace SeattleHealthClinic
       //   return View["add_appointment.cshtml",model];
       // };
 
-      Post["/add/appointment"] = _ =>{
-        //Attempting to integrate checkbox or radio dial for selecting diagnosis
-        PatientScheduling newScheduling = new PatientScheduling(Request.Form["appointment-patient-id"],1, Request.Form["patient-appointment-note"],Request.Form["patient-appointment-date"]);
-        newScheduling.Save();
-        return View["success.cshtml"];
+      Post["/patients/{id}/add-new-record/add/appointment/"] = parameters =>{
+
+        PatientScheduling newPatientScheduling = new PatientScheduling(Request.Form["appointment-patient-id"], Request.Form["appointment-employees-id"], Request.Form["patient-appointment-note"], Request.Form["patient-appointment-date"]);
+        newPatientScheduling.Save();
+        Dictionary<string,object> model = new Dictionary<string,object>{};
+        Employee currentEmployee = Employee.Find(parameters.id);
+        List<Patient> allPatients = Patient.GetAll();
+        List<Condition> allConditions = Condition.GetAll();
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("employees", allEmployees);
+        model.Add("currentEmployee", currentEmployee);
+        model.Add("message", "You just Add New Appointment");
+        model.Add("patients", allPatients);
+        model.Add("conditionEval", allConditionEvals);
+        model.Add("conditions",allConditions);
+        model.Add("patientScheduling", allPatientSchedulings);
+        return View["patients_add-new-record.cshtml",model];
+
+
+        // //Attempting to integrate checkbox or radio dial for selecting diagnosis
+        // PatientScheduling newScheduling = new PatientScheduling(Request.Form["appointment-patient-id"],1, Request.Form["patient-appointment-note"],Request.Form["patient-appointment-date"]);
+        // newScheduling.Save();
+        // return View["success.cshtml"];
       };
 
       Get["/news"]= _ =>{

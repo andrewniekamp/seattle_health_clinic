@@ -17,6 +17,12 @@
         <a class="list-group-item">Add New Diagnosis</a>
         <a class="list-group-item">Vie All Symptom</a>
         <a class="list-group-item">Add New Symptom</a>
+
+        @if(Model.ContainsKey("message"))
+           {
+             <h2>Message</h2>
+             <p>@Model["message"]</p>
+           }
       </div>
     </div>
     <!-- main body for display of material -->
@@ -44,7 +50,7 @@
           <h3 class="panel-title">Add New Diagnosis</h3>
         </div>
         <div class="panel-body">
-          <form class="" action="/add/diagnosis" method="post">
+          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/diagnosis" method="post">
             <label for=""> Choose Patient
               <select class="" name="diagnosis-patient-id">
               @foreach(var allPatient in Model["patients"])
@@ -94,7 +100,7 @@
           <h3 class="panel-title">Add New Symptom</h3>
         </div>
         <div class="panel-body panel-hide">
-          <form class="" action="/add/symptom" method="post">
+          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-eval/add/symptom" method="post">
             <label for="symptom-name">Symptom Name</label>
             <input type="text" name="symptom-name" value="">
             <label for="symptom-classification">Symptom Classification</label>
