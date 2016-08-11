@@ -20,61 +20,61 @@
           <h3 class="panel-title">Add New Employee</h3>
         </div>
         <div class="panel-body">
-          <form class="form-horizontal">
+          <form action="/personnel/@Model["currentEmployee"].GetId()/add_employee" method="post" class="form-horizontal">
             <fieldset>
               <div class="form-group">
                 <label for="input-firstname" class="col-lg-2 control-label">First Name</label>
                 <div class="col-lg-10">
-                  <input type="text" class="form-control" id="input-firstname" placeholder="First Name">
+                  <input type="text" class="form-control" name="input-firstname" placeholder="First Name">
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-lastname" class="col-lg-2 control-label">Last Name</label>
                 <div class="col-lg-10">
-                  <input type="text" class="form-control" id="input-lastname" placeholder="Last Name">
+                  <input type="text" class="form-control" name="input-lastname" placeholder="Last Name">
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-email" class="col-lg-2 control-label">Email</label>
                 <div class="col-lg-10">
-                  <input type="email" class="form-control" id="input-email" placeholder="Email">
+                  <input type="email" class="form-control" name="input-email" placeholder="Email">
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-password" class="col-lg-2 control-label">Password</label>
                 <div class="col-lg-10">
-                  <input type="password" class="form-control" id="input-password" placeholder="Password">
+                  <input type="password" class="form-control" name="input-password" placeholder="Password">
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-ssn" class="col-lg-2 control-label">SSN</label>
                 <div class="col-lg-10">
-                  <input type="text" class="form-control" id="input-ssn" placeholder="Social Security Number">
+                  <input type="text" class="form-control" name="input-ssn" placeholder="Social Security Number">
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-employeetype" class="col-lg-2 control-label">Employee Type</label>
                 <div class="col-lg-10">
-                  <select class="form-control" id="input-employeetype">
-                    <option>Medical</option>
-                    <option>Administrative</option>
-                    <option>Managerial</option>
+                  <select class="form-control" name="input-employeetype">
+                    <option value="Medical">Medical</option>
+                    <option value="Administrative">Administrative</option>
+                    <option value="Managerial">Managerial</option>
                   </select>
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-salarytype" class="col-lg-2 control-label">Salary Type</label>
                 <div class="col-lg-10">
-                  <select class="form-control" id="input-salarytype">
-                    <option>Annual</option>
-                    <option>Hourly</option>
+                  <select class="form-control" name="input-salarytype">
+                    <option value="Annual">Annual</option>
+                    <option value="Hourly">Hourly</option>
                   </select>
                 </div>
               </div>
               <div class="form-group">
                 <label for="input-hiredate" class="col-lg-2 control-label">Hire Date</label>
                 <div class="col-lg-10">
-                  <input type="date" class="form-control" id="input-hiredate" placeholder="Hire Date">
+                  <input type="date" class="form-control" name="input-hiredate" placeholder="Hire Date">
                 </div>
               </div>
               <div class="form-group">

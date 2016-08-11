@@ -113,11 +113,26 @@ namespace SeattleHealthClinic
         Dictionary<string, object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        // insert lines here
         return View["personnel_add_employee.cshtml", model];
       };
 
-      //dont forget post route
+      Post["/personnel/{id}/add_employee"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        Employee newEmployee = new Employee(
+          Request.Form["input-firstname"],
+          Request.Form["input-lastname"],
+          Request.Form["input-ssn"],
+          Request.Form["input-employeetype"],
+          Request.Form["input-salarytype"],
+          Request.Form["input-email"],
+          Request.Form["input-password"],
+          Request.Form["input-hiredate"]
+        );
+        newEmployee.Save("employees");
+        return View["personnel_add_employee.cshtml", model];
+      };
 
 
 
