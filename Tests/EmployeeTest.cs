@@ -232,6 +232,8 @@ namespace SeattleHealthClinic
 
       //Assert
       Assert.Equal(expectedEmployees[0].GetFullName(), resultEmployees[0].GetFullName());
+      Assert.Equal(0, newEmployee.GetLicenses().Count);
+
     }
   }
 }
