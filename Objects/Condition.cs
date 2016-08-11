@@ -123,7 +123,7 @@ namespace SeattleHealthClinic
 
       while (rdr.Read())
       {
-        foundConditionId = rdr.GetInt32(0);
+        foundConditionId=rdr.GetInt32(0);
         foundConditionCondition = rdr.GetString(1);
       }
       Condition foundCondition = new Condition(foundConditionCondition, foundConditionId);
@@ -144,7 +144,7 @@ namespace SeattleHealthClinic
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("DELETE FROM conditions;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM conditions; DELETE FROM patients_conditions;", conn);
       cmd.ExecuteNonQuery();
       conn.Close();
     }

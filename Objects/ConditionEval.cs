@@ -51,16 +51,12 @@ namespace SeattleHealthClinic
       return _conditionId;
     }
 
-    public Condition GetConditionConstructor()
+    public string GetCondition()
     {
       Condition oneCondition = Condition.Find(_conditionId);
-      return oneCondition;
+      return oneCondition.GetCondition();
     }
 
-    public void SetConditionId(int newConditionId)
-    {
-      _conditionId = newConditionId;
-    }
 
     public string GetConditionEvalDate()
     {
