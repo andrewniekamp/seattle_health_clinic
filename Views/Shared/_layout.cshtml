@@ -5,7 +5,6 @@
     <title>Seattle Health Clinic</title>
 
     <!-- style sheets -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://bootswatch.com/superhero/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link href="/content/css/layout.css" rel="stylesheet">
@@ -13,7 +12,7 @@
   </head>
   <body>
     <!-- navbar -->
-    <nav class="navbar navbar-default container">
+    <nav class="navbar navbar-default container text-center">
         <div class="navbar-header">
           <a class="navbar-brand" href="/home_view/@Model["currentEmployee"].GetId()">SEATTLE HEALTH CLINIC</a>
         </div>
@@ -25,7 +24,7 @@
                 <li><a href="/personnel/@Model["currentEmployee"].GetId()/current">Current Employees</a></li>
                 <li><a href="/personnel/@Model["currentEmployee"].GetId()/records">Records</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Add New Employee</a></li>
+                <li><a href="/personnel/@Model["currentEmployee"].GetId()/add_employee">Add New Employee</a></li>
                 <li><a href="#">Edit Current Employee</a></li>
               </ul>
             </li>
@@ -53,13 +52,6 @@
           </ul>
         </div>
     </nav>
-
-    <!-- alert message-->
-    <!-- <div class="alert alert-dismissible alert-warning text-center container">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <h4>Attention</h4>
-      <p>John to the X-ray technician after swallowing some money: "So, do you see in any change in me?"</p>
-    </div> -->
 
     <!-- body -->
     @RenderBody()
