@@ -17,44 +17,41 @@
       <div class="list-group">
         <a class="list-group-item active">All Patients</a>
       </div>
-      <!-- cosmetic feature -->
-      <blockquote>
-        <p>Good care makes happy patients and happy patients line pockets.</p>
-        <small>Sam Markitter, <em>Inspiration for the Unhappy Worker</em></small>
-      </blockquote>
     </div>
     <!-- main body for display of material -->
     <div class="col-md-9">
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">All Patients</h3>
         </div>
         <div class="panel-body">
           <div class="row patient-header-row">
             <div class="col-xs-4">
-              <h3>Patient ID</h3>
+              <h4>Patient ID</h4>
             </div>
             <div class="col-xs-4">
-              <h3>Name</h3>
+              <h4>Name</h4>
             </div>
             <div class="col-xs-4">
-              <h3>Address</h3>
+              <h4>Address</h4>
             </div>
           </div>
-          @foreach(var allPatient in Model["patients"])
-          {
-            <div class="row">
-              <div class="col-xs-4">
-                <h4>@allPatient.GetId()</h4>
+          <div class="all-patient-row">
+            @foreach(var allPatient in Model["patients"])
+            {
+              <div class="row">
+                <div class="col-xs-4">
+                  <h5>@allPatient.GetId()</h5>
+                </div>
+                <div class="col-xs-4">
+                  <h5>@allPatient.GetName()</h5>
+                </div>
+                <div class="col-xs-4">
+                  <h5>@allPatient.GetAddress()</h5>
+                </div>
               </div>
-              <div class="col-xs-4">
-                <h4>@allPatient.GetName()</h4>
-              </div>
-              <div class="col-xs-4">
-                <h4>@allPatient.GetAddress()</h4>
-              </div>
-            </div>
-          }
+            }
+          </div>
         </div>
       </div>
     </div>

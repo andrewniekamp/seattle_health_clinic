@@ -26,3 +26,10 @@
   width: 100%;
   text-align: center;
 }
+
+.all-patient-row :nth-child(odd).row{
+  background-color: #4e5d6c;
+}
+.all-patient-row :nth-child(even).row{
+  background-color: #485563;
+}
