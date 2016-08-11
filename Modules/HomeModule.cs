@@ -94,14 +94,15 @@ namespace SeattleHealthClinic
       };
 
       Get["/personnel/{id}/records"] = parameters => {
-        Dictionary<string, object> model = new Dictionary<string,object>();
+        Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
-        // insert lines here
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        List<Patient> allPatients = Patient.GetAll();
+        model.Add("allPatients", allPatients);
         return View["personnel_records.cshtml", model];
       };
-
-
 
       //finished routes go above, unfinished routes go below
 

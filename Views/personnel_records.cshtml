@@ -13,10 +13,10 @@
     <div class="col-md-3">
       <!-- linked list used to navigate to parts of the page -->
       <div class="list-group">
-        <a class="list-group-item active">Display #1</a>
-        <a class="list-group-item">Display #2</a>
-        <a class="list-group-item">Display #3</a>
-        <a class="list-group-item">Display #4</a>
+        <a class="list-group-item active">Personnel Overview</a>
+        <a class="list-group-item">Patient Overview</a>
+        <a class="list-group-item">Diagnostics</a>
+        <a class="list-group-item">Activity</a>
       </div>
     </div>
     <!-- main body for display of material -->
@@ -24,16 +24,24 @@
       <!-- main panel should have panel-primary -->
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #1</h3>
+          <h3 class="panel-title">Personnel Overview</h3>
         </div>
         <div class="panel-body">
-          (information)
+          <span>The Seattle Health Clinic currently employees @Model["allEmployees"].Count staff members.</span>
         </div>
       </div>
       <!-- every panel after the hide should have the panel-hide class the panel-body -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #2</h3>
+          <h3 class="panel-title">Patient Overview</h3>
+        </div>
+        <div class="panel-body panel-hide">
+          <span>The Seattle Health Clinic currently serves @Model["allPatients"].Count clients.</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Diagnostics</h3>
         </div>
         <div class="panel-body panel-hide">
           (information)
@@ -41,15 +49,7 @@
       </div>
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">Display #3</h3>
-        </div>
-        <div class="panel-body panel-hide">
-          (information)
-        </div>
-      </div>
-      <div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">Display #4</h3>
+          <h3 class="panel-title">Activity</h3>
         </div>
         <div class="panel-body panel-hide">
           (information)
