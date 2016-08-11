@@ -52,13 +52,14 @@
                   <input type="text" class="form-control" name="input-ssn" value="@Model["viewEmployee"].GetSSN()">
                 </div>
               </div>
+              <!-- select boxes require a javascript hookup and some more fineese -->
               <div class="form-group">
                 <label for="input-employeetype" class="col-lg-2 control-label">Employee Type</label>
                 <div class="col-lg-10">
-                  <select class="form-control" name="input-employeetype" >
+                  <select class="form-control" name="input-employeetype">
                     <option value="Medical">Medical</option>
                     <option value="Administrative">Administrative</option>
-                    <option value="Managerial" selected="selected">Managerial</option>
+                    <option value="Managerial" >Managerial</option>
                   </select>
                 </div>
               </div>
