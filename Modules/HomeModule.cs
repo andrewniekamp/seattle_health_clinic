@@ -264,7 +264,7 @@ namespace SeattleHealthClinic
         model.Add("currentEmployee", currentEmployee);
         model.Add("evals", patientEvals);
         model.Add("patient", patientToUpdate);
-        model.Add("message", "Here is your result");
+        model.Add("message", "Evaluation History");
         List<Patient> allPatients = Patient.GetAll();
 
         model.Add("patients", allPatients);
@@ -293,7 +293,7 @@ namespace SeattleHealthClinic
         model.Add("patient", patientToUpdate);
         model.Add("appointmentForPatient", patientSchedule);
         model.Add("currentEmployee", currentEmployee);
-        model.Add("message", "Here is your result");
+        model.Add("message", "Appointment History");
         model.Add("patients", allPatients);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
@@ -310,7 +310,7 @@ namespace SeattleHealthClinic
         List<Condition> allConditions = Condition.GetAll();
         List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
         List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
-        model.Add("message", "You Change New Name to "+Request.Form["edit-new-name"]);
+        model.Add("message", "Name changed to: " + Request.Form["edit-new-name"]);
         model.Add("conditionEval", allConditionEvals);
         model.Add("conditions",allConditions);
         model.Add("patients",allPatients);

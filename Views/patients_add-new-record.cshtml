@@ -21,44 +21,44 @@
         <a class="list-group-item">Add New Visit</a>
         <a class="list-group-item">Display #4</a>
         @if(Model.ContainsKey("message")&&Model.ContainsKey("evals"))
-           {
-             <h2>Message</h2>
-             <p>@Model["message"]</p>
-
-             <ol>
-               @if(Model["evals"].Count != 0)
-               {
-                 <h5>Patient Name : @Model["patient"].GetName()</h5>
-                 @foreach (var patientEvals in Model["evals"])
-                 {
-                   <li>@patientEvals.GetConditionEvalDate() | @patientEvals.FindCondition().GetCondition()</li>
-                 }
-               }else{
-                 <h5>No Visit Records Yet</h5>
-               }
-             </ol>
-           }else if(Model.ContainsKey("message")&&Model.ContainsKey("appointmentForPatient")){
-             <h2>Message</h2>
-             <p>@Model["message"]</p>
-
-             <ol>
-               @if(Model["appointmentForPatient"].Count != 0)
-               {
-                 <h5>Patient Name : @Model["patient"].GetName()</h5>
-                 @foreach (var patientAppoint in Model["appointmentForPatient"])
-                 {
-                   <li>@patientAppoint.GetNote() | @patientAppoint.GetPatientSchedulingDate()</li>
-                 }
-               }else{
-                 <h5>No Appointment Records Yet</h5>
-               }
-             </ol>
-
-           }else if(Model.ContainsKey("message"))
-           {
-             <h2>Message</h2>
-             <p>@Model["message"]</p>
-           }
+        {
+          <blockquote>
+            <h4>@Model["message"]</h4>
+            @if(Model["evals"].Count != 0)
+            {
+            <h5>Patient Name : @Model["patient"].GetName()</h5>
+            <ol>
+              @foreach (var patientEvals in Model["evals"])
+              {
+                <li>@patientEvals.GetConditionEvalDate() | @patientEvals.FindCondition().GetCondition()</li>
+              }
+            </ol>
+            }else{
+            <h5>No records found.</h5>
+            }
+          </blockquote>
+        }else if(Model.ContainsKey("message")&&Model.ContainsKey("appointmentForPatient")){
+          <blockquote>
+            <h4>@Model["message"]</h4>
+            @if(Model["appointmentForPatient"].Count != 0)
+            {
+              <h5>Patient Name : @Model["patient"].GetName()</h5>
+              <ol>
+              @foreach (var patientAppoint in Model["appointmentForPatient"])
+              {
+                <li>@patientAppoint.GetNote() | @patientAppoint.GetPatientSchedulingDate()</li>
+              }
+            </ol>
+            }else{
+              <h5>No records found.</h5>
+            }
+          </blockquote>
+        }else if(Model.ContainsKey("message"))
+        {
+          <blockquote>
+            <h4>@Model["message"]</h4>
+          </blockquote>
+        }
       </div>
     </div>
     <!-- main body for display of material -->
