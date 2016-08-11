@@ -1,5 +1,8 @@
 @{Layout = "Views/Shared/_Layout.cshtml";}
-
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="/Content/css/news.css" media="screen" title="no title" charset="utf-8">
+</head>
 <div class="container">
   <div class="row">
     <div class="col-md-3">
@@ -43,7 +46,17 @@
           <h3 class="panel-title">News</h3>
         </div>
         <div class="panel-body panel-hide">
-          Style this page last!
+
+          @foreach(var news in Model["news"])
+          {
+            <div class="news-header">
+              <h3>@news.Headline.ToString()</h3>
+            </div>
+            <div class="news-summary">
+              <p>@news.Summary</p>
+            </div>
+            <hr>
+          }
         </div>
       </div>
       <div class="panel">

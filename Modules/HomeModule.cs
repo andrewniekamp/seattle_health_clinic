@@ -33,6 +33,15 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
+        string[] listSearch= new string[]{"diabetes", "heart health", "health fitness", "healthcare", "pediatrics"};
+        Random myRandom = new Random();
+        int randomNum = myRandom.Next(0,listSearch.Length-1);
+        List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
+        List<NewsResult> fiveNews= new List<NewsResult>{};
+        for (int i=0; i<=5; i++) {
+          fiveNews.Add(allResult[i]);
+        }
+         model.Add("news", fiveNews);
         return View["home_view.cshtml", model];
       };
 
@@ -80,6 +89,10 @@ namespace SeattleHealthClinic
         model.Add("currentEmployee", currentEmployee);
         List<Employee> allEmployees = Employee.GetAll("employees");
         model.Add("allEmployees", allEmployees);
+        List<Employee> namedEmployees = Employee.SortByName("employees");
+        model.Add("namedEmployees", namedEmployees);
+        List<Employee> typedEmployees = Employee.SortByType("employees");
+        model.Add("typedEmployees", typedEmployees);
         return View["personnel_current.cshtml", model];
       };
 
@@ -92,6 +105,18 @@ namespace SeattleHealthClinic
         List<License> viewLicenses = viewEmployee.GetLicenses();
         model.Add("viewLicenses", viewLicenses);
         return View["personnel_view_employee.cshtml", model];
+      };
+      Delete["/personnel/{id}/current/delete/{employeeId}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        Employee currentEmployee = Employee.Find(parameters.id);
+        model.Add("currentEmployee", currentEmployee);
+        Employee viewEmployee = Employee.Find(parameters.employeeId);
+        viewEmployee.Delete();
+        List<Employee> allEmployees = Employee.GetAll("employees");
+        model.Add("allEmployees", allEmployees);
+        model.Add("viewEmployee", viewEmployee);
+        return View["personnel_current.cshtml", model];
+
       };
 
       Get["/personnel/{id}/records"] = parameters => {
@@ -540,12 +565,6 @@ namespace SeattleHealthClinic
         Random myRandom = new Random();
         int randomNum = myRandom.Next(0,listSearch.Length-1);
        List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
-      //  foreach(var s in allResult)
-      //  {
-      //    Console.WriteLine(s.Headline);
-      //    Console.WriteLine(s.ConvertHeadline());
-       //
-      //  }
        return View["news.cshtml",allResult];
 
       };
