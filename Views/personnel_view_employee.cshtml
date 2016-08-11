@@ -55,7 +55,12 @@
           <h3 class="panel-title">Employer Actions</h3>
         </div>
         <div class="panel-body panel-hide">
-          (information)
+          <p>Clicking this button will fire the employee!</p>
+          <form class="" action="/personnel/@Model["currentEmployee"].GetId()/current/delete/@Model["viewEmployee"].GetId()" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <h3>Are you sure? This operation cannot be undone!</h3>
+            <button type="Submit" name="button" class="btn btn-danger btn-sm patient-button-wide">DELETE Employee AND ALL ASSOCIATED INFORMATION</button>
+          </form>
         </div>
       </div>
     </div>
