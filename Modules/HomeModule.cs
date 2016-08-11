@@ -33,6 +33,15 @@ namespace SeattleHealthClinic
         Dictionary<string,object> model = new Dictionary<string,object>();
         Employee currentEmployee = Employee.Find(parameters.id);
         model.Add("currentEmployee", currentEmployee);
+        string[] listSearch= new string[]{"diabetes", "heart health", "health fitness", "healthcare", "pediatrics"};
+        Random myRandom = new Random();
+        int randomNum = myRandom.Next(0,listSearch.Length-1);
+        List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
+        List<NewsResult> fiveNews= new List<NewsResult>{};
+        for (int i=0; i<=5; i++) {
+          fiveNews.Add(allResult[i]);
+        }
+         model.Add("news", fiveNews);
         return View["home_view.cshtml", model];
       };
 
@@ -536,12 +545,6 @@ namespace SeattleHealthClinic
         Random myRandom = new Random();
         int randomNum = myRandom.Next(0,listSearch.Length-1);
        List<NewsResult> allResult =  HealthNews.GetNews(listSearch[randomNum]);
-      //  foreach(var s in allResult)
-      //  {
-      //    Console.WriteLine(s.Headline);
-      //    Console.WriteLine(s.ConvertHeadline());
-       //
-      //  }
        return View["news.cshtml",allResult];
 
       };
