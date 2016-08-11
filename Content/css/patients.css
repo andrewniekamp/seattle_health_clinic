@@ -17,3 +17,7 @@
 .form-row{
   display: none;
 }
+
+ .message-li {
+   font-size: 14px;
+ }
