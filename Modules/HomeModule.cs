@@ -187,7 +187,7 @@ namespace SeattleHealthClinic
         return View["personnel_edit_employee.cshtml", model];
       };
 
-      // Post ROUTE
+      // Post ROUTE for edit individual employee not yet written
 
       Get["/add/patients"] = _ =>{
         return View["add_new_patient.cshtml"];
