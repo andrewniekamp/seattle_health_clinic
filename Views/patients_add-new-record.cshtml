@@ -1,5 +1,6 @@
 @{Layout = "Views/Shared/_Layout.cshtml";}
 <link rel="stylesheet" href="/Content/css/patients.css" media="screen" title="no title" charset="utf-8">
+<script src="/Content/js/allPatients.js" type="text/javascript"></script>
 <div class="container">
   <div class="row">
     <div class="col-md-3">
@@ -254,7 +255,6 @@
             {
               <li>Patient Name : @visit.GetPatient().GetName()</li>
               <li>Eval Date  : @visit.GetConditionEvalDate()</li>
-
             }
           }else{
             <h4>No Visit Yet</h4>
@@ -322,10 +322,3 @@
     </div>
   </div>
 </div>
-
-<!-- Button trigger modal -->
-
-<!-- Modal -->
-<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="/Content/js/allPatients.js" type="text/javascript"></script>
