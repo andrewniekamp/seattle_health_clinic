@@ -477,5 +477,76 @@ namespace SeattleHealthClinic
           conn.Close();
         }
     }
+
+    public void Update(string newFirst, string newLast,string NewSnn, string newType,DateTime newDate,string newSalary,string newEmail,string newPassword)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("UPDATE employees SET employee_name_first = @NewFirst, employee_name_last = @NewLast,employee_ssn=@Ssn,employee_type=@Type,employee_date_hire=@Date,employee_salary_type=@Salary,employee_email=@Email,employee_password=@Password OUTPUT INSERTED.* WHERE id = @EmployeeId;", conn);
+      SqlParameter newFirstParameter = new SqlParameter();
+      newFirstParameter.ParameterName = "@NewFirst";
+      newFirstParameter.Value = newFirst;
+      cmd.Parameters.Add(newFirstParameter);
+      SqlParameter newLastParameter = new SqlParameter();
+      newLastParameter.ParameterName = "@NewLast";
+      newLastParameter.Value = newLast;
+      cmd.Parameters.Add(newLastParameter);
+
+      SqlParameter SSNParameter = new SqlParameter();
+      SSNParameter.ParameterName = "@Ssn";
+      SSNParameter.Value = NewSnn;
+      cmd.Parameters.Add(SSNParameter);
+
+      SqlParameter newTypeParameter = new SqlParameter();
+      newTypeParameter.ParameterName = "@Type";
+      newTypeParameter.Value = newType;
+      cmd.Parameters.Add(newTypeParameter);
+
+      SqlParameter newDateParameter = new SqlParameter();
+      newDateParameter.ParameterName = "@Date";
+      newDateParameter.Value = newDate;
+      cmd.Parameters.Add(newDateParameter);
+
+      SqlParameter newSalaryarameter = new SqlParameter();
+      newSalaryarameter.ParameterName = "@Salary";
+      newSalaryarameter.Value = newSalary;
+      cmd.Parameters.Add(newSalaryarameter);
+
+      SqlParameter newEmailarameter = new SqlParameter();
+      newEmailarameter.ParameterName = "@Email";
+      newEmailarameter.Value = newEmail;
+      cmd.Parameters.Add(newEmailarameter);
+
+      SqlParameter newPasswordParameter = new SqlParameter();
+      newPasswordParameter.ParameterName = "@Password";
+      newPasswordParameter.Value = newPassword;
+      cmd.Parameters.Add(newPasswordParameter);
+
+      SqlParameter employeeIdParameter = new SqlParameter();
+      employeeIdParameter.ParameterName = "@EmployeeId";
+      employeeIdParameter.Value = this.GetId().ToString();
+      cmd.Parameters.Add(employeeIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._employee_name_first = rdr.GetString(1);
+        this._employee_name_last = rdr.GetString(2);
+        this._employee_ssn = rdr.GetString(3);
+        this._employee_type = rdr.GetString(4);
+        this._employee_date_hire = rdr.GetDateTime(5);
+        this._employee_salary_type = rdr.GetString(6);
+        this._employee_email = rdr.GetString(7);
+        this._employee_password = rdr.GetString(8);
+
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
   }
 }
