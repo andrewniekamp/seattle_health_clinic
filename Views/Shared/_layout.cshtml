@@ -37,12 +37,9 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-fw fa-lg fa-users"></i>Patients</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Current Patients</a></li>
-                  <li><a href="#">Administrative Records</a></li>
-                  <li><a href="#">Medical Records</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Add New Record</a></li>
-                  <li><a href="#">Add New Evaluation</a></li>
+                  <li><a href="/patients/@Model["currentEmployee"].GetId()/current-patients">Current Patients</a></li>
+                  <li><a href="/patients/@Model["currentEmployee"].GetId()/add-new-record/">Administrative Records</a></li>
+                  <li><a href="/patients/@Model["currentEmployee"].GetId()/add-new-eval/">Medical Records</a></li>
                 </ul>
               </li>
               <li class="dropdown">

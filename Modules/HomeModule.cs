@@ -301,7 +301,6 @@ namespace SeattleHealthClinic
 
         }else{
           model.Add("message", "Your did not enter correct input. Please retry");
-
         }
         Employee currentEmployee = Employee.Find(parameters.id);
         List<Patient> allPatients = Patient.GetAll();
