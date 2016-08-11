@@ -102,6 +102,10 @@ namespace SeattleHealthClinic
         model.Add("allEmployees", allEmployees);
         List<Patient> allPatients = Patient.GetAll();
         model.Add("allPatients", allPatients);
+        List<PatientScheduling> allPatientSchedulings = PatientScheduling.GetAll();
+        model.Add("patientScheduling", allPatientSchedulings);
+        List<ConditionEval> allConditionEvals = ConditionEval.GetAll();
+        model.Add("conditionEval", allConditionEvals);
         return View["personnel_records.cshtml", model];
       };
 
