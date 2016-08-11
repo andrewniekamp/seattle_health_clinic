@@ -21,3 +21,8 @@
  .message-li {
    font-size: 14px;
  }
+
+.center {
+  width: 100%;
+  text-align: center;
+}
