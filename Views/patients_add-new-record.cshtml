@@ -231,12 +231,17 @@
           <h3 class="panel-title">View All Visit</h3>
         </div>
         <div class="panel-body panel-hide">
-          @foreach( var visit in Model["conditionEval"])
-          {
-            <li>Patient Name : @visit.GetPatient().GetName()</li>
-            <li>Eval Date  : @visit.GetConditionEvalDate()</li>
+          @if(Model["conditionEval"].Count!=0){
+            @foreach( var visit in Model["conditionEval"])
+            {
+              <li>Patient Name : @visit.GetPatient().GetName()</li>
+              <li>Eval Date  : @visit.GetConditionEvalDate()</li>
 
+            }
+          }else{
+            <h4>No Visit Yet</h4>
           }
+
         </div>
       </div>
 
@@ -245,49 +250,55 @@
           <h3 class="panel-title">Add New Visit</h3>
         </div>
         <div class="panel-body panel-hide">
-          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
-            <label for=""> Enter  patient
-              <select class="" name="visit-patient-id">
-                @foreach(var allPatient in Model["patients"])
+          @if(Model["patients"].Count!=0&&Model["employees"].Count!=0&&Model["conditions"].Count!=0)
+          {
+            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/visit" method="post">
+              <label for=""> Enter  patient
+                <select class="" name="visit-patient-id">
+                  @foreach(var allPatient in Model["patients"])
+                  {
+                    <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                  }
+                </select>
+              </label>
+
+              <label for=""> Choose Doctor
+                <select class="" name="appointment-employees-id">
+                @foreach(var employee in Model["employees"])
                 {
-                  <option value="@allPatient.GetId()">@allPatient.GetName()</option>
+                <option value="@employee.GetId()">@employee.GetFullName()</option>
                 }
-              </select>
-            </label>
-
-            <label for=""> Choose Doctor
-              <select class="" name="appointment-employees-id">
-              @foreach(var employee in Model["employees"])
-              {
-              <option value="@employee.GetId()">@employee.GetFullName()</option>
-              }
-              </select>
-            </label>
+                </select>
+              </label>
 
 
-            <label for=""> Enter  Condition
-              <select class="" name="visit-condition-id">
-                @foreach(var allCondition in Model["conditions"])
-                {
-                  <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
-                }
-              </select>
-            </label>
+              <label for=""> Enter  Condition
+                <select class="" name="visit-condition-id">
+                  @foreach(var allCondition in Model["conditions"])
+                  {
+                    <option value="@allCondition.GetId()">@allCondition.GetId() @allCondition.GetCondition()</option>
+                  }
+                </select>
+              </label>
 
-            <label for="visit-date"> Visit Date</label>
-            <input type="date" name="visit-date" id="visit-date">
-            <button type="submit" name="button">Submit</button>
-          </form>
+              <label for="visit-date"> Visit Date</label>
+              <input type="date" name="visit-date" id="visit-date">
+              <button type="submit" name="button">Submit</button>
+            </form>
+        }else{
+          <h4>Make Sure You already has existied patients, doctors and condition before add new visit</h4>
+        }
+          </div>
         </div>
-      </div>
-      <div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">Add Condition</h3>
-        </div>
-        <div class="panel-body panel-hide">
-          <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/Condition" method="post">
-            <button type="submit" name="button">Add</button>
-          </form>
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add Condition</h3>
+          </div>
+          <div class="panel-body panel-hide">
+            <form class="" action="/patients/@Model["currentEmployee"].GetId()/add-new-record/add/Condition" method="post">
+              <button type="submit" name="button">Add</button>
+            </form>
+
       </div>
       </div>
     </div>
